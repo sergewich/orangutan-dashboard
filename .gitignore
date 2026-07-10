@@ -12,3 +12,4 @@ venv/
 # OS / editor
 .DS_Store
 Thumbs.db
+.aider*

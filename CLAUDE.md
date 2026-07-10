@@ -49,10 +49,21 @@ that logic is inline in these two scripts.
 ## Build / test / run
 
 - No build step — `site/` is plain static HTML/CSS/JS.
-- Serve locally: `python3 -m http.server 8000 --directory site` then open
-  `http://localhost:8000`. (A VS Code launch config at `.claude/launch.json`
-  also serves the whole repo root on port 8123 via a Windows-side conda
-  Python — prefer the WSL command above for this local workstation setup.)
+- Serve locally **from the repo root, not from `site/`** — `site/js/map.js`
+  fetches data via relative paths (`../../data/...`) that assume the page is
+  reached through the repo root:
+  `python3 -m http.server 8000` (run from the repo root), then open
+  `http://localhost:8000/site/index.html`. Serving with `--directory site`
+  breaks all data fetches (`../../data/...` has nowhere to climb to) and the
+  map will show "Could not load data: Failed to fetch". (A VS Code launch
+  config at `.claude/launch.json` also serves the whole repo root on port
+  8123 via a Windows-side conda Python — same idea, just a different port.)
+- **Never open the HTML files directly (double-click / `file://...` in the
+  address bar / dragging the file into the browser).** Browsers block
+  `fetch()` from `file://` pages (CORS origin `'null'`, `net::ERR_FAILED`),
+  which looks identical to the wrong-serve-root error above but has a
+  different fix. The address bar must read `http://localhost:8000/...` —
+  always go through the running server above, not the filesystem path.
 - Run a data script standalone, e.g.:
   `python3 scripts/fetch_deforestation.py --species pongo_tapanuliensis`
   `python3 scripts/convert_ranges.py`
@@ -66,10 +77,30 @@ that logic is inline in these two scripts.
 
 This workstation runs fully offline via Ollama on the local RTX 5090. A
 custom model `orangutan-dashboard-engineer` is defined in `./Modelfile`
-(base `qwen2.5-coder:32b`, `num_ctx 32000`, `num_gpu 99`).
+(base `qwen2.5-coder:32b`, `num_ctx 32000`, `num_gpu 99`). Ollama is a native
+systemd-managed install (`/usr/local/bin/ollama`, not the snap package — the
+snap build can't see the GPU in this WSL setup and silently falls back
+toward CPU/system RAM instead of VRAM).
 
 **Any local coding agent (Aider, etc.) working in this repo should target
 `orangutan-dashboard-engineer` via the local Ollama endpoint
 (`http://127.0.0.1:11434`) by default, instead of a cloud API**, to keep this
 workflow zero-token-cost and private. Only fall back to a cloud model if the
 user explicitly asks for one.
+
+### Launching the local agent
+
+Aider is installed via `uv` under an isolated Python 3.12 (the system Python
+is 3.14, too new for some of Aider's pinned dependencies like `numpy==1.24.3`
+to build against). `OLLAMA_API_BASE` is already exported in `~/.bashrc`.
+
+```bash
+cd /mnt/c/AI_work/Orangutan_dashboard
+aider --model ollama_chat/orangutan-dashboard-engineer
+```
+
+Note: VRAM is nearly maxed at the full 32k context (~24.1/24.5 GB used) —
+this WSL instance only exposes ~24GB of the 5090's 32GB. Fine for a single
+agent session; a second concurrent GPU task will likely OOM it. If that
+happens, lower `num_ctx` in `Modelfile` and re-run
+`ollama create orangutan-dashboard-engineer -f Modelfile`.
