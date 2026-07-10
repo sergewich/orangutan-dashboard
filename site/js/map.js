@@ -46,6 +46,31 @@ const map = L.map("map", {
   layers: [esri],
 });
 
+// ── Land cover overlays (Global Forest Watch raster tile cache) ────────────
+// Pre-rendered PNG tiles from GFW's public tile cache — no auth, no backend
+// processing needed. Colors/classes are theirs; we don't have a verified
+// legend for the exact palette, so link out rather than invent swatches.
+const forestLossLayer = L.tileLayer(
+  "https://tiles.globalforestwatch.org/umd_tree_cover_loss/v1.13/dynamic/{z}/{x}/{y}.png",
+  {
+    maxZoom: 19,
+    opacity: 0.85,
+    attribution:
+      'Hansen/UMD/Google/USGS/NASA tree cover loss (2001–2023) — ' +
+      '<a href="https://data.globalforestwatch.org/documents/gfw::tree-cover-loss/about" target="_blank" rel="noopener">dataset details</a>',
+  }
+);
+const indonesiaLandCoverLayer = L.tileLayer(
+  "https://tiles.globalforestwatch.org/idn_land_cover_2017/v201807/default/{z}/{x}/{y}.png",
+  {
+    maxZoom: 19,
+    opacity: 0.85,
+    attribution:
+      'Indonesia land cover 2017 (KLHK) — ' +
+      '<a href="https://data-api.globalforestwatch.org/dataset/idn_land_cover_2017/v201807" target="_blank" rel="noopener">dataset details</a>',
+  }
+);
+
 // ── Overlay layer groups ──────────────────────────────────────────────────
 const rangeLayer = L.geoJSON(null, {
   style: (f) => {
@@ -147,6 +172,8 @@ L.control.layers(
     "Alerts — high": alertGroups.high,
     "Alerts — nominal": alertGroups.nominal,
     "Fire alerts": fireAlertsLayer,
+    "Forest loss 2001–2023 (Hansen/UMD)": forestLossLayer,
+    "Indonesia land cover 2017": indonesiaLandCoverLayer,
   },
   { collapsed: false }
 ).addTo(map);
