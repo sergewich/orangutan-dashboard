@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Literature — Orangutan Conservation Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🦧 Orangutan <span>Conservation</span> Dashboard</h1>
+    <nav class="tabs">
+      <a href="../index.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="literature.html" class="active">Literature</a>
+      <a href="threats.html" class="disabled">Threats</a>
+      <a href="social.html" class="disabled">Social</a>
+    </nav>
+  </header>
+
+  <main class="lit-page">
+    <div class="lit-intro">
+      <h2>Literature</h2>
+      <p class="muted">
+        Books, scientific journal articles (open-access where available), recent
+        online media, and historic Dutch newspaper coverage from the colonial
+        era, all pulled from public catalogues — nothing here is invented, every
+        entry links to its real source. Sorted most recent first.
+      </p>
+    </div>
+
+    <div id="loading" class="loading">Loading…</div>
+
+    <div class="lit-layout" id="lit-layout" style="display:none">
+      <aside class="lit-filters">
+        <div class="filter-group">
+          <h3>Source type</h3>
+          <div id="type-filters"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Decade</h3>
+          <div id="decade-filters"></div>
+        </div>
+        <div class="filter-actions">
+          <button id="select-all">Select all</button>
+          <button id="select-none">Clear all</button>
+        </div>
+        <p class="lit-count" id="lit-count"></p>
+      </aside>
+
+      <section class="lit-list" id="lit-list"></section>
+    </div>
+  </main>
+
+  <script src="../js/literature.js"></script>
+</body>
+</html>
