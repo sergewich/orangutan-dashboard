@@ -183,9 +183,15 @@ async function loadJSON(url) {
     }
 
     setLoading("Loading fire alerts…");
-    const fireAlerts = await loadJSON(SPECIES.fireAlertsUrl);
-    for (const f of fireAlerts.features) {
-      addFirePoint(f);
+    try {
+      const fireAlerts = await loadJSON(SPECIES.fireAlertsUrl);
+      for (const f of fireAlerts.features) {
+        addFirePoint(f);
+      }
+    } catch (fireErr) {
+      // Fire data is a separate, optional layer (scripts/fetch_fire.py may not
+      // have been run yet) — don't let its absence break range/deforestation display.
+      console.warn("Fire alerts not loaded:", fireErr.message);
     }
 
     // Show all confidence layers by default.
