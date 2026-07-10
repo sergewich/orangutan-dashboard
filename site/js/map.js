@@ -14,6 +14,7 @@ const SPECIES = {
   label: "Pongo tapanuliensis (Tapanuli orangutan)",
   rangeUrl: "../../data/ranges/pongo_tapanuliensis.geojson",
   alertsUrl: "../../data/deforestation/pongo_tapanuliensis_integrated_alerts.geojson",
+  fireAlertsUrl: "../../data/fire/pongo_tapanuliensis_fire_alerts.geojson",
   center: [1.62, 99.1],
   zoom: 10,
 };
@@ -70,6 +71,8 @@ const alertGroups = {
   highest: L.layerGroup(),
 };
 
+const fireAlertsLayer = L.layerGroup();
+
 function addAlertPoint(feature) {
   const conf = (feature.properties && feature.properties.confidence) || "nominal";
   const group = alertGroups[conf] || alertGroups.nominal;
@@ -85,6 +88,21 @@ function addAlertPoint(feature) {
       `confidence: ${conf}<br>intensity: ${feature.properties.intensity ?? "—"}`
     )
     .addTo(group);
+}
+
+function addFirePoint(feature) {
+  const [lon, lat] = feature.geometry.coordinates;
+  L.circleMarker([lat, lon], {
+    radius: 3,
+    stroke: false,
+    fillColor: "#ff0000",
+    fillOpacity: 0.75,
+  })
+    .bindPopup(
+      `<b>Fire Alert</b><br>date: ${feature.properties.date_acq}<br>` +
+      `confidence: ${feature.properties.confidence}<br>brightness: ${feature.properties.brightness ?? "—"}`
+    )
+    .addTo(fireAlertsLayer);
 }
 
 // ── Info + legend controls ────────────────────────────────────────────────
@@ -114,7 +132,8 @@ legend.onAdd = function () {
     "<div class='row'><span class='dot high'></span>high confidence</div>" +
     "<div class='row'><span class='dot nominal'></span>nominal confidence</div>" +
     "<div class='row' style='margin-top:.35rem'><span class='swatch'></span>species range</div>" +
-    "<div class='row'><span class='swatch possible'></span>possibly extant</div>";
+    "<div class='row'><span class='swatch possible'></span>possibly extant</div>" +
+    "<div class='row'><span class='dot fire'></span>fire alerts</div>";
   return div;
 };
 legend.addTo(map);
@@ -127,6 +146,7 @@ L.control.layers(
     "Alerts — highest": alertGroups.highest,
     "Alerts — high": alertGroups.high,
     "Alerts — nominal": alertGroups.nominal,
+    "Fire alerts": fireAlertsLayer,
   },
   { collapsed: false }
 ).addTo(map);
@@ -161,6 +181,13 @@ async function loadJSON(url) {
         if (!stats.maxDate || d > stats.maxDate) stats.maxDate = d;
       }
     }
+
+    setLoading("Loading fire alerts…");
+    const fireAlerts = await loadJSON(SPECIES.fireAlertsUrl);
+    for (const f of fireAlerts.features) {
+      addFirePoint(f);
+    }
+
     // Show all confidence layers by default.
     alertGroups.highest.addTo(map);
     alertGroups.high.addTo(map);
