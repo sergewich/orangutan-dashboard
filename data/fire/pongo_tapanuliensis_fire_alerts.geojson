@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [99.19208, 1.84329]}, "properties": {"species": "pongo_tapanuliensis", "date_acq": "2026-06-06T635", "confidence": "n", "brightness": "339.73", "frp": "4.19", "daynight": "D"}}]}
