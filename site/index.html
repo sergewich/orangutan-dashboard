@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orangutan Conservation Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🦧 Orangutan <span>Conservation</span> Dashboard</h1>
+    <nav class="tabs">
+      <a href="index.html" class="active">Home</a>
+      <a href="tabs/map.html">Map</a>
+      <a href="tabs/literature.html" class="disabled">Literature</a>
+      <a href="tabs/threats.html" class="disabled">Threats</a>
+      <a href="tabs/social.html" class="disabled">Social</a>
+    </nav>
+  </header>
+
+  <main class="landing">
+    <h2>Monitoring the three orangutan species</h2>
+    <p>
+      This dashboard consolidates conservation-relevant data for
+      <em>Pongo abelii</em>, <em>Pongo pygmaeus</em>, and
+      <em>Pongo tapanuliensis</em>: species range maps, near-real-time
+      deforestation and fire alerts, literature, threats, and incident
+      monitoring. Data refreshes automatically via scheduled jobs; the site is
+      static and simply loads the processed files.
+    </p>
+    <p class="muted">
+      <strong>Phase 1 (proof of concept):</strong> the Map tab shows the
+      Tapanuli orangutan range with Global Forest Watch integrated deforestation
+      alerts. More species and tabs are being added.
+    </p>
+    <a class="cta" href="tabs/map.html">Open the map →</a>
+  </main>
+</body>
+</html>

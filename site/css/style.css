@@ -1,0 +1,94 @@
+/* Orangutan Conservation Dashboard — shared styles */
+:root {
+  --bg: #0f1417;
+  --panel: #1b2429;
+  --panel-2: #232f36;
+  --text: #e8eef1;
+  --muted: #9fb0b8;
+  --accent: #e8792b;      /* orangutan orange */
+  --border: #33454e;
+  --nominal: #f2d13c;
+  --high: #f2913c;
+  --highest: #e2402c;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.6rem 1.1rem;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header h1 {
+  font-size: 1.05rem;
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.site-header h1 span { color: var(--accent); }
+
+nav.tabs { display: flex; gap: 0.35rem; margin-left: auto; }
+nav.tabs a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+nav.tabs a:hover { background: var(--panel-2); color: var(--text); }
+nav.tabs a.active { background: var(--accent); color: #1a1207; font-weight: 600; }
+nav.tabs a.disabled { opacity: 0.4; pointer-events: none; }
+
+/* Landing page */
+main.landing { padding: 2rem 1.4rem; max-width: 820px; }
+main.landing h2 { color: var(--accent); }
+main.landing p { color: var(--muted); line-height: 1.55; }
+main.landing .cta {
+  display: inline-block; margin-top: 1rem; padding: 0.6rem 1.1rem;
+  background: var(--accent); color: #1a1207; border-radius: 8px;
+  text-decoration: none; font-weight: 600;
+}
+
+/* Map page */
+#map { position: absolute; top: 49px; bottom: 0; left: 0; right: 0; }
+
+.info-box, .legend {
+  background: rgba(27, 36, 41, 0.92);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+}
+.info-box h3 { margin: 0 0 0.35rem; font-size: 0.9rem; color: var(--accent); }
+.info-box .muted { color: var(--muted); }
+.info-box b { color: #fff; }
+
+.legend .row { display: flex; align-items: center; gap: 0.45rem; margin: 0.15rem 0; }
+.legend .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
+.legend .dot.nominal { background: var(--nominal); }
+.legend .dot.high { background: var(--high); }
+.legend .dot.highest { background: var(--highest); }
+.legend .swatch { width: 16px; height: 0; border-top: 3px solid var(--accent); display: inline-block; }
+.legend .swatch.possible { border-top-style: dashed; }
+
+.loading {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 1000; background: var(--panel); padding: 0.8rem 1.2rem;
+  border-radius: 8px; border: 1px solid var(--border); color: var(--muted);
+}
+.loading.error { color: #ffb4a8; border-color: #7a3b34; }

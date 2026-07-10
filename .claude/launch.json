@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "C:/Users/serge/miniconda3/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8123", "--directory", "C:/AI_work/Orangutan_dashboard"],
+      "port": 8123
+    }
+  ]
+}
