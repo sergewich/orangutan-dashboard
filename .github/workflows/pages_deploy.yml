@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site
+          # Ship the redirect, the static site, and the data it fetches
+          # (site/js/*.js use paths like ../../data/... relative to the repo
+          # root, so that relative structure has to be preserved as-is).
+          cp index.html _site/
+          cp -r site _site/
+          cp -r data _site/
+          # Not needed on the deployed site, and it's the biggest thing in
+          # the repo (source shapefiles/PDFs) — skip it to keep the deploy lean.
+          rm -rf _site/data/ranges/raw
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
