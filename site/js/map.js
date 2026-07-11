@@ -172,6 +172,12 @@ function addFirePoint(feature) {
     .addTo(fireAlertsLayer);
 }
 
+// FIRMS' date_acq is "YYYY-MM-DDTHHMM" (no colon in the time part) — the
+// YYYY-MM-DD prefix alone is enough for both display and min/max sorting.
+function fireDateOnly(dateAcq) {
+  return dateAcq ? dateAcq.slice(0, 10) : null;
+}
+
 // ── Info + legend controls ────────────────────────────────────────────────
 const infoControl = L.control({ position: "topright" });
 infoControl.onAdd = function () {
@@ -181,14 +187,19 @@ infoControl.onAdd = function () {
 };
 infoControl.addTo(map);
 
-function updateInfo(stats) {
+function updateInfo(deforestation, fire) {
   infoControl._div.innerHTML =
     `<h3>${SPECIES.label}</h3>` +
-    `<div>GFW integrated alerts</div>` +
-    `<div class='muted'>window: ${stats.minDate || "?"} → ${stats.maxDate || "?"}</div>` +
-    `<div style='margin-top:.35rem'><b>${stats.total.toLocaleString()}</b> alert points shown</div>` +
-    `<div class='muted'>nominal ${stats.nominal.toLocaleString()} · ` +
-    `high ${stats.high.toLocaleString()} · highest ${stats.highest.toLocaleString()}</div>`;
+    `<div>GFW integrated deforestation alerts</div>` +
+    `<div class='muted'>window: ${deforestation.minDate || "?"} → ${deforestation.maxDate || "?"}</div>` +
+    `<div style='margin-top:.2rem'><b>${deforestation.total.toLocaleString()}</b> alert points shown</div>` +
+    `<div class='muted'>nominal ${deforestation.nominal.toLocaleString()} · ` +
+    `high ${deforestation.high.toLocaleString()} · highest ${deforestation.highest.toLocaleString()}</div>` +
+    `<div style='margin-top:.5rem'>NASA FIRMS fire alerts</div>` +
+    (fire.total > 0
+      ? `<div class='muted'>window: ${fire.minDate || "?"} → ${fire.maxDate || "?"}</div>` +
+        `<div style='margin-top:.2rem'><b>${fire.total.toLocaleString()}</b> alert point${fire.total === 1 ? "" : "s"} shown</div>`
+      : `<div class='muted'>none loaded — has scripts/fetch_fire.py been run?</div>`);
 }
 
 const legend = L.control({ position: "bottomright" });
@@ -276,10 +287,17 @@ async function loadJSON(url) {
     }
 
     setLoading("Loading fire alerts…");
+    const fireStats = { total: 0, minDate: null, maxDate: null };
     try {
       const fireAlerts = await loadJSON(SPECIES.fireAlertsUrl);
       for (const f of fireAlerts.features) {
         addFirePoint(f);
+        fireStats.total++;
+        const d = fireDateOnly(f.properties && f.properties.date_acq);
+        if (d) {
+          if (!fireStats.minDate || d < fireStats.minDate) fireStats.minDate = d;
+          if (!fireStats.maxDate || d > fireStats.maxDate) fireStats.maxDate = d;
+        }
       }
     } catch (fireErr) {
       // Fire data is a separate, optional layer (scripts/fetch_fire.py may not
@@ -292,7 +310,7 @@ async function loadJSON(url) {
     alertGroups.high.addTo(map);
     alertGroups.nominal.addTo(map);
 
-    updateInfo(stats);
+    updateInfo(stats, fireStats);
     setLoading(null);
   } catch (err) {
     console.error(err);
