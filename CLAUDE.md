@@ -9,7 +9,7 @@ pre-processed into versioned GeoJSON/CSV files in `data/`, refreshed on a
 schedule (GitHub Actions, not yet wired up), and the frontend just loads
 them. Full design doc: `orangutan-dashboard-brief.md`.
 
-## Current state of the repo (as of 2026-07-10)
+## Current state of the repo (as of 2026-07-11)
 
 ```
 Orangutan_dashboard/
@@ -17,34 +17,79 @@ Orangutan_dashboard/
   orangutan-dashboard-brief.md # full project brief / target architecture
   .env / .env.example          # GFW_API_KEY, FIRMS_API_KEY (gitignored, never commit .env)
   data/
-    ranges/                    # pongo_abelii.geojson, pongo_pygmaeus.geojson,
-                                # pongo_tapanuliensis.geojson (converted from shapefiles)
+    ranges/                    # pongo_abelii/pygmaeus/tapanuliensis.geojson (converted shapefiles)
     deforestation/              # pongo_tapanuliensis_integrated_alerts.geojson + summary.csv
                                  # (only Tapanuli pulled so far — Phase 1 test case)
-    fire/ literature/ social/ threats/   # created, empty — later phases, not built yet
+    fire/                       # pongo_tapanuliensis fire alerts (NASA FIRMS)
+    literature/                  # literature.json — 980 real records (books/journals/news/
+                                  # historic Dutch newspapers), see Literature tab below
+    social/                      # raw/articles.json (scraped), drafts.json (LLM-extracted,
+                                  # unreviewed), incidents.json (human-approved only —
+                                  # the ONLY file the public Social tab reads)
+    threats/                     # created, empty — not built yet
   scripts/
     convert_ranges.py          # one-time: shapefile zips (data/ranges/raw/) -> GeoJSON.
                                 # Prefers ogr2ogr if on PATH, falls back to pyshp+pyproj.
-    fetch_deforestation.py     # pulls GFW `gfw_integrated_alerts` (GLAD-L+S2+RADD),
-                                # clipped to each range polygon, via GFW Data API.
-                                # Needs GFW_API_KEY (env or .env). Uses `requests`.
-    # fetch_fire.py, fetch_literature.py, generate_monthly_charts.py — planned
-    # in the brief, not yet written.
+    fetch_deforestation.py     # pulls GFW `gfw_integrated_alerts`, clipped to each range
+                                # polygon, via GFW Data API. Needs GFW_API_KEY.
+    fetch_fire.py               # pulls NASA FIRMS area/csv (GET, bbox-only, <=5 days per
+                                 # request — NOT the same contract as the GFW Data API,
+                                 # see docstring), client-side point-in-polygon filtered.
+                                 # Needs FIRMS_API_KEY.
+    fetch_literature.py         # OpenAlex (journal articles) + Open Library (books) +
+                                 # GDELT (recent news) + KB/Delpher SRU API (historic Dutch
+                                 # colonial-era newspapers). All keyless public APIs.
+    scrape_social.py            # scrapes OIC/COP/YEL/SOCP/TRAFFIC news pages + a GDELT
+                                 # sweep into data/social/raw/articles.json. Raw text only —
+                                 # does not classify or publish anything.
+    extract_incidents.py        # runs raw articles through the local Ollama model
+                                 # (structured-output schema) to draft data/social/drafts.json
+                                 # records (trade/translocation_rescue/killing). Every draft
+                                 # is reviewed=false — see review policy below.
+    review_server.py            # LOCAL ONLY, not deployed: threaded HTTP server + POST
+                                 # /api/review endpoint backing site/tabs/review.html. Only
+                                 # place that writes to data/social/incidents.json.
   site/
-    index.html                 # landing page, links to tabs/
+    index.html                  # landing page, links to tabs/
     css/style.css
-    js/map.js                  # Leaflet/MapLibre map logic
-    tabs/map.html               # only tab built so far; shows Tapanuli range +
-                                 # deforestation alerts. literature/threats/social
-                                 # tabs are linked but marked disabled — not built.
-  .github/workflows/            # empty — monthly_refresh.yml / daily_fire_refresh.yml
-                                 # from the brief not yet created.
+    js/map.js                   # Leaflet map: range + deforestation/fire alerts + Hansen
+                                 # forest-loss tile overlay (all off by default except range)
+    js/literature.js, js/social.js, js/review.js
+    tabs/map.html, literature.html, social.html   # public, linked in nav
+    tabs/review.html             # LOCAL ONLY — deliberately not linked from nav, see below
+    tabs/threats.html            # still just a disabled nav placeholder, not built
+  .github/workflows/             # empty — scheduled refresh workflows not yet created
 ```
 
 Geometry/geospatial logic lives in `convert_ranges.py` (shapefile → WGS84
-GeoJSON reprojection) and `fetch_deforestation.py` (clipping alert queries to
-range polygons) — there is no separate "geometric math utilities" module;
-that logic is inline in these two scripts.
+GeoJSON reprojection) and `fetch_deforestation.py`/`fetch_fire.py` (clipping
+alert queries to range polygons — bbox + client-side point-in-polygon for
+FIRMS, direct polygon query for GFW) — there is no separate "geometric math
+utilities" module; that logic is inline in these scripts.
+
+## Mandatory human review for Social/Threats content
+
+**No scraped or LLM-extracted claim about wildlife trade, translocations, or
+killings may be published without explicit human review and approval.** This
+is a firm project rule (confirmed by the project owner), not a style
+preference. The pipeline enforces it structurally:
+
+`scrape_social.py` (raw text only) → `extract_incidents.py` (drafts,
+`reviewed: false`, written to `data/social/drafts.json`) →
+`review_server.py` + `site/tabs/review.html` (human clicks Approve/Reject
+per record) → only approved records land in `data/social/incidents.json`,
+which is the *only* file `site/js/social.js` reads.
+
+When extending this pipeline: never make `extract_incidents.py` (or
+anything else) write directly to `incidents.json`. The review step is the
+whole point — an LLM classification of a scraped article is not a verified
+fact, regardless of how confident it looks. `site/tabs/review.html` is
+intentionally **not** linked from the public nav (`site/tabs/review.html`
+is a workstation-only tool) and `review_server.py` must never run as part
+of a public deployment (GitHub Pages/Cloudflare Pages can't run a live
+Python process anyway, so this is structurally impossible, not just a
+convention — but don't accidentally document or link it as if it were
+public-facing).
 
 ## Build / test / run
 
@@ -64,6 +109,14 @@ that logic is inline in these two scripts.
   which looks identical to the wrong-serve-root error above but has a
   different fix. The address bar must read `http://localhost:8000/...` —
   always go through the running server above, not the filesystem path.
+- To use the review queue (`site/tabs/review.html`), serve with
+  `python3 scripts/review_server.py` instead of the plain `http.server` —
+  it serves the same static files plus the `POST /api/review` endpoint the
+  page needs to persist approve/reject decisions. It's a
+  `ThreadingHTTPServer`; the plain single-threaded `HTTPServer` stalls on
+  *all* requests the moment one browser tab holds a connection open, which
+  looks like the server hung when it's really just serializing on one
+  client.
 - Run a data script standalone, e.g.:
   `python3 scripts/fetch_deforestation.py --species pongo_tapanuliensis`
   `python3 scripts/convert_ranges.py`
@@ -104,3 +157,15 @@ this WSL instance only exposes ~24GB of the 5090's 32GB. Fine for a single
 agent session; a second concurrent GPU task will likely OOM it. If that
 happens, lower `num_ctx` in `Modelfile` and re-run
 `ollama create orangutan-dashboard-engineer -f Modelfile`.
+
+**If Ollama stops responding** (a request hangs indefinitely, `ollama ps`
+claims the model is loaded but generate calls never return) — this has
+happened once after the machine slept overnight with a connection open.
+`nvidia-smi` will still show the GPU idle/responsive; the Ollama *service*
+is what's wedged. Needs `sudo systemctl restart ollama` (requires the
+user's password, cannot be done non-interactively).
+
+Ollama's `format` parameter (JSON schema, not just `format: "json"`)
+reliably forces structured output — used in `extract_incidents.py`. Prefer
+this over free-text-then-parse for anything needing reliable JSON from the
+local model.
