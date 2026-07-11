@@ -150,3 +150,29 @@ main.landing .cta {
   .lit-layout { grid-template-columns: 1fr; }
   .lit-filters { position: static; }
 }
+
+/* Review queue (local-only tool) */
+.review-fields { display: flex; flex-direction: column; gap: 0.5rem; margin: 0.6rem 0; }
+.review-fields label {
+  display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.76rem; color: var(--muted);
+}
+.review-fields select, .review-fields textarea, .review-fields input {
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.4rem 0.5rem; font: inherit; font-size: 0.86rem; resize: vertical;
+}
+.review-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.review-actions { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem; }
+.review-actions button {
+  border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.9rem;
+  font-size: 0.84rem; font-weight: 600; cursor: pointer;
+}
+.review-actions .btn-approve { background: #2e6b3a; color: #eaffef; border-color: #2e6b3a; }
+.review-actions .btn-approve:hover { background: #357a41; }
+.review-actions .btn-reject { background: var(--panel-2); color: var(--text); }
+.review-actions .btn-reject:hover { border-color: #a8483f; color: #ffb4a8; }
+.review-actions button:disabled { opacity: 0.5; cursor: default; }
+.review-status { color: var(--muted); font-size: 0.78rem; }
+
+@media (max-width: 560px) {
+  .review-row { grid-template-columns: 1fr; }
+}

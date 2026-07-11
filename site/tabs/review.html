@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Review queue (local only) — Orangutan Conservation Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🦧 Orangutan <span>Conservation</span> Dashboard</h1>
+    <nav class="tabs">
+      <a href="../index.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="literature.html">Literature</a>
+      <a href="threats.html" class="disabled">Threats</a>
+      <a href="social.html">Social</a>
+    </nav>
+  </header>
+
+  <main class="lit-page">
+    <div class="lit-intro">
+      <h2>Review queue</h2>
+      <p class="muted">
+        Local workstation tool only — not part of the deployed site, not linked from
+        public navigation. LLM-drafted candidate records from
+        <code>scripts/extract_incidents.py</code>, one at a time. Nothing here is
+        published anywhere until you click Approve; rejected drafts never reach
+        <code>data/social/incidents.json</code>. Requires <code>scripts/review_server.py</code>
+        to be running (not the plain <code>python -m http.server</code>) since approving/
+        rejecting needs to write back to disk.
+      </p>
+    </div>
+
+    <div id="loading" class="loading">Loading…</div>
+    <p class="lit-count" id="queue-count" style="display:none"></p>
+    <section class="lit-list" id="queue-list"></section>
+  </main>
+
+  <script src="../js/review.js"></script>
+</body>
+</html>

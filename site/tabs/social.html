@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Literature — Orangutan Conservation Dashboard</title>
+  <title>Social — Orangutan Conservation Dashboard</title>
   <link rel="stylesheet" href="../css/style.css" />
 </head>
 <body>
@@ -12,20 +12,23 @@
     <nav class="tabs">
       <a href="../index.html">Home</a>
       <a href="map.html">Map</a>
-      <a href="literature.html" class="active">Literature</a>
+      <a href="literature.html">Literature</a>
       <a href="threats.html" class="disabled">Threats</a>
-      <a href="social.html">Social</a>
+      <a href="social.html" class="active">Social</a>
     </nav>
   </header>
 
   <main class="lit-page">
     <div class="lit-intro">
-      <h2>Literature</h2>
+      <h2>Social &amp; incident monitoring</h2>
       <p class="muted">
-        Books, scientific journal articles (open-access where available), recent
-        online media, and historic Dutch newspaper coverage from the colonial
-        era, all pulled from public catalogues — nothing here is invented, every
-        entry links to its real source. Sorted most recent first.
+        Trade/trafficking, translocation &amp; rescue, and killing incidents drawn from
+        rescue/rehab NGOs (Orangutan Information Centre, Centre for Orangutan
+        Protection, YEL/SOCP), TRAFFIC, and news coverage. Every record here was
+        drafted by a local LLM from the source article and then individually
+        approved by a human before publication — see
+        <code>scripts/scrape_social.py</code>, <code>extract_incidents.py</code>, and
+        <code>review_server.py</code>. Sorted most recent first.
       </p>
     </div>
 
@@ -34,12 +37,8 @@
     <div class="lit-layout" id="lit-layout" style="display:none">
       <aside class="lit-filters">
         <div class="filter-group">
-          <h3>Source type</h3>
-          <div id="type-filters"></div>
-        </div>
-        <div class="filter-group">
-          <h3>Decade</h3>
-          <div id="decade-filters"></div>
+          <h3>Category</h3>
+          <div id="category-filters"></div>
         </div>
         <div class="filter-actions">
           <button id="select-all">Select all</button>
@@ -52,6 +51,6 @@
     </div>
   </main>
 
-  <script src="../js/literature.js"></script>
+  <script src="../js/social.js"></script>
 </body>
 </html>
