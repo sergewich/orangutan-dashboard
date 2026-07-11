@@ -26,7 +26,8 @@ Orangutan_dashboard/
     social/                      # raw/articles.json (scraped), drafts.json (LLM-extracted,
                                   # unreviewed), incidents.json (human-approved only —
                                   # the ONLY file the public Social tab reads)
-    threats/                     # created, empty — not built yet
+    threats/                     # oil_palm.geojson (2527), mining_concessions.geojson (3017),
+                                  # hydro_plants.geojson (62) — see fetch_threats.py
   scripts/
     convert_ranges.py          # one-time: shapefile zips (data/ranges/raw/) -> GeoJSON.
                                 # Prefers ogr2ogr if on PATH, falls back to pyshp+pyproj.
@@ -49,17 +50,33 @@ Orangutan_dashboard/
     review_server.py            # LOCAL ONLY, not deployed: threaded HTTP server + POST
                                  # /api/review endpoint backing site/tabs/review.html. Only
                                  # place that writes to data/social/incidents.json.
+    fetch_threats.py             # oil palm + mining concessions from GFW Data API
+                                  # (government registries, explicit SELECT columns — SELECT *
+                                  # 500s on gfw_oil_palm's larger polygons), hydro plants from
+                                  # OSM Overpass + Wikidata SPARQL (Wikidata fills real OSM
+                                  # coverage gaps, e.g. Batang Toru/NSHE). Polygons simplified
+                                  # with an in-file pure-Python Douglas-Peucker (no shapely dep).
+                                  # Government/registry-sourced, so does NOT go through the
+                                  # Social tab's review gate (see policy below) — but also isn't
+                                  # independently verified by this project.
   site/
     index.html                  # landing page, links to tabs/
     css/style.css
     js/map.js                   # Leaflet map: range + deforestation/fire alerts + Hansen
-                                 # forest-loss tile overlay (all off by default except range)
-    js/literature.js, js/social.js, js/review.js
-    tabs/map.html, literature.html, social.html   # public, linked in nav
+                                 # forest-loss tile overlay + oil palm/mining/hydro (all off
+                                 # by default except range; oil palm/mining/hydro lazy-load
+                                 # on first toggle, see THREAT_LAYERS in map.js)
+    js/literature.js, js/social.js, js/review.js, js/threats.js
+    tabs/map.html, literature.html, social.html, threats.html   # public, linked in nav
     tabs/review.html             # LOCAL ONLY — deliberately not linked from nav, see below
-    tabs/threats.html            # still just a disabled nav placeholder, not built
   .github/workflows/             # empty — scheduled refresh workflows not yet created
 ```
+
+All four tabs from the original brief are now built (Map, Literature, Social,
+Threats). Nothing structurally unbuilt remains, though every data pipeline
+(deforestation/fire/literature/social/threats) currently only covers a
+one-time manual fetch — none are wired into the GitHub Actions schedule the
+brief describes.
 
 Geometry/geospatial logic lives in `convert_ranges.py` (shapefile → WGS84
 GeoJSON reprojection) and `fetch_deforestation.py`/`fetch_fire.py` (clipping
