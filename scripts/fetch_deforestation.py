@@ -73,6 +73,62 @@ VALID_CONFIDENCE = ("nominal", "high", "highest")
 # synchronous /query/json endpoint; warn and suggest the async / geostore path.
 GEOMETRY_WARN_BYTES = 3_000_000
 
+# Sumatra/Borneo range polygons are complex enough that the raw geometry can
+# exceed the API's 10MB request-body cap outright (413) — not just slow, a
+# hard failure. Simplify before sending. Same pure-Python Douglas-Peucker as
+# scripts/fetch_threats.py (no shapely dependency for a `requests`-only script).
+SIMPLIFY_TOLERANCE_DEG = 0.005  # ~550m — needed to get Borneo's range under GFW's 10MB
+# request cap; only affects which geometry is sent as the query CLIP filter, not the
+# alert points returned (those keep full precision) — a ~550m boundary fuzz on which
+# alerts count as "inside the range" is an acceptable tradeoff for a query that would
+# otherwise fail outright.
+
+
+def _perpendicular_distance(pt, start, end) -> float:
+    if start == end:
+        return ((pt[0] - start[0]) ** 2 + (pt[1] - start[1]) ** 2) ** 0.5
+    x1, y1 = start
+    x2, y2 = end
+    x0, y0 = pt
+    num = abs((y2 - y1) * x0 - (x2 - x1) * y0 + x2 * y1 - y2 * x1)
+    den = ((y2 - y1) ** 2 + (x2 - x1) ** 2) ** 0.5
+    return num / den
+
+
+def douglas_peucker(points: list, tolerance: float) -> list:
+    if len(points) < 3:
+        return points
+    start, end = points[0], points[-1]
+    max_dist = 0.0
+    max_idx = 0
+    for i in range(1, len(points) - 1):
+        d = _perpendicular_distance(points[i], start, end)
+        if d > max_dist:
+            max_dist, max_idx = d, i
+    if max_dist <= tolerance:
+        return [start, end]
+    left = douglas_peucker(points[:max_idx + 1], tolerance)
+    right = douglas_peucker(points[max_idx:], tolerance)
+    return left[:-1] + right
+
+
+def simplify_geometry(geom: dict, tolerance: float = SIMPLIFY_TOLERANCE_DEG) -> dict:
+    def simplify_ring(ring):
+        if len(ring) <= 4:
+            return ring
+        simplified = douglas_peucker([tuple(p) for p in ring], tolerance)
+        if len(simplified) < 4:
+            return ring
+        if simplified[0] != simplified[-1]:
+            simplified.append(simplified[0])
+        return [list(p) for p in simplified]
+
+    if geom["type"] == "Polygon":
+        geom["coordinates"] = [simplify_ring(r) for r in geom["coordinates"]]
+    elif geom["type"] == "MultiPolygon":
+        geom["coordinates"] = [[simplify_ring(r) for r in poly] for poly in geom["coordinates"]]
+    return geom
+
 
 # --------------------------------------------------------------------------- #
 # Environment / API key
@@ -142,7 +198,8 @@ def merge_range_geometry(geojson_path: Path, presence: set[int] | None) -> tuple
 
     if not polygons:
         raise ValueError(f"no polygon geometry found in {geojson_path.name}")
-    return {"type": "MultiPolygon", "coordinates": polygons}, used
+    geometry = simplify_geometry({"type": "MultiPolygon", "coordinates": polygons})
+    return geometry, used
 
 
 # --------------------------------------------------------------------------- #
