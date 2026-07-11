@@ -248,7 +248,7 @@ function updateInfo(deforestation, fire) {
       : `<div class='muted'>none loaded — has scripts/fetch_fire.py been run?</div>`);
 }
 
-const legend = L.control({ position: "bottomright" });
+const legend = L.control({ position: "bottomleft" });
 legend.onAdd = function () {
   const div = L.DomUtil.create("div", "legend");
   div.innerHTML =
