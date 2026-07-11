@@ -1,0 +1,39 @@
+name: Daily fire alerts refresh
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # 02:00 UTC daily — fires are time-sensitive, refresh often
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-fire:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch fire alerts for all species
+        env:
+          FIRMS_API_KEY: ${{ secrets.FIRMS_API_KEY }}
+        run: python3 scripts/fetch_fire.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/fire/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: daily fire alerts refresh ($(date -u +%Y-%m-%d))"
+            git push
+          fi

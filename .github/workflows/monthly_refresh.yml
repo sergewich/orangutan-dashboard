@@ -1,0 +1,47 @@
+name: Monthly data refresh
+
+on:
+  schedule:
+    - cron: "0 3 1 * *"  # 03:00 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  monthly-refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Fetch deforestation alerts for all species
+        env:
+          GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
+        run: python3 scripts/fetch_deforestation.py
+
+      - name: Fetch literature
+        run: python3 scripts/fetch_literature.py
+
+      - name: Fetch threats (oil palm / mining / hydro)
+        env:
+          GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
+        run: python3 scripts/fetch_threats.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/deforestation/ data/literature/ data/threats/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: monthly data refresh ($(date -u +%Y-%m-%d))"
+            git push
+          fi

@@ -1,0 +1,46 @@
+name: Weekly social scrape (raw only)
+
+# Scrapes raw article text on a schedule. Deliberately does NOT run
+# extract_incidents.py — that needs the local Ollama model on the project
+# owner's own machine, which GitHub's cloud runners can't reach. It also
+# deliberately does NOT touch data/social/incidents.json — nothing here
+# should ever bypass the human review step (see review_server.py /
+# site/tabs/review.html, and CLAUDE.md's review policy). Run
+# extract_incidents.py + the review queue locally against the raw articles
+# this workflow commits.
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"  # 04:00 UTC every Monday
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  scrape-social:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Scrape raw articles (NGO sites, TRAFFIC, GDELT sweep)
+        run: python3 scripts/scrape_social.py
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/social/raw/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: weekly social scrape ($(date -u +%Y-%m-%d))"
+            git push
+          fi
