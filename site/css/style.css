@@ -83,8 +83,12 @@ main.landing .cta {
 .legend .dot.nominal { background: var(--nominal); }
 .legend .dot.high { background: var(--high); }
 .legend .dot.highest { background: var(--highest); }
+.legend .dot.fire { background: #ff0000; }
+.legend .dot.hydro { background: #3ba3d1; }
 .legend .swatch { width: 16px; height: 0; border-top: 3px solid var(--accent); display: inline-block; }
 .legend .swatch.possible { border-top-style: dashed; }
+.legend .swatch.oil-palm { border-top: 8px solid #c98a2b; }
+.legend .swatch.mining { border-top: 8px solid #8b3a3a; }
 
 .loading {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);

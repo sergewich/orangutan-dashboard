@@ -89,6 +89,57 @@ const alertGroups = {
 
 const fireAlertsLayer = L.layerGroup();
 
+// ── Threats layers (scripts/fetch_threats.py) ───────────────────────────────
+// Real, source-attributed spatial data (GFW concession datasets + OSM), not
+// scraped/LLM-derived — no review-queue gate needed, unlike the Social tab's
+// incident pipeline. Lazy-loaded on first toggle (see THREAT_LAYERS below):
+// oil palm + mining concessions are ~2.5-3MB each and most page loads won't
+// open them, so fetching eagerly on every visit isn't worth the cost.
+const oilPalmLayer = L.geoJSON(null, {
+  style: { color: "#c98a2b", weight: 1, fillColor: "#c98a2b", fillOpacity: 0.35 },
+  onEachFeature: (f, layer) => {
+    const p = f.properties || {};
+    layer.bindPopup(
+      `<b>Oil palm concession</b><br>${p.conc_name || p.company || "Unnamed"}<br>` +
+      `${p.company ? `company: ${p.company}<br>` : ""}` +
+      `${p.gfw_area__ha ? `area: ${Math.round(p.gfw_area__ha).toLocaleString()} ha<br>` : ""}` +
+      `source: ${p.source || "?"} (${p.source_yr || "?"})`
+    );
+  },
+});
+const miningLayer = L.geoJSON(null, {
+  style: { color: "#8b3a3a", weight: 1, fillColor: "#8b3a3a", fillOpacity: 0.35 },
+  onEachFeature: (f, layer) => {
+    const p = f.properties || {};
+    layer.bindPopup(
+      `<b>Mining concession</b><br>${p.conc_name || "Unnamed"}<br>` +
+      `${p.mineral ? `mineral: ${p.mineral}<br>` : ""}` +
+      `${p.gfw_area__ha ? `area: ${Math.round(p.gfw_area__ha).toLocaleString()} ha<br>` : ""}` +
+      `source: ${p.source || "?"} (${p.source_yr || "?"})`
+    );
+  },
+});
+const hydroLayer = L.geoJSON(null, {
+  pointToLayer: (f, latlng) => L.circleMarker(latlng, {
+    radius: 6, weight: 2, color: "#3ba3d1", fillColor: "#3ba3d1", fillOpacity: 0.5,
+  }),
+  onEachFeature: (f, layer) => {
+    const p = f.properties || {};
+    layer.bindPopup(
+      `<b>Hydroelectric plant</b><br>${p.name}<br>` +
+      `${p.operator ? `operator: ${p.operator}<br>` : ""}` +
+      `${p.output_mw ? `output: ${p.output_mw} MW<br>` : ""}` +
+      `<span class='muted'>source: ${p.data_source || "OpenStreetMap"}</span>`
+    );
+  },
+});
+
+const THREAT_LAYERS = [
+  { layer: oilPalmLayer, url: "../../data/threats/oil_palm.geojson", loaded: false },
+  { layer: miningLayer, url: "../../data/threats/mining_concessions.geojson", loaded: false },
+  { layer: hydroLayer, url: "../../data/threats/hydro_plants.geojson", loaded: false },
+];
+
 function addAlertPoint(feature) {
   const conf = (feature.properties && feature.properties.confidence) || "nominal";
   const group = alertGroups[conf] || alertGroups.nominal;
@@ -149,7 +200,10 @@ legend.onAdd = function () {
     "<div class='row'><span class='dot nominal'></span>nominal confidence</div>" +
     "<div class='row' style='margin-top:.35rem'><span class='swatch'></span>species range</div>" +
     "<div class='row'><span class='swatch possible'></span>possibly extant</div>" +
-    "<div class='row'><span class='dot fire'></span>fire alerts</div>";
+    "<div class='row'><span class='dot fire'></span>fire alerts</div>" +
+    "<div class='row' style='margin-top:.35rem'><span class='swatch oil-palm'></span>oil palm concession</div>" +
+    "<div class='row'><span class='swatch mining'></span>mining concession</div>" +
+    "<div class='row'><span class='dot hydro'></span>hydroelectric plant</div>";
   return div;
 };
 legend.addTo(map);
@@ -164,9 +218,31 @@ L.control.layers(
     "Alerts — nominal": alertGroups.nominal,
     "Fire alerts": fireAlertsLayer,
     "Forest loss 2001–2025 (Hansen/UMD)": forestLossLayer,
+    "Oil palm concessions": oilPalmLayer,
+    "Mining concessions": miningLayer,
+    "Hydroelectric plants": hydroLayer,
   },
   { collapsed: false }
 ).addTo(map);
+
+// Lazy-load threat layers on first toggle rather than on page load — see
+// the comment above THREAT_LAYERS for why.
+map.on("overlayadd", async (e) => {
+  const entry = THREAT_LAYERS.find((t) => t.layer === e.layer);
+  if (!entry || entry.loaded) return;
+  entry.loaded = true;
+  try {
+    const data = await loadJSON(entry.url);
+    entry.layer.addData(data);
+  } catch (err) {
+    console.error(`Could not load ${entry.url}:`, err);
+    entry.loaded = false; // allow retry on next toggle
+    alert(
+      `Could not load this layer: ${err.message}\n` +
+      `Has scripts/fetch_threats.py been run?`
+    );
+  }
+});
 
 // ── Load data ─────────────────────────────────────────────────────────────
 async function loadJSON(url) {
