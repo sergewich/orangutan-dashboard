@@ -78,6 +78,13 @@ main.landing .cta {
 .info-box .muted { color: var(--muted); }
 .info-box b { color: #fff; }
 
+.species-switcher { margin-top: 0.5rem; }
+.species-switcher select {
+  width: 100%; background: var(--panel-2); color: var(--text);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 0.35rem 0.4rem; font: inherit; font-size: 0.82rem;
+}
+
 .legend .row { display: flex; align-items: center; gap: 0.45rem; margin: 0.15rem 0; }
 .legend .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 .legend .dot.nominal { background: var(--nominal); }

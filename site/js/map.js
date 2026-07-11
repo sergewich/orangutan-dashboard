@@ -1,23 +1,32 @@
 /* Orangutan Conservation Dashboard — map tab
  *
- * Loads the species range boundary and GFW integrated deforestation alerts
- * (produced by scripts/fetch_deforestation.py) and renders them on a Leaflet
- * map with OSM + Esri satellite basemaps and per-confidence alert toggles.
+ * All three species' range boundaries load and show together by default
+ * (data/ranges/*.geojson — simplified for web display by
+ * scripts/simplify_ranges.py, pongo_pygmaeus's was 40MB of full shapefile
+ * precision otherwise, unrenderable). Deforestation + fire alerts are
+ * per-species and heavier, so a switcher control picks one species' alerts
+ * to load at a time rather than fetching all three simultaneously.
  *
  * Data is fetched over HTTP relative to the repo root, so the site must be
  * served (e.g. `python -m http.server` from the repo root), not opened as a
  * file:// URL. Paths are relative to site/tabs/map.html.
  */
 
-const SPECIES = {
-  id: "pongo_tapanuliensis",
-  label: "Pongo tapanuliensis (Tapanuli orangutan)",
-  rangeUrl: "../../data/ranges/pongo_tapanuliensis.geojson",
-  alertsUrl: "../../data/deforestation/pongo_tapanuliensis_integrated_alerts.geojson",
-  fireAlertsUrl: "../../data/fire/pongo_tapanuliensis_fire_alerts.geojson",
-  center: [1.62, 99.1],
-  zoom: 10,
-};
+const SPECIES_LIST = [
+  { id: "pongo_tapanuliensis", label: "Pongo tapanuliensis (Tapanuli orangutan)", color: "#e8792b", center: [1.62, 99.1], zoom: 9 },
+  { id: "pongo_abelii", label: "Pongo abelii (Sumatran orangutan)", color: "#2f9e8f", center: [3.4, 97.4], zoom: 7 },
+  { id: "pongo_pygmaeus", label: "Pongo pygmaeus (Bornean orangutan)", color: "#a06cd5", center: [0.8, 113.5], zoom: 6 },
+];
+
+function speciesUrls(id) {
+  return {
+    rangeUrl: `../../data/ranges/${id}.geojson`,
+    alertsUrl: `../../data/deforestation/${id}_integrated_alerts.geojson`,
+    fireAlertsUrl: `../../data/fire/${id}_fire_alerts.geojson`,
+  };
+}
+
+let currentSpecies = SPECIES_LIST[0];
 
 const CONFIDENCE_COLORS = { nominal: "#f2d13c", high: "#f2913c", highest: "#e2402c" };
 
@@ -40,8 +49,8 @@ const esri = L.tileLayer(
 );
 
 const map = L.map("map", {
-  center: SPECIES.center,
-  zoom: SPECIES.zoom,
+  center: [1.5, 106], // rough overview center across Sumatra + Borneo, refined by fitBounds once ranges load
+  zoom: 5,
   preferCanvas: true, // canvas rendering keeps ~27k alert points smooth
   layers: [esri],
 });
@@ -63,21 +72,27 @@ const forestLossLayer = L.tileLayer(
 );
 
 // ── Overlay layer groups ──────────────────────────────────────────────────
+function speciesColorForName(sciName) {
+  const match = SPECIES_LIST.find((s) => s.label.startsWith(sciName || ""));
+  return (match && match.color) || "#e8792b";
+}
+
 const rangeLayer = L.geoJSON(null, {
   style: (f) => {
     const possible = (f.properties && f.properties.PRESENCE) === 3;
+    const color = speciesColorForName(f.properties && f.properties.SCI_NAME);
     return {
-      color: "#e8792b",
+      color,
       weight: 2,
       dashArray: possible ? "6 5" : null,
       fill: true,
-      fillColor: "#e8792b",
-      fillOpacity: 0.06,
+      fillColor: color,
+      fillOpacity: 0.08,
     };
   },
   onEachFeature: (f, layer) => {
     const p = f.properties || {};
-    layer.bindPopup(`<b>${p.SCI_NAME || SPECIES.id}</b><br>${p.LEGEND || ""}`);
+    layer.bindPopup(`<b>${p.SCI_NAME || "Orangutan range"}</b><br>${p.LEGEND || ""}`);
   },
 });
 
@@ -187,9 +202,23 @@ infoControl.onAdd = function () {
 };
 infoControl.addTo(map);
 
+const speciesControl = L.control({ position: "topright" });
+speciesControl.onAdd = function () {
+  const div = L.DomUtil.create("div", "info-box species-switcher");
+  div.innerHTML =
+    `<label for="species-select" style="display:block;margin-bottom:.3rem;color:var(--muted);font-size:.78rem">` +
+    `Deforestation &amp; fire alerts for</label>` +
+    `<select id="species-select">` +
+    SPECIES_LIST.map((s) => `<option value="${s.id}">${s.label}</option>`).join("") +
+    `</select>`;
+  L.DomEvent.disableClickPropagation(div);
+  return div;
+};
+speciesControl.addTo(map);
+
 function updateInfo(deforestation, fire) {
   infoControl._div.innerHTML =
-    `<h3>${SPECIES.label}</h3>` +
+    `<h3>${currentSpecies.label}</h3>` +
     `<div>GFW integrated deforestation alerts</div>` +
     `<div class='muted'>window: ${deforestation.minDate || "?"} → ${deforestation.maxDate || "?"}</div>` +
     `<div style='margin-top:.2rem'><b>${deforestation.total.toLocaleString()}</b> alert points shown</div>` +
@@ -206,11 +235,13 @@ const legend = L.control({ position: "bottomright" });
 legend.onAdd = function () {
   const div = L.DomUtil.create("div", "legend");
   div.innerHTML =
-    "<div class='row'><span class='dot highest'></span>highest confidence</div>" +
+    SPECIES_LIST.map((s) =>
+      `<div class='row'><span class='swatch' style='border-top-color:${s.color}'></span>${s.label.split(" (")[0]} range</div>`
+    ).join("") +
+    "<div class='row'><span class='swatch possible'></span>possibly extant</div>" +
+    "<div class='row' style='margin-top:.35rem'><span class='dot highest'></span>highest confidence</div>" +
     "<div class='row'><span class='dot high'></span>high confidence</div>" +
     "<div class='row'><span class='dot nominal'></span>nominal confidence</div>" +
-    "<div class='row' style='margin-top:.35rem'><span class='swatch'></span>species range</div>" +
-    "<div class='row'><span class='swatch possible'></span>possibly extant</div>" +
     "<div class='row'><span class='dot fire'></span>fire alerts</div>" +
     "<div class='row' style='margin-top:.35rem'><span class='swatch oil-palm'></span>oil palm concession</div>" +
     "<div class='row'><span class='swatch mining'></span>mining concession</div>" +
@@ -262,34 +293,43 @@ async function loadJSON(url) {
   return resp.json();
 }
 
-(async function init() {
-  try {
-    setLoading("Loading range boundary…");
-    const range = await loadJSON(SPECIES.rangeUrl);
-    rangeLayer.addData(range).addTo(map);
-    try {
-      map.fitBounds(rangeLayer.getBounds(), { padding: [20, 20] });
-    } catch (_) { /* keep default center if bounds are empty */ }
+// Deforestation + fire alerts are per-species and much heavier than the
+// (now-simplified) range boundaries, so only one species' worth loads at a
+// time, swapped by the switcher control — rather than fetching all three
+// simultaneously on every page view.
+async function loadSpeciesAlerts(species) {
+  currentSpecies = species;
+  const urls = speciesUrls(species.id);
 
-    setLoading("Loading deforestation alerts…");
-    const alerts = await loadJSON(SPECIES.alertsUrl);
+  alertGroups.nominal.clearLayers();
+  alertGroups.high.clearLayers();
+  alertGroups.highest.clearLayers();
+  fireAlertsLayer.clearLayers();
+
+  try {
+    setLoading(`Loading deforestation alerts for ${species.label}…`);
     const stats = { total: 0, nominal: 0, high: 0, highest: 0, minDate: null, maxDate: null };
-    for (const f of alerts.features) {
-      addAlertPoint(f);
-      const conf = (f.properties && f.properties.confidence) || "nominal";
-      stats.total++;
-      stats[conf] = (stats[conf] || 0) + 1;
-      const d = f.properties && f.properties.date;
-      if (d) {
-        if (!stats.minDate || d < stats.minDate) stats.minDate = d;
-        if (!stats.maxDate || d > stats.maxDate) stats.maxDate = d;
+    try {
+      const alerts = await loadJSON(urls.alertsUrl);
+      for (const f of alerts.features) {
+        addAlertPoint(f);
+        const conf = (f.properties && f.properties.confidence) || "nominal";
+        stats.total++;
+        stats[conf] = (stats[conf] || 0) + 1;
+        const d = f.properties && f.properties.date;
+        if (d) {
+          if (!stats.minDate || d < stats.minDate) stats.minDate = d;
+          if (!stats.maxDate || d > stats.maxDate) stats.maxDate = d;
+        }
       }
+    } catch (alertErr) {
+      console.warn("Deforestation alerts not loaded:", alertErr.message);
     }
 
-    setLoading("Loading fire alerts…");
+    setLoading(`Loading fire alerts for ${species.label}…`);
     const fireStats = { total: 0, minDate: null, maxDate: null };
     try {
-      const fireAlerts = await loadJSON(SPECIES.fireAlertsUrl);
+      const fireAlerts = await loadJSON(urls.fireAlertsUrl);
       for (const f of fireAlerts.features) {
         addFirePoint(f);
         fireStats.total++;
@@ -301,7 +341,7 @@ async function loadJSON(url) {
       }
     } catch (fireErr) {
       // Fire data is a separate, optional layer (scripts/fetch_fire.py may not
-      // have been run yet) — don't let its absence break range/deforestation display.
+      // have been run yet) — don't let its absence break the deforestation display.
       console.warn("Fire alerts not loaded:", fireErr.message);
     }
 
@@ -312,6 +352,42 @@ async function loadJSON(url) {
 
     updateInfo(stats, fireStats);
     setLoading(null);
+  } catch (err) {
+    console.error(err);
+    setLoading(
+      "Could not load alert data: " + err.message +
+      " — is the site being served over HTTP from the repo root?",
+      true
+    );
+  }
+}
+
+document.getElementById("species-select").addEventListener("change", (e) => {
+  const species = SPECIES_LIST.find((s) => s.id === e.target.value);
+  if (species) loadSpeciesAlerts(species);
+});
+
+(async function init() {
+  try {
+    setLoading("Loading species ranges…");
+    // All three ranges load together and stay visible — cheap now that
+    // they're simplified (see the file-level comment), and seeing all
+    // three at once is the whole point of a multi-species overview map.
+    const rangeSets = await Promise.all(
+      SPECIES_LIST.map((s) => loadJSON(speciesUrls(s.id).rangeUrl).catch((err) => {
+        console.warn(`Range not loaded for ${s.id}:`, err.message);
+        return null;
+      }))
+    );
+    for (const range of rangeSets) {
+      if (range) rangeLayer.addData(range);
+    }
+    rangeLayer.addTo(map);
+    try {
+      map.fitBounds(rangeLayer.getBounds(), { padding: [20, 20] });
+    } catch (_) { /* keep the default overview center if bounds are empty */ }
+
+    await loadSpeciesAlerts(currentSpecies);
   } catch (err) {
     console.error(err);
     setLoading(
