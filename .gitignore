@@ -2,6 +2,11 @@
 .env
 .env.local
 
+# Unreviewed LLM-drafted incident records (data/social/drafts.json) — must never
+# land in a public repo before human review. Approved records go to
+# data/social/incidents.json instead, which IS tracked. See CLAUDE.md review policy.
+data/social/drafts.json
+
 # Python
 __pycache__/
 *.py[cod]
