@@ -85,6 +85,10 @@ main.landing .cta {
   padding: 0.35rem 0.4rem; font: inherit; font-size: 0.82rem;
 }
 
+.legend-heading {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--muted); margin-bottom: 0.2rem;
+}
 .legend .row { display: flex; align-items: center; gap: 0.45rem; margin: 0.15rem 0; }
 .legend .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 .legend .dot.nominal { background: var(--nominal); }
@@ -94,6 +98,8 @@ main.landing .cta {
 .legend .dot.hydro { background: #3ba3d1; }
 .legend .swatch { width: 16px; height: 0; border-top: 3px solid var(--accent); display: inline-block; }
 .legend .swatch.possible { border-top-style: dashed; }
+.legend .swatch.reintroduced { border-top: 3px dashed #ffcc00; }
+.legend .swatch.introduced { border-top: 3px dotted #ff4444; }
 .legend .swatch.oil-palm { border-top: 8px solid #c98a2b; }
 .legend .swatch.mining { border-top: 8px solid #8b3a3a; }
 

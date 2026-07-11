@@ -77,22 +77,39 @@ function speciesColorForName(sciName) {
   return (match && match.color) || "#e8792b";
 }
 
+// IUCN ORIGIN codes: 1 = native, 2 = reintroduced, 3 = introduced. Both
+// pongo_abelii and pongo_pygmaeus's range files include non-native patches
+// (e.g. abelii has both a reintroduced and a separately-mapped introduced
+// population) — distinguish them from native range rather than blending in.
+// A faint dashArray-only distinction didn't read at map zoom (especially
+// with preferCanvas — fine dash patterns render unreliably there). Use a
+// bold, species-color-independent warning color instead so it's unmistakable.
+const ORIGIN_STYLE = {
+  2: { color: "#ffcc00", dashArray: "10 6" }, // reintroduced: amber, dashed
+  3: { color: "#ff4444", dashArray: "2 6" },  // introduced: red, dotted
+};
+
 const rangeLayer = L.geoJSON(null, {
   style: (f) => {
-    const possible = (f.properties && f.properties.PRESENCE) === 3;
-    const color = speciesColorForName(f.properties && f.properties.SCI_NAME);
+    const props = f.properties || {};
+    const possible = props.PRESENCE === 3;
+    const origin = props.ORIGIN;
+    const originStyle = ORIGIN_STYLE[origin];
+    const color = originStyle ? originStyle.color : speciesColorForName(props.SCI_NAME);
     return {
       color,
-      weight: 2,
-      dashArray: possible ? "6 5" : null,
+      weight: originStyle ? 3.5 : 2,
+      dashArray: originStyle ? originStyle.dashArray : (possible ? "6 5" : null),
       fill: true,
       fillColor: color,
-      fillOpacity: 0.08,
+      fillOpacity: originStyle ? 0.25 : 0.08,
     };
   },
   onEachFeature: (f, layer) => {
     const p = f.properties || {};
-    layer.bindPopup(`<b>${p.SCI_NAME || "Orangutan range"}</b><br>${p.LEGEND || ""}`);
+    const originNote = p.ORIGIN === 2 ? " ⚠ reintroduced population"
+      : p.ORIGIN === 3 ? " ⚠ introduced population" : "";
+    layer.bindPopup(`<b>${p.SCI_NAME || "Orangutan range"}</b>${originNote}<br>${p.LEGEND || ""}`);
   },
 });
 
@@ -235,20 +252,34 @@ const legend = L.control({ position: "bottomright" });
 legend.onAdd = function () {
   const div = L.DomUtil.create("div", "legend");
   div.innerHTML =
+    "<div class='legend-heading'>Species ranges</div>" +
     SPECIES_LIST.map((s) =>
-      `<div class='row'><span class='swatch' style='border-top-color:${s.color}'></span>${s.label.split(" (")[0]} range</div>`
+      `<div class='row'><span class='swatch' style='border-top-color:${s.color}'></span>${s.label.split(" (")[0]}</div>`
     ).join("") +
-    "<div class='row'><span class='swatch possible'></span>possibly extant</div>" +
-    "<div class='row' style='margin-top:.35rem'><span class='dot highest'></span>highest confidence</div>" +
-    "<div class='row'><span class='dot high'></span>high confidence</div>" +
-    "<div class='row'><span class='dot nominal'></span>nominal confidence</div>" +
-    "<div class='row'><span class='dot fire'></span>fire alerts</div>" +
-    "<div class='row' style='margin-top:.35rem'><span class='swatch oil-palm'></span>oil palm concession</div>" +
+    "<div class='row'><span class='swatch possible'></span>possibly extant (any species)</div>" +
+    "<div class='row'><span class='swatch reintroduced'></span>reintroduced population</div>" +
+    "<div class='row'><span class='swatch introduced'></span>introduced population</div>" +
+    // Alerts are per-species (see the switcher) — this heading updates on
+    // switch so the confidence/fire legend doesn't silently read as "only
+    // whichever species loaded first."
+    "<div class='legend-heading' id='legend-alerts-heading' style='margin-top:.5rem'>" +
+    `Alerts — ${currentSpecies.label.split(" (")[0]}</div>` +
+    "<div class='row'><span class='dot highest'></span>deforestation, highest confidence</div>" +
+    "<div class='row'><span class='dot high'></span>deforestation, high confidence</div>" +
+    "<div class='row'><span class='dot nominal'></span>deforestation, nominal confidence</div>" +
+    "<div class='row'><span class='dot fire'></span>fire (NASA FIRMS)</div>" +
+    "<div class='legend-heading' style='margin-top:.5rem'>Threats (all species, region-wide)</div>" +
+    "<div class='row'><span class='swatch oil-palm'></span>oil palm concession</div>" +
     "<div class='row'><span class='swatch mining'></span>mining concession</div>" +
     "<div class='row'><span class='dot hydro'></span>hydroelectric plant</div>";
   return div;
 };
 legend.addTo(map);
+
+function updateLegendSpecies(species) {
+  const el = document.getElementById("legend-alerts-heading");
+  if (el) el.textContent = `Alerts — ${species.label.split(" (")[0]}`;
+}
 
 // ── Layer control ─────────────────────────────────────────────────────────
 L.control.layers(
@@ -299,6 +330,7 @@ async function loadJSON(url) {
 // simultaneously on every page view.
 async function loadSpeciesAlerts(species) {
   currentSpecies = species;
+  updateLegendSpecies(species);
   const urls = speciesUrls(species.id);
 
   alertGroups.nominal.clearLayers();
