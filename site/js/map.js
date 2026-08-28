@@ -123,7 +123,7 @@ const fireAlertsLayer = L.layerGroup();
 
 // ── Threats layers (scripts/fetch_threats.py) ───────────────────────────────
 // Real, source-attributed spatial data (GFW concession datasets + OSM), not
-// scraped/LLM-derived — no review-queue gate needed, unlike the Social tab's
+// scraped/LLM-derived — no review-queue gate needed, unlike the News tab's
 // incident pipeline. Lazy-loaded on first toggle (see THREAT_LAYERS below):
 // oil palm + mining concessions are ~2.5-3MB each and most page loads won't
 // open them, so fetching eagerly on every visit isn't worth the cost.
