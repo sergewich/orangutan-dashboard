@@ -55,11 +55,20 @@ nav.tabs a.disabled { opacity: 0.4; pointer-events: none; }
 main.landing { padding: 2rem 1.4rem; max-width: 820px; }
 main.landing h2 { color: var(--accent); }
 main.landing p { color: var(--muted); line-height: 1.55; }
+main.landing p a { color: var(--accent); text-decoration: none; }
+main.landing p a:hover { text-decoration: underline; }
 main.landing .cta {
   display: inline-block; margin-top: 1rem; padding: 0.6rem 1.1rem;
   background: var(--accent); color: #1a1207; border-radius: 8px;
   text-decoration: none; font-weight: 600;
 }
+
+.ngo-visit {
+  display: inline-block; margin-top: 0.4rem; padding: 0.3rem 0.7rem;
+  background: var(--accent); color: #1a1207; border-radius: 6px;
+  text-decoration: none; font-weight: 600; font-size: 0.82rem;
+}
+.ngo-visit:hover { opacity: 0.85; }
 
 /* Map page */
 #map { position: absolute; top: 49px; bottom: 0; left: 0; right: 0; }

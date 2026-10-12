@@ -1,0 +1,132 @@
+{
+  "updated": "2026-10-12",
+  "note": "Hand-curated directory of NGOs active in the Sumatra/Borneo orangutan landscape. Not scraped, not automated — maintained manually. If a listing is outdated or a link is broken, please use the feedback email in the site footer.",
+  "organizations": [
+    {
+      "name": "Orangutan Information Centre",
+      "acronym": "OIC",
+      "website": "https://orangutancentre.org",
+      "region": ["Sumatra"],
+      "species": ["Pongo abelii", "Pongo tapanuliensis"],
+      "focus": ["rescue_rehabilitation", "habitat_protection"],
+      "description": "Sumatra-based NGO (also known as YOSL-OIC) running wildlife rescue, forest restoration, and community-based forest protection across the Leuser Ecosystem and Batang Toru."
+    },
+    {
+      "name": "Yayasan Ekosistem Lestari",
+      "acronym": "YEL",
+      "website": "https://www.yel.or.id",
+      "region": ["Sumatra"],
+      "species": ["Pongo abelii", "Pongo tapanuliensis"],
+      "focus": ["habitat_protection", "research"],
+      "description": "Indonesian foundation (Sustainable Ecosystems Foundation) focused on protecting the Leuser Ecosystem and Batang Toru forest — the only habitat of the Tapanuli orangutan — and partnering on the Sumatran Orangutan Conservation Programme."
+    },
+    {
+      "name": "Sumatran Orangutan Conservation Programme",
+      "acronym": "SOCP",
+      "website": "https://www.sumatranorangutan.org",
+      "region": ["Sumatra"],
+      "species": ["Pongo abelii", "Pongo tapanuliensis"],
+      "focus": ["rescue_rehabilitation", "research"],
+      "description": "Joint programme of PanEco, YEL, and the Indonesian government running orangutan rescue, rehabilitation, and reintroduction centres, plus Batang Toru conservation work for Pongo tapanuliensis."
+    },
+    {
+      "name": "PanEco Foundation",
+      "acronym": "PanEco",
+      "website": "https://www.paneco.ch",
+      "region": ["Sumatra"],
+      "species": ["Pongo abelii", "Pongo tapanuliensis"],
+      "focus": ["rescue_rehabilitation", "advocacy_policy"],
+      "description": "Swiss foundation that co-founded and funds the Sumatran Orangutan Conservation Programme (SOCP) alongside YEL."
+    },
+    {
+      "name": "Borneo Orangutan Survival Foundation",
+      "acronym": "BOSF",
+      "website": "https://www.orangutan.or.id",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["rescue_rehabilitation", "habitat_protection"],
+      "description": "Indonesia's largest primate conservation NGO, running orangutan rescue and rehabilitation centres in Central and East Kalimantan and release sites across Borneo."
+    },
+    {
+      "name": "Centre for Orangutan Protection",
+      "acronym": "COP",
+      "website": "https://orangutanprotection.com",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["anti_wildlife_crime", "rescue_rehabilitation"],
+      "description": "Indonesian NGO focused on direct rescue response, anti-wildlife-crime investigation, and public campaigning against orangutan trafficking and habitat destruction in Borneo."
+    },
+    {
+      "name": "International Animal Rescue Indonesia",
+      "acronym": "IAR Indonesia",
+      "website": "https://www.internationalanimalrescue.org",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["rescue_rehabilitation"],
+      "description": "Runs a rescue, rehabilitation, and release centre in Ketapang, West Kalimantan, for orangutans displaced by deforestation and the pet trade."
+    },
+    {
+      "name": "Orangutan Foundation International",
+      "acronym": "OFI",
+      "website": "https://orangutan.org",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["rescue_rehabilitation", "research"],
+      "description": "Founded by primatologist Birute Galdikas; supports Camp Leakey and orangutan research, care, and forest protection in and around Tanjung Puting National Park, Central Kalimantan."
+    },
+    {
+      "name": "Orangutan Foundation (UK)",
+      "acronym": "OF-UK",
+      "website": "https://www.orangutan.org.uk",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["habitat_protection", "advocacy_policy"],
+      "description": "UK-registered charity supporting habitat protection, ranger patrols, and reforestation around Tanjung Puting and the Lamandau Wildlife Reserve, Central Kalimantan."
+    },
+    {
+      "name": "Orangutan Land Trust",
+      "acronym": "OLT",
+      "website": "https://www.orangutanland.org",
+      "region": ["Sumatra", "Borneo"],
+      "species": ["Pongo abelii", "Pongo pygmaeus", "Pongo tapanuliensis"],
+      "focus": ["habitat_protection", "advocacy_policy"],
+      "description": "Works range-wide on securing and restoring orangutan habitat, including land purchase/protection mechanisms and sustainability standards engagement with the palm oil sector."
+    },
+    {
+      "name": "The Orangutan Project",
+      "acronym": "TOP",
+      "website": "https://www.theorangutanproject.org",
+      "region": ["Sumatra", "Borneo"],
+      "species": ["Pongo abelii", "Pongo pygmaeus", "Pongo tapanuliensis"],
+      "focus": ["habitat_protection", "rescue_rehabilitation"],
+      "description": "Australia-based NGO that funds and partners with ground-level rescue, rehabilitation, ranger-patrol, and habitat-protection projects across both Sumatra and Borneo."
+    },
+    {
+      "name": "HUTAN – Kinabatangan Orangutan Conservation Programme",
+      "acronym": "HUTAN-KOCP",
+      "website": "https://hutan.earth/",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["research", "habitat_protection"],
+      "description": "Long-running field research and community-based conservation programme in the Lower Kinabatangan floodplain, Sabah — one of the longest-studied wild orangutan populations in Borneo."
+    },
+    {
+      "name": "Orangutan Appeal UK",
+      "acronym": "OAUK",
+      "website": "https://www.orangutan-appeal.org.uk",
+      "region": ["Borneo"],
+      "species": ["Pongo pygmaeus"],
+      "focus": ["rescue_rehabilitation"],
+      "description": "UK charity supporting the Sepilok Orangutan Rehabilitation Centre and the Sabah Wildlife Department's orangutan rescue and release work in Sabah, Malaysian Borneo."
+    },
+    {
+      "name": "TRAFFIC",
+      "acronym": "TRAFFIC",
+      "website": "https://www.traffic.org",
+      "region": ["Sumatra", "Borneo"],
+      "species": ["Pongo abelii", "Pongo pygmaeus", "Pongo tapanuliensis"],
+      "focus": ["wildlife_trade_monitoring", "advocacy_policy"],
+      "description": "Global wildlife trade monitoring network; tracks and reports on illegal orangutan trafficking and the pet trade as part of its broader wildlife crime work in Southeast Asia."
+    }
+  ]
+}

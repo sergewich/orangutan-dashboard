@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NGOs — Orangutan Conservation Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🦧 Orangutan <span>Conservation</span> Dashboard</h1>
+    <nav class="tabs">
+      <a href="../index.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="literature.html">Literature</a>
+      <a href="threats.html">Threats</a>
+      <a href="social.html">News</a>
+      <a href="ngos.html" class="active">NGOs</a>
+    </nav>
+  </header>
+
+  <main class="lit-page">
+    <div class="lit-intro">
+      <h2>NGOs active in the orangutan landscape</h2>
+      <p class="muted">
+        Organizations working on orangutan rescue &amp; rehabilitation, habitat
+        protection, field research, anti-wildlife-crime response, and advocacy
+        across the Sumatra and Borneo range. This is a hand-curated directory,
+        not scraped or automated — see <code>data/ngos/ngos.json</code>. If a
+        listing is outdated or a link is broken, let us know via the feedback
+        email below.
+      </p>
+    </div>
+
+    <div id="loading" class="loading">Loading…</div>
+
+    <div class="lit-layout" id="lit-layout" style="display:none">
+      <aside class="lit-filters">
+        <div class="filter-group">
+          <h3>Region</h3>
+          <div id="region-filters"></div>
+        </div>
+        <div class="filter-group">
+          <h3>Focus</h3>
+          <div id="focus-filters"></div>
+        </div>
+        <div class="filter-actions">
+          <button id="select-all">Select all</button>
+          <button id="select-none">Clear all</button>
+        </div>
+        <p class="lit-count" id="lit-count"></p>
+      </aside>
+
+      <section class="lit-list" id="lit-list"></section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Spot an error or have feedback on this site? Email
+      <a href="mailto:sergewich@gmail.com">sergewich@gmail.com</a>.
+    </p>
+  </footer>
+
+  <script src="../js/ngos.js"></script>
+
+  <!-- Cloudflare Web Analytics -->
+  <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "29d3b2f9d204446cb0d788787eff61d9"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
