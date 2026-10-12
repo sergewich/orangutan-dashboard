@@ -21,20 +21,33 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      # Each fetch step gets continue-on-error so one source's outage (e.g. a GFW
+      # API 504, which previously aborted the whole job before anything was
+      # committed — see fetch_deforestation.py's retry/per-species-skip logic)
+      # doesn't block the other, unrelated fetches or lose data they already
+      # wrote. The final "Check for fetch failures" step still fails the job
+      # overall so a degraded run stays visible in the Actions history.
       - name: Fetch deforestation alerts for all species
+        id: fetch-deforestation
+        continue-on-error: true
         env:
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: python3 scripts/fetch_deforestation.py
 
       - name: Fetch literature
+        id: fetch-literature
+        continue-on-error: true
         run: python3 scripts/fetch_literature.py
 
       - name: Fetch threats (oil palm / mining / hydro)
+        id: fetch-threats
+        continue-on-error: true
         env:
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: python3 scripts/fetch_threats.py
 
       - name: Commit and push if data changed
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -44,4 +57,16 @@ jobs:
           else
             git commit -m "chore: monthly data refresh ($(date -u +%Y-%m-%d))"
             git push
+          fi
+
+      - name: Check for fetch failures
+        if: always()
+        run: |
+          failed=0
+          for outcome in "${{ steps.fetch-deforestation.outcome }}" "${{ steps.fetch-literature.outcome }}" "${{ steps.fetch-threats.outcome }}"; do
+            [ "$outcome" = "failure" ] && failed=1
+          done
+          if [ "$failed" = "1" ]; then
+            echo "::error::One or more fetch steps failed — see their logs above. Any data that did succeed has still been committed."
+            exit 1
           fi

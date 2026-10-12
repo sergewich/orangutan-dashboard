@@ -202,6 +202,20 @@ def _daterange_chunks(start: dt.date, end: dt.date, chunk_days: int):
         cur += dt.timedelta(days=day_count)
 
 
+class QueryFailed(Exception):
+    """Raised when a FIRMS API request fails (network error, non-200 status, or
+    an error body) after exhausting retries. Caught per-species in main() so
+    one species' outage doesn't abort the whole run."""
+
+
+# Transient server-side/network conditions worth retrying, rather than
+# aborting the whole script immediately (mirrors fetch_deforestation.py,
+# which hit exactly this failure mode against the GFW API).
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+RETRY_ATTEMPTS = 4
+RETRY_BACKOFF_SECONDS = 5  # doubles each attempt: 5s, 10s, 20s
+
+
 def run_query(
     bbox: tuple[float, float, float, float],
     api_key: str,
@@ -211,7 +225,9 @@ def run_query(
 ) -> list[dict]:
     """GET the FIRMS area/csv endpoint in <=MAX_DAY_RANGE-day chunks covering
     [start_date, end_date], clipped server-side to `bbox`. Returns the
-    combined list of CSV rows (as dicts) across all chunks."""
+    combined list of CSV rows (as dicts) across all chunks. Retries transient
+    network errors and 429/5xx responses with exponential backoff before
+    giving up (raises QueryFailed, not sys.exit)."""
     start = dt.date.fromisoformat(start_date)
     end = dt.date.fromisoformat(end_date)
     west, south, east, north = bbox
@@ -220,20 +236,38 @@ def run_query(
     rows: list[dict] = []
     for chunk_start, day_count in _daterange_chunks(start, end, MAX_DAY_RANGE):
         url = f"{API_BASE}/{api_key}/{source}/{area}/{day_count}/{chunk_start.isoformat()}"
-        try:
-            resp = requests.get(url, timeout=60)
-        except requests.RequestException as exc:
-            sys.exit(f"  Could not reach FIRMS API: {exc}")
 
-        if resp.status_code != 200:
-            sys.exit(f"  FIRMS API error {resp.status_code} {resp.reason}:\n{resp.text[:1000]}")
+        last_error = None
+        text = None
+        for attempt in range(1, RETRY_ATTEMPTS + 1):
+            try:
+                resp = requests.get(url, timeout=60)
+            except requests.RequestException as exc:
+                last_error = f"Could not reach FIRMS API: {exc}"
+                resp = None
 
-        text = resp.text.strip()
+            if resp is not None and resp.status_code == 200:
+                text = resp.text.strip()
+                break
+
+            if resp is not None:
+                if resp.status_code not in RETRYABLE_STATUS_CODES:
+                    raise QueryFailed(f"FIRMS API error {resp.status_code} {resp.reason}:\n{resp.text[:1000]}")
+                last_error = f"FIRMS API error {resp.status_code} {resp.reason}:\n{resp.text[:300]}"
+
+            if attempt < RETRY_ATTEMPTS:
+                wait = RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1))
+                print(f"  {last_error}\n  retrying in {wait}s (attempt {attempt}/{RETRY_ATTEMPTS})...",
+                      file=sys.stderr)
+                time.sleep(wait)
+        else:
+            raise QueryFailed(f"{last_error}\n  (gave up after {RETRY_ATTEMPTS} attempts)")
+
         # The API returns a plain-text one-line error (e.g. bad key / no data
         # for source) instead of CSV when something's wrong.
         if not text or "\n" not in text:
             if text and "error" in text.lower():
-                sys.exit(f"  FIRMS query failed: {text[:500]}")
+                raise QueryFailed(f"FIRMS query failed: {text[:500]}")
             continue  # no detections in this window
 
         reader = csv.DictReader(io.StringIO(text))
@@ -402,12 +436,17 @@ def main() -> None:
 
     ok = 0
     for path in targets:
-        if process_species(
-            path, args.out_dir, api_key, args.source,
-            args.start_date, args.end_date,
-            presence,
-        ):
-            ok += 1
+        try:
+            if process_species(
+                path, args.out_dir, api_key, args.source,
+                args.start_date, args.end_date,
+                presence,
+            ):
+                ok += 1
+        except QueryFailed as exc:
+            # Don't let one species' API outage (even after retries) abort the
+            # whole run — other species are still worth fetching and keeping.
+            print(f"  SKIP {path.stem}: {exc}", file=sys.stderr)
 
     print(f"\nDone: {ok}/{len(targets)} range(s) processed.")
     if ok < len(targets):

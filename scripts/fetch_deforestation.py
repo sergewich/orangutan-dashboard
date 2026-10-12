@@ -39,6 +39,7 @@ import datetime as dt
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 try:
@@ -211,8 +212,28 @@ class PayloadTooLarge(Exception):
     retries."""
 
 
+class QueryFailed(Exception):
+    """Raised when the GFW API request fails (network error, non-200 status other
+    than PayloadTooLarge, or a non-success response body) after exhausting
+    retries. Caught per-species in main() so one species' outage doesn't abort
+    the whole run."""
+
+
+# Transient server-side/network conditions worth retrying — GFW's Data API
+# intermittently 502/503/504s under load with no action needed but a retry
+# (seen in practice: a 504 Gateway Timeout that aborted an entire monthly
+# refresh, losing already-fetched species along with it since nothing had
+# been committed yet).
+RETRYABLE_STATUS_CODES = {429, 500, 502, 503, 504}
+RETRY_ATTEMPTS = 4
+RETRY_BACKOFF_SECONDS = 5  # doubles each attempt: 5s, 10s, 20s
+
+
 def run_query(sql: str, geometry: dict, api_key: str, version: str, timeout: int) -> list[dict]:
-    """POST a SQL query clipped to `geometry`, return the list of result rows."""
+    """POST a SQL query clipped to `geometry`, return the list of result rows.
+    Retries transient network errors and 429/5xx responses with exponential
+    backoff before giving up (raises QueryFailed, not sys.exit, so callers can
+    skip just this species instead of killing the whole process)."""
     url = f"{API_BASE}/dataset/{DATASET}/{version}/query/json"
     body = {"sql": sql, "geometry": geometry}
 
@@ -232,25 +253,38 @@ def run_query(sql: str, geometry: dict, api_key: str, version: str, timeout: int
         "User-Agent": USER_AGENT,
         "Origin": ORIGIN,
     }
-    try:
-        resp = requests.post(url, data=json.dumps(body), headers=headers, timeout=timeout)
-    except requests.RequestException as exc:
-        sys.exit(f"  Could not reach GFW API: {exc}")
 
-    if resp.status_code != 200:
-        if "payload size exceeded" in resp.text.lower() or "ResponseSizeTooLarge" in resp.text:
-            raise PayloadTooLarge(resp.text[:300])
-        sys.exit(f"  GFW API error {resp.status_code} {resp.reason}:\n{resp.text[:1000]}")
+    last_error = None
+    for attempt in range(1, RETRY_ATTEMPTS + 1):
+        try:
+            resp = requests.post(url, data=json.dumps(body), headers=headers, timeout=timeout)
+        except requests.RequestException as exc:
+            last_error = f"Could not reach GFW API: {exc}"
+            resp = None
 
-    try:
-        data = resp.json()
-    except ValueError:
-        sys.exit(f"  GFW API returned non-JSON response:\n{resp.text[:1000]}")
+        if resp is not None and resp.status_code == 200:
+            try:
+                data = resp.json()
+            except ValueError:
+                raise QueryFailed(f"GFW API returned non-JSON response:\n{resp.text[:1000]}")
+            if data.get("status") != "success":
+                raise QueryFailed(f"GFW query failed: {json.dumps(data)[:1000]}")
+            return data.get("data", []) or []
 
-    if data.get("status") != "success":
-        sys.exit(f"  GFW query failed: {json.dumps(data)[:1000]}")
+        if resp is not None:
+            if "payload size exceeded" in resp.text.lower() or "ResponseSizeTooLarge" in resp.text:
+                raise PayloadTooLarge(resp.text[:300])
+            if resp.status_code not in RETRYABLE_STATUS_CODES:
+                raise QueryFailed(f"GFW API error {resp.status_code} {resp.reason}:\n{resp.text[:1000]}")
+            last_error = f"GFW API error {resp.status_code} {resp.reason}:\n{resp.text[:300]}"
 
-    return data.get("data", []) or []
+        if attempt < RETRY_ATTEMPTS:
+            wait = RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1))
+            print(f"  {last_error}\n  retrying in {wait}s (attempt {attempt}/{RETRY_ATTEMPTS})...",
+                  file=sys.stderr)
+            time.sleep(wait)
+
+    raise QueryFailed(f"{last_error}\n  (gave up after {RETRY_ATTEMPTS} attempts)")
 
 
 def _where(start: str, end: str, confidence: list[str] | None) -> str:
@@ -515,12 +549,18 @@ def main() -> None:
 
     ok = 0
     for path in targets:
-        if process_species(
-            path, args.out_dir, api_key,
-            args.start_date, args.end_date, points_start, args.confidence,
-            presence, args.version, args.max_points, args.timeout,
-        ):
-            ok += 1
+        try:
+            if process_species(
+                path, args.out_dir, api_key,
+                args.start_date, args.end_date, points_start, args.confidence,
+                presence, args.version, args.max_points, args.timeout,
+            ):
+                ok += 1
+        except QueryFailed as exc:
+            # Don't let one species' API outage (even after retries) abort the
+            # whole run — other species, and the data already written for
+            # species processed earlier in this loop, are still worth keeping.
+            print(f"  SKIP {path.stem}: {exc}", file=sys.stderr)
 
     print(f"\nDone: {ok}/{len(targets)} range(s) processed.")
     if ok < len(targets):

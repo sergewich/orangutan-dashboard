@@ -21,12 +21,18 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
+      # continue-on-error so one species' API outage (fetch_fire.py retries
+      # transient errors itself, but still exits non-zero if a species fails
+      # after retries) doesn't block committing the species that did succeed.
       - name: Fetch fire alerts for all species
+        id: fetch-fire
+        continue-on-error: true
         env:
           FIRMS_API_KEY: ${{ secrets.FIRMS_API_KEY }}
         run: python3 scripts/fetch_fire.py
 
       - name: Commit and push if data changed
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -36,4 +42,12 @@ jobs:
           else
             git commit -m "chore: daily fire alerts refresh ($(date -u +%Y-%m-%d))"
             git push
+          fi
+
+      - name: Check for fetch failures
+        if: always()
+        run: |
+          if [ "${{ steps.fetch-fire.outcome }}" = "failure" ]; then
+            echo "::error::Fire alert fetch failed for one or more species — see its logs above. Any species that did succeed has still been committed."
+            exit 1
           fi
