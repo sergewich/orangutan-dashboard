@@ -245,7 +245,7 @@ function updateInfo(deforestation, fire) {
     (fire.total > 0
       ? `<div class='muted'>window: ${fire.minDate || "?"} → ${fire.maxDate || "?"}</div>` +
         `<div style='margin-top:.2rem'><b>${fire.total.toLocaleString()}</b> alert point${fire.total === 1 ? "" : "s"} shown</div>`
-      : `<div class='muted'>none loaded — has scripts/fetch_fire.py been run?</div>`);
+      : `<div class='muted'>no fire alerts detected in the current window (refreshed daily)</div>`);
 }
 
 const legend = L.control({ position: "bottomleft" });
