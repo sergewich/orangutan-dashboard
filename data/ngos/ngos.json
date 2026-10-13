@@ -236,6 +236,25 @@
       "description": "NGO linking affordable community healthcare access to rainforest protection around Gunung Palung National Park, West Kalimantan, reducing pressure on orangutan habitat from illegal logging."
     },
     {
+      "name": "IUCN SSC Primate Specialist Group — Section on Great Apes",
+      "acronym": "SGA",
+      "website": "https://www.iucngreatapes.org/",
+      "region": [
+        "Sumatra",
+        "Borneo"
+      ],
+      "species": [
+        "Pongo abelii",
+        "Pongo pygmaeus",
+        "Pongo tapanuliensis"
+      ],
+      "focus": [
+        "research",
+        "advocacy_policy"
+      ],
+      "description": "Section of the IUCN Species Survival Commission's Primate Specialist Group dedicated to great ape conservation; coordinates IUCN Red List status assessments and conservation planning for all three orangutan species, alongside gorillas, chimpanzees, and bonobos."
+    },
+    {
       "name": "International Animal Rescue Indonesia",
       "acronym": "IAR Indonesia",
       "website": "https://www.internationalanimalrescue.org",
@@ -281,6 +300,25 @@
         "rescue_rehabilitation"
       ],
       "description": "Dutch-Indonesian foundation working on sustainable agroforestry (sugar palm) and reforestation in North Sulawesi and Kalimantan; historically linked to orangutan rehabilitation work through its founder's involvement with BOS."
+    },
+    {
+      "name": "Mighty Earth",
+      "acronym": "Mighty Earth",
+      "website": "https://mightyearth.org/",
+      "region": [
+        "Sumatra",
+        "Borneo"
+      ],
+      "species": [
+        "Pongo abelii",
+        "Pongo pygmaeus",
+        "Pongo tapanuliensis"
+      ],
+      "focus": [
+        "advocacy_policy",
+        "habitat_protection"
+      ],
+      "description": "Environmental campaign organization running satellite-based deforestation monitoring and corporate supply-chain accountability campaigns targeting palm oil and other commodities linked to habitat loss across Sumatra and Borneo."
     },
     {
       "name": "Nature For Change",
@@ -492,6 +530,25 @@
         "habitat_protection"
       ],
       "description": "US-based organization funding land protection and the creation of new protected areas, including sites within the Sumatran orangutan range."
+    },
+    {
+      "name": "Satya Bumi",
+      "acronym": "Satya Bumi",
+      "website": "https://satyabumi.org/",
+      "region": [
+        "Sumatra",
+        "Borneo"
+      ],
+      "species": [
+        "Pongo abelii",
+        "Pongo pygmaeus",
+        "Pongo tapanuliensis"
+      ],
+      "focus": [
+        "advocacy_policy",
+        "habitat_protection"
+      ],
+      "description": "Indonesian NGO monitoring deforestation, peatland loss, and palm oil/plantation industry practices, and advocating for stronger environmental law enforcement and forest governance."
     },
     {
       "name": "Save Our Borneo",
