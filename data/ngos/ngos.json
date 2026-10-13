@@ -70,22 +70,6 @@
       "description": "Indonesia's largest primate conservation NGO, running orangutan rescue and rehabilitation centres in Central and East Kalimantan and release sites across Borneo."
     },
     {
-      "name": "CAN Borneo",
-      "acronym": "CAN Borneo",
-      "website": "https://canborneo.org",
-      "region": [
-        "Borneo"
-      ],
-      "species": [
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "advocacy_policy",
-        "habitat_protection"
-      ],
-      "description": "Borneo-based network working on forest and land-rights issues connected to orangutan habitat protection."
-    },
-    {
       "name": "Centre for Orangutan Protection",
       "acronym": "COP",
       "website": "https://orangutanprotection.com",
@@ -154,25 +138,9 @@
       "description": "Indonesia programme of the global conservation organization Fauna & Flora International, supporting species and habitat conservation across Sumatra and Kalimantan."
     },
     {
-      "name": "Forum Konservasi Leuser",
-      "acronym": "FKL",
-      "website": "https://forumkonservasileuser.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "anti_wildlife_crime",
-        "habitat_protection"
-      ],
-      "description": "Ranger-patrol NGO running large-scale anti-poaching and snare-removal operations across the Leuser Ecosystem, directly protecting Sumatran orangutan habitat."
-    },
-    {
       "name": "Forum Orangutan Indonesia",
       "acronym": "FORINA",
-      "website": "https://forina.or.id",
+      "website": "https://www.orangutanindonesia.org/en",
       "region": [
         "Sumatra",
         "Borneo"
@@ -268,52 +236,6 @@
       "description": "NGO linking affordable community healthcare access to rainforest protection around Gunung Palung National Park, West Kalimantan, reducing pressure on orangutan habitat from illegal logging."
     },
     {
-      "name": "INDECON",
-      "acronym": "INDECON",
-      "website": "https://indecon.or.id",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "advocacy_policy"
-      ],
-      "description": "Aceh/Leuser-focused environmental communication and advocacy organization."
-    },
-    {
-      "name": "Institute Green Aceh",
-      "acronym": "IGA",
-      "website": "https://greenaceh.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "advocacy_policy",
-        "habitat_protection"
-      ],
-      "description": "Aceh-based forest-monitoring and environmental-advocacy NGO working on Leuser Ecosystem issues."
-    },
-    {
-      "name": "Integrated Conservation",
-      "acronym": "Integrated Conservation",
-      "website": "https://integratedconservation.org",
-      "region": [
-        "Borneo"
-      ],
-      "species": [
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "habitat_protection"
-      ],
-      "description": "NGO working on community-based conservation and human-wildlife coexistence programmes in Central Kalimantan."
-    },
-    {
       "name": "International Animal Rescue Indonesia",
       "acronym": "IAR Indonesia",
       "website": "https://www.internationalanimalrescue.org",
@@ -327,39 +249,6 @@
         "rescue_rehabilitation"
       ],
       "description": "Runs a rescue, rehabilitation, and release centre in Ketapang, West Kalimantan, for orangutans displaced by deforestation and the pet trade."
-    },
-    {
-      "name": "Jakarta Animal Aid Network",
-      "acronym": "JAAN",
-      "website": "https://jaan.id",
-      "region": [
-        "Sumatra",
-        "Borneo"
-      ],
-      "species": [
-        "Pongo abelii",
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "rescue_rehabilitation",
-        "anti_wildlife_crime"
-      ],
-      "description": "Indonesian animal-welfare NGO running rescue and sanctuary operations — including the Sumatra Wildlife Centre and Ellis Park Sanctuary — for wildlife confiscated from the illegal trade, including orangutans."
-    },
-    {
-      "name": "Lembaga Suar Galang Keadilan",
-      "acronym": "Suar Galang Keadilan",
-      "website": "https://suargalangkeadilan.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "advocacy_policy"
-      ],
-      "description": "Sumatra-based environmental-justice and legal-advocacy organization."
     },
     {
       "name": "Link-AR Borneo",
@@ -540,21 +429,6 @@
       "description": "Swiss foundation that co-founded and funds the Sumatran Orangutan Conservation Programme (SOCP) alongside YEL."
     },
     {
-      "name": "People Resources and Conservation Foundation",
-      "acronym": "PRCF",
-      "website": "https://prcf-indonesia.org",
-      "region": [
-        "Borneo"
-      ],
-      "species": [
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "habitat_protection"
-      ],
-      "description": "Regional community-based natural-resource-management organization with programmes in West Kalimantan supporting forest and orangutan habitat conservation."
-    },
-    {
       "name": "Planet Indonesia",
       "acronym": "Planet Indonesia",
       "website": "https://planetindonesia.org",
@@ -620,22 +494,6 @@
       "description": "US-based organization funding land protection and the creation of new protected areas, including sites within the Sumatran orangutan range."
     },
     {
-      "name": "SKEPHI",
-      "acronym": "SKEPHI",
-      "website": "https://skephi.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "advocacy_policy",
-        "anti_wildlife_crime"
-      ],
-      "description": "Indonesian forest-conservation network (Sekretariat Kerjasama Pelestarian Hutan Indonesia) working on forest-protection advocacy and campaigns against illegal logging and wildlife crime."
-    },
-    {
       "name": "Save Our Borneo",
       "acronym": "Save Our Borneo",
       "website": "https://saveourborneo.org",
@@ -665,38 +523,6 @@
         "rescue_rehabilitation"
       ],
       "description": "Orangutan rescue and rehabilitation center in Sintang, West Kalimantan, caring for orangutans confiscated from the pet trade and displaced by deforestation."
-    },
-    {
-      "name": "Sumatra Ranger Project",
-      "acronym": "Yayasan Cahaya Anak Nusantara",
-      "website": "https://sumatrarangerproject.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "anti_wildlife_crime",
-        "habitat_protection"
-      ],
-      "description": "Ranger-patrol organization conducting anti-poaching and snare-removal work in Sumatran forests."
-    },
-    {
-      "name": "Sumatra Rescue Alliance",
-      "acronym": "SRA",
-      "website": "https://sumatrarescue.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "rescue_rehabilitation",
-        "anti_wildlife_crime"
-      ],
-      "description": "Sumatra-based wildlife rescue and anti-poaching alliance."
     },
     {
       "name": "Sumatran Orangutan Conservation Programme",
@@ -951,21 +777,6 @@
       "description": "Indonesia programme of the global NGO World Education, working on community education and livelihoods projects that intersect with forest conservation near orangutan habitat."
     },
     {
-      "name": "Yayasan EKONA",
-      "acronym": "EKONA",
-      "website": "https://ekona.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "habitat_protection"
-      ],
-      "description": "Sumatra-based conservation foundation."
-    },
-    {
       "name": "Yayasan Ekosistem Lestari",
       "acronym": "YEL",
       "website": "https://www.yel.or.id",
@@ -999,22 +810,6 @@
       "description": "Aceh-based NGO (Hutan, Alam dan Lingkungan Aceh) monitoring and campaigning against illegal logging and deforestation in the Leuser Ecosystem."
     },
     {
-      "name": "Yayasan Konservasi Satwa Liar Indonesia",
-      "acronym": "YKSLI",
-      "website": "https://yksli.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "habitat_protection",
-        "research"
-      ],
-      "description": "Indonesian Wildlife Conservation Foundation working on species conservation in Sumatra."
-    },
-    {
       "name": "Yayasan Leuser International",
       "acronym": "YLI",
       "website": "https://yakarim.org",
@@ -1028,37 +823,6 @@
         "habitat_protection"
       ],
       "description": "Foundation supporting conservation of the Leuser Ecosystem."
-    },
-    {
-      "name": "Yayasan Orangutan Indonesia",
-      "acronym": "Yayorin",
-      "website": "https://yayorin.org",
-      "region": [
-        "Borneo"
-      ],
-      "species": [
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "habitat_protection",
-        "research"
-      ],
-      "description": "Central Kalimantan NGO (Yayasan Orangutan Indonesia) running community-based forest and orangutan conservation programmes."
-    },
-    {
-      "name": "Yayasan Palapa",
-      "acronym": "Yayasan Palapa",
-      "website": "https://yayasanpalapa.org",
-      "region": [
-        "Sumatra"
-      ],
-      "species": [
-        "Pongo abelii"
-      ],
-      "focus": [
-        "habitat_protection"
-      ],
-      "description": "Environmental protection and nature conservation foundation (Yayasan Perlindungan Lingkungan Hidup dan Pelestarian Alam) active in Sumatra."
     },
     {
       "name": "Yayasan Swara Owa",
@@ -1077,40 +841,6 @@
         "research"
       ],
       "description": "Indonesian NGO based in Java best known for gibbon conservation and primate-trade monitoring; also engages in wildlife-crime deterrence work relevant to the illegal orangutan trade."
-    },
-    {
-      "name": "Yayasan TITIAN",
-      "acronym": "TITIAN",
-      "website": "https://titian.or.id",
-      "region": [
-        "Borneo"
-      ],
-      "species": [
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "habitat_protection",
-        "research"
-      ],
-      "description": "West Kalimantan NGO (Ketapang) working on peat-swamp forest and orangutan-habitat conservation, closely partnered with local rescue and rehabilitation efforts."
-    },
-    {
-      "name": "Yayasan Ulos Heritage Indonesia",
-      "acronym": "SCORPION",
-      "website": "https://scorpionfoundation.org",
-      "region": [
-        "Sumatra",
-        "Borneo"
-      ],
-      "species": [
-        "Pongo abelii",
-        "Pongo pygmaeus"
-      ],
-      "focus": [
-        "anti_wildlife_crime",
-        "wildlife_trade_monitoring"
-      ],
-      "description": "Indonesian NGO focused on wildlife-trafficking investigation and intelligence-gathering to support law enforcement against the illegal wildlife trade, including orangutans."
     }
   ]
 }
