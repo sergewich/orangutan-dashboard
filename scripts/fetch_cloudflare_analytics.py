@@ -2,7 +2,8 @@
 """
 fetch_cloudflare_analytics.py — read visits/page views from Cloudflare Web
 Analytics (the free RUM beacon embedded in every site/*.html page) via
-Cloudflare's GraphQL Analytics API, and print a totals + by-country summary.
+Cloudflare's GraphQL Analytics API, and print a totals + breakdown summary
+(by country, page path, referrer, device type, browser, or OS).
 
 LOCAL ONLY, not deployed and not wired into any GitHub Actions workflow —
 this is an operator tool for checking site traffic, not part of the public
@@ -12,8 +13,8 @@ This site isn't a Cloudflare-proxied zone (it's plain GitHub Pages with just
 the JS beacon snippet added), so its Web Analytics data is keyed by a
 `siteTag` under the account, not a zone. The relevant GraphQL field is
 `viewer.accounts(filter: {accountTag}).rumPageloadEventsAdaptiveGroups`,
-grouped by `dimensions { countryName, date }` with a `bot: 0` filter to match
-the dashboard's default "Exclude bots" view. This isn't documented clearly
+grouped by whichever `dimensions` field --by selects, with a `bot: 0` filter
+to match the dashboard's default "Exclude bots" view. This isn't documented clearly
 on Cloudflare's public docs pages as of writing — found via GraphQL schema
 introspection (see git history / ask for the probe script if this ever
 breaks and needs rediscovering).
@@ -28,10 +29,23 @@ Reads CF_API_TOKEN, CF_ACCOUNT_ID, CF_SITE_TAG from the environment or a
     URL, as `siteTag=~in=<value>` on the Web Analytics overview page).
 
 Usage:
-    python scripts/fetch_cloudflare_analytics.py                # last 30 days
+    python scripts/fetch_cloudflare_analytics.py                # last 30 days, by country
     python scripts/fetch_cloudflare_analytics.py --days 7
     python scripts/fetch_cloudflare_analytics.py --start-date 2026-09-01 --end-date 2026-09-30
     python scripts/fetch_cloudflare_analytics.py --include-bots
+    python scripts/fetch_cloudflare_analytics.py --by path       # which pages get visited
+    python scripts/fetch_cloudflare_analytics.py --by referer    # what's sending traffic
+    python scripts/fetch_cloudflare_analytics.py --by device     # mobile/desktop/tablet
+    python scripts/fetch_cloudflare_analytics.py --by browser
+    python scripts/fetch_cloudflare_analytics.py --by os
+    python scripts/fetch_cloudflare_analytics.py --by path --top 5
+
+This only covers the visits/page-views dataset (rumPageloadEventsAdaptiveGroups).
+Cloudflare also exposes real-user page-load timing (rumPerformanceEventsAdaptiveGroups:
+DNS/TLS/connection time, first paint, full load time, as averages and percentiles) and
+Core Web Vitals pass/fail counts (rumWebVitalsEventsAdaptiveGroups: CLS/FCP/INP/TTFB) —
+not implemented here since they're a different shape (timing distributions, not simple
+counts), but available via the same account/siteTag pattern if ever needed.
 """
 
 from __future__ import annotations
@@ -52,22 +66,32 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 API_URL = "https://api.cloudflare.com/client/v4/graphql"
 
-QUERY = """
-query ($accountTag: string, $siteTag: string, $start: Date, $end: Date, $filter: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) {
-  viewer {
-    accounts(filter: {accountTag: $accountTag}) {
+# --by <key> -> (GraphQL dimension field, display label)
+BREAKDOWNS = {
+    "country": ("countryName", "country"),
+    "path": ("requestPath", "page path"),
+    "referer": ("refererHost", "referrer"),
+    "device": ("deviceType", "device type"),
+    "browser": ("userAgentBrowser", "browser"),
+    "os": ("userAgentOS", "OS"),
+}
+
+QUERY_TEMPLATE = """
+query ($accountTag: string, $siteTag: string, $start: Date, $end: Date, $filter: AccountRumPageloadEventsAdaptiveGroupsFilter_InputObject) {{
+  viewer {{
+    accounts(filter: {{accountTag: $accountTag}}) {{
       rumPageloadEventsAdaptiveGroups(
         filter: $filter
         limit: 10000
         orderBy: [date_ASC]
-      ) {
+      ) {{
         count
-        sum { visits }
-        dimensions { countryName date }
-      }
-    }
-  }
-}
+        sum {{ visits }}
+        dimensions {{ {dimension_field} date }}
+      }}
+    }}
+  }}
+}}
 """
 
 
@@ -101,12 +125,14 @@ def get_credentials() -> tuple[str, str, str]:
     return token, account_id, site_tag
 
 
-def fetch_rows(token: str, account_id: str, site_tag: str, start: str, end: str, include_bots: bool) -> list[dict]:
+def fetch_rows(token: str, account_id: str, site_tag: str, start: str, end: str,
+                include_bots: bool, dimension_field: str) -> list[dict]:
     filt = {"siteTag": site_tag, "date_geq": start, "date_leq": end}
     if not include_bots:
         filt["bot"] = 0
+    query = QUERY_TEMPLATE.format(dimension_field=dimension_field)
     body = {
-        "query": QUERY,
+        "query": query,
         "variables": {"accountTag": account_id, "siteTag": site_tag, "start": start, "end": end, "filter": filt},
     }
     headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
@@ -132,6 +158,10 @@ def main() -> None:
     parser.add_argument("--start-date", help="Inclusive YYYY-MM-DD. Default: --days ago.")
     parser.add_argument("--end-date", default=dt.date.today().isoformat(), help="Inclusive YYYY-MM-DD (default: today).")
     parser.add_argument("--include-bots", action="store_true", help="Include bot traffic (dashboard default is to exclude it).")
+    parser.add_argument("--by", choices=sorted(BREAKDOWNS), default="country",
+                        help="Dimension to break the summary down by (default: country).")
+    parser.add_argument("--top", type=int, default=None,
+                        help="Only show the top N rows by visits (default: show all).")
     parser.add_argument("--json", action="store_true", help="Print raw per-row JSON instead of the summary.")
     args = parser.parse_args()
 
@@ -141,7 +171,8 @@ def main() -> None:
     end = dt.date.fromisoformat(args.end_date)
     start = dt.date.fromisoformat(args.start_date) if args.start_date else end - dt.timedelta(days=args.days)
 
-    rows = fetch_rows(token, account_id, site_tag, start.isoformat(), end.isoformat(), args.include_bots)
+    dimension_field, label = BREAKDOWNS[args.by]
+    rows = fetch_rows(token, account_id, site_tag, start.isoformat(), end.isoformat(), args.include_bots, dimension_field)
 
     if args.json:
         print(json.dumps(rows, indent=2))
@@ -164,16 +195,20 @@ def main() -> None:
     print(f"Total visits: {total_visits}")
     print(f"Total page views: {total_views}")
 
-    by_country: dict[str, dict[str, int]] = {}
+    grouped: dict[str, dict[str, int]] = {}
     for r in rows:
-        country = r["dimensions"]["countryName"] or "unknown"
-        bucket = by_country.setdefault(country, {"visits": 0, "views": 0})
+        key = r["dimensions"].get(dimension_field) or "(none)"
+        bucket = grouped.setdefault(key, {"visits": 0, "views": 0})
         bucket["visits"] += r["sum"]["visits"]
         bucket["views"] += r["count"]
 
-    print("\nBy country:")
-    for country, counts in sorted(by_country.items(), key=lambda kv: -kv[1]["visits"]):
-        print(f"  {country}: visits={counts['visits']}, page views={counts['views']}")
+    ranked = sorted(grouped.items(), key=lambda kv: -kv[1]["visits"])
+    if args.top:
+        ranked = ranked[: args.top]
+
+    print(f"\nBy {label}:")
+    for key, counts in ranked:
+        print(f"  {key}: visits={counts['visits']}, page views={counts['views']}")
 
 
 if __name__ == "__main__":
