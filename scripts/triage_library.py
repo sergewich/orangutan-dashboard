@@ -253,15 +253,19 @@ def main() -> None:
     print(f"Looking up {len(dois)} DOIs in OpenAlex ({(len(dois) + 49) // 50} requests)")
     oa = openalex_by_doi(dois, session)
 
+    used_names: set[str] = set()
     for path, info in infos:
         row = decide(info, index, oa)
         rows.append(row)
         if row["decision"] == "upload" and not args.dry_run:
             dest = out / path.name
             k = 1
-            while dest.exists():  # same file name from different subfolders
+            # Same name from different subfolders; Windows folders ignore case,
+            # so compare case-insensitively or one copy silently overwrites another.
+            while dest.exists() or dest.name.lower() in used_names:
                 dest = out / f"{path.stem}_{k}{path.suffix}"
                 k += 1
+            used_names.add(dest.name.lower())
             shutil.copy2(path, dest)
 
     report = out / "triage_report.csv"
