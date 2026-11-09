@@ -240,7 +240,16 @@ main.landing .cta {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--border);
 }
+/* `display:flex` above beats the browser's own [hidden] rule — without this
+   the panel can't be closed. */
+.assistant-panel[hidden], .assistant-toggle[hidden] { display: none; }
 .assistant-head h2 { margin: 0; font-size: 0.95rem; color: var(--accent); }
+.assistant-head-btns { display: flex; align-items: center; gap: 0.35rem; }
+.assistant-reset {
+  background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px;
+  font: inherit; font-size: 0.72rem; padding: 0.2rem 0.5rem; cursor: pointer;
+}
+.assistant-reset:hover { color: var(--text); border-color: var(--accent); }
 .assistant-close {
   background: none; border: 0; color: var(--muted); font-size: 1.3rem; line-height: 1;
   cursor: pointer; padding: 0 0.2rem;
@@ -254,9 +263,23 @@ main.landing .cta {
 .assistant-msg { max-width: 92%; }
 .assistant-msg.user { align-self: flex-end; }
 .assistant-bubble {
-  padding: 0.5rem 0.7rem; border-radius: 10px; line-height: 1.45; white-space: pre-wrap;
+  padding: 0.5rem 0.7rem; border-radius: 10px; line-height: 1.45;
   overflow-wrap: anywhere;
 }
+.assistant-msg.user .assistant-bubble, .assistant-msg.loading-msg .assistant-bubble,
+.assistant-msg.error .assistant-bubble { white-space: pre-wrap; }
+.assistant-bubble p { margin: 0 0 0.5rem; }
+.assistant-bubble p:last-child, .assistant-bubble ul:last-child, .assistant-bubble ol:last-child { margin-bottom: 0; }
+.assistant-bubble ul, .assistant-bubble ol { margin: 0.2rem 0 0.5rem; padding-left: 1.2rem; }
+.assistant-bubble li { margin: 0.15rem 0; }
+.assistant-bubble h4 { margin: 0.4rem 0 0.25rem; font-size: 0.88rem; }
+.assistant-welcome p { margin: 0 0 0.5rem; color: var(--muted); }
+.assistant-example {
+  display: block; width: 100%; text-align: left; margin: 0 0 0.4rem;
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.45rem 0.6rem; font: inherit; font-size: 0.82rem; cursor: pointer;
+}
+.assistant-example:hover { border-color: var(--accent); }
 .assistant-msg.user .assistant-bubble { background: var(--accent); color: #1a1207; }
 .assistant-msg.bot .assistant-bubble { background: var(--panel-2); border: 1px solid var(--border); }
 .assistant-msg.loading-msg .assistant-bubble { color: var(--muted); font-style: italic; }
@@ -266,7 +289,13 @@ main.landing .cta {
 .assistant-sources { margin-top: 0.35rem; padding: 0 0.2rem; }
 .assistant-sources-head {
   font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted);
+  cursor: pointer;
 }
+.assistant-badge {
+  display: inline-block; font-size: 0.65rem; padding: 0 0.35rem; border-radius: 4px;
+  border: 1px solid var(--border); color: var(--muted); vertical-align: 1px;
+}
+.assistant-badge.fulltext { border-color: #4f7a52; color: #9fd3a3; }
 .assistant-sources ol { margin: 0.2rem 0 0; padding-left: 1.4rem; }
 .assistant-sources li { margin: 0.25rem 0; color: var(--muted); }
 .assistant-sources a { color: var(--text); text-decoration: none; }

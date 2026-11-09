@@ -9,9 +9,12 @@ Why this step exists: data/literature/literature.json is metadata only (title,
 authors, year, url). A title alone is too little to answer questions from, so
 this script fetches the real text that can legally be indexed for each record:
 
-  - journal             -> abstract from OpenAlex (rebuilt from
-                           abstract_inverted_index). Full text is NOT fetched:
-                           many "open access" PDFs aren't licensed for reuse.
+  - the whole orangutan literature in OpenAlex (~6,300 works, all years),
+    abstracts filled from Europe PMC / Semantic Scholar where OpenAlex has
+    none, plus full text of Creative Commons papers in Europe PMC — see
+    rag_sources.py. Other full text is NOT fetched: many "open access" PDFs
+    aren't licensed for reuse.
+  - journal (literature.json entries the harvest missed) -> OpenAlex abstract
   - book                -> Open Library work description, where one exists
   - historic_newspaper  -> article OCR text from the KB/Delpher resolver
                            (pre-1950 Dutch newspapers, public domain)
@@ -87,6 +90,16 @@ SPECIES_KEYWORDS = {
 }
 
 MIN_TEXT_CHARS = 200     # below this a passage is too thin to ground an answer
+MAX_FULLTEXT_CHUNKS = 30  # per paper; long genomics papers otherwise swamp the index
+MAX_METHODS_CHUNKS = 3    # per paper; methods are bulky and rarely what people ask about
+# Full-text sections with no content worth answering from. Dropping them
+# (and capping methods) keeps the index inside Vectorize's free 5M stored
+# dimensions with room left for the PDF library.
+BOILERPLATE_SECTION = re.compile(
+    r"acknowledg|author.{0,3}contribution|contributor information|funding|competing interest|"
+    r"conflicts? of interest|data availability|availability of data|supplementary|supporting information|"
+    r"associated data|footnotes|ethics (statement|approval)|abbreviations|declaration", re.I)
+METHODS_SECTION = re.compile(r"method", re.I)
 CHUNK_CHARS = 2400       # ~600 tokens; most abstracts fit in one chunk
 CHUNK_OVERLAP = 400      # ~100 tokens
 
@@ -280,6 +293,80 @@ def dashboard_passages() -> list[dict]:
     return out
 
 
+def source_key(doi: str | None, fallback: str) -> str:
+    return f"doi:{doi}" if doi else fallback
+
+
+def short_id(key: str) -> str:
+    return hashlib.sha1(key.encode()).hexdigest()[:16]
+
+
+def harvested_passages(session) -> tuple[list[dict], set[str]]:
+    """Passages from the OpenAlex harvest + Europe PMC full text. Also returns
+    the normalised titles/DOIs covered, so literature.json entries already
+    harvested aren't looked up again."""
+    from rag_sources import europepmc_fulltext, fill_missing_abstracts, harvest_openalex
+
+    works = harvest_openalex(session, CACHE_DIR)
+    fill_missing_abstracts(works, session, CACHE_DIR)
+    fulltexts = europepmc_fulltext(session, CACHE_DIR)
+
+    out, covered = [], set()
+    for w in works:
+        covered.add(norm_title(w["title"]))
+        if w["doi"]:
+            covered.add(w["doi"])
+        text = clean_text(w["abstract"])
+        if len(text) < MIN_TEXT_CHARS and not w["abstract_source"].endswith("(auto-summary)"):
+            continue
+        if len(text) < 60:
+            continue
+        key = source_key(w["doi"], f"oa:{w['openalex']}")
+        tags = species_tags(f"{w['title']} {text}")
+        for n, chunk in enumerate(chunk_text(text)):
+            out.append({
+                "id": f"a-{short_id(key)}-{n}", "source": key, "kind": "abstract",
+                "abstract_source": w["abstract_source"],
+                "type": w["type"], "title": w["title"], "authors": w["authors"]
+                + (" et al." if w["n_authors"] > 4 else ""),
+                "year": w["year"], "venue": w["venue"], "url": w["url"],
+                "cites": w.get("cites", 0), "species": tags, "text": chunk,
+            })
+    n_abs = len(out)
+
+    oa_cites = {w["doi"]: w.get("cites", 0) for w in works if w["doi"]}
+    for f in fulltexts:
+        f["cites"] = max(f.get("cites", 0), oa_cites.get(f["doi"], 0))
+        key = source_key(f["doi"], f"pmc:{f['pmcid']}")
+        url = f"https://doi.org/{f['doi']}" if f["doi"] else f"https://europepmc.org/article/PMC/{f['pmcid']}"
+        whole = " ".join(t for _, t in f["sections"])
+        tags = species_tags(f"{f['title']} {whole[:20000]}")
+        chunks, n_methods = [], 0
+        for sec_title, sec_text in f["sections"]:
+            if BOILERPLATE_SECTION.search(sec_title or ""):
+                continue
+            is_methods = bool(METHODS_SECTION.search(sec_title or ""))
+            for c in chunk_text(clean_text(sec_text)):
+                if len(c) < MIN_TEXT_CHARS:
+                    continue
+                if is_methods:
+                    if n_methods >= MAX_METHODS_CHUNKS:
+                        continue
+                    n_methods += 1
+                chunks.append((sec_title, c))
+        for n, (sec_title, chunk) in enumerate(chunks[:MAX_FULLTEXT_CHUNKS]):
+            out.append({
+                "id": f"f-{short_id(key)}-{n}", "source": key, "kind": "fulltext",
+                "section": sec_title[:120], "licence": f["licence"],
+                "type": "journal", "title": f["title"], "authors": f["authors"],
+                "year": f["year"], "venue": f["venue"], "url": url,
+                "cites": f.get("cites", 0), "species": tags, "text": chunk,
+            })
+    print(f"  harvest: {n_abs} abstract passages from {len(works)} works, "
+          f"{len(out) - n_abs} full-text passages from {len(fulltexts)} papers")
+    return out, covered
+
+
 def library_passages(library: Path) -> list[dict]:
     """Passages from the catalogued PDF library (see catalog_library.py)."""
     from catalog_library import TEXT_CACHE  # same cache location the cataloguer wrote
@@ -314,6 +401,7 @@ def library_passages(library: Path) -> list[dict]:
             out.append({
                 "id": f"lib-{r['md5'][:16]}-{n}",
                 "source": f"lib-{r['md5'][:16]}",
+                "kind": "fulltext" if access == "full" else "abstract",
                 "type": r.get("doc_type") or "report",
                 "title": title,
                 "authors": r.get("authors") or None,
@@ -350,11 +438,18 @@ def main() -> None:
     session.headers["User-Agent"] = f"orangutan-dashboard/1.0 (mailto:{CONTACT_EMAIL})"
 
     passages, stats, exhausted = [], {}, set()
+    covered = set()
+    if not args.limit:
+        passages, covered = harvested_passages(session)
     try:
         for i, rec in enumerate(records, 1):
             kind = rec.get("type")
             if kind not in FETCHERS:
                 continue
+            doi = re.search(r"doi\.org/(10\.\S+)", rec["url"])
+            if kind == "journal" and (norm_title(rec["title"]) in covered
+                                      or (doi and doi.group(1).lower() in covered)):
+                continue  # already in the harvest
             cache_name, fetch = FETCHERS[kind]
             cache = caches[cache_name]
             if rec["url"] not in cache:
@@ -383,6 +478,7 @@ def main() -> None:
                 passages.append({
                     "id": f"lit-{record_id(rec['url'])}-{n}",
                     "source": f"lit-{record_id(rec['url'])}",
+                    "kind": "abstract" if kind == "journal" else "text",
                     "type": kind,
                     "title": rec["title"],
                     "authors": rec.get("authors"),
@@ -403,11 +499,22 @@ def main() -> None:
         before = len(passages)
         passages = [p for p in passages
                     if norm_title(p["title"]) not in lib_keys and p["url"].lower() not in lib_keys]
+        for p in lib:  # library passages carry kind full/abstract from the catalogue
+            p.setdefault("kind", "text")
         if before - len(passages):
             print(f"  dropped {before - len(passages)} literature.json passages duplicated in the library")
         passages += lib
 
     passages += dashboard_passages()
+
+    # OpenAlex sometimes lists one paper twice (same DOI -> same ids); keep the
+    # first, or the duplicates would look "changed" to ingest on every run.
+    seen, unique = set(), []
+    for p in passages:
+        if p["id"] not in seen:
+            seen.add(p["id"])
+            unique.append(p)
+    passages = unique
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / "corpus.jsonl"

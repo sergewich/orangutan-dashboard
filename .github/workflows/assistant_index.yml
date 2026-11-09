@@ -82,8 +82,12 @@ jobs:
           if [ -n "$DRIVE_FOLDER_ID" ]; then export LIBRARY_DIR="$LIBRARY_WORKDIR"; fi
           python3 scripts/build_rag_corpus.py
 
+      # Workers Free allows ~10,000 AI "neurons" a day, shared with the
+      # chatbot's answers. 4,000 passages is ~2,800 neurons, so a big batch
+      # of new text (e.g. the first full-text load) spreads over a few nights
+      # instead of starving the chatbot. Abstracts go first.
       - name: Update Vectorize index
-        run: python3 scripts/ingest_rag.py
+        run: python3 scripts/ingest_rag.py --max-passages 4000
 
       - name: Save caches
         if: always()

@@ -137,17 +137,37 @@ Nightly `.github/workflows/assistant_index.yml`:
 folder + the catalogue Google Sheet) → `catalog_library.py` (per file:
 `full` if the published version is openly licensed / PDF carries a CC
 statement, else `abstract`; OCR for scans; the Sheet's `override` column
-always wins) → `sync_drive_library.py push` → `build_rag_corpus.py`
-(library + literature.json abstracts/OCR + per-species alert summary) →
-`ingest_rag.py` (Workers AI `bge-m3` → Vectorize, incremental via the
-committed `rag_state/ingested.json`). The Worker answers only from retrieved
-passages, refuses below `MIN_SCORE` without calling the LLM, and returns
-sources from retrieval, never from model output. Retrieval keeps the top 4
-hits for the question as asked, then fills to 8 from 3 search queries a small
-model (`REWRITE_MODEL`) writes — vague questions like "how many are left?"
-otherwise miss the key paper (tested: Hadi et al. 2026 ranked 10th). A
-cross-encoder reranker (`bge-reranker-base`) was tried and rejected: it
-dropped that paper and scores Dutch passages near zero.
+always wins) → `sync_drive_library.py push` → `build_rag_corpus.py` →
+`ingest_rag.py --max-passages 4000` into Vectorize index `orangutan-lit-v2`.
+
+Corpus (`build_rag_corpus.py` + `rag_sources.py`, ~16k passages): every
+orangutan work in OpenAlex (~6,300, all years; abstracts filled from Europe
+PMC, else Semantic Scholar TLDRs), full text of the ~500 CC-licensed papers
+in Europe PMC (boilerplate sections dropped, methods capped), Delpher
+newspapers, Open Library descriptions, per-species alert summaries, and the
+PDF library.
+
+Embeddings: `qwen3-embedding-0.6b` truncated to 256 dims ("qwen3-256"
+profile) — beat bge-m3 at 1024 dims on `scripts/eval_assistant.py` (14/15 vs
+13/15) and is what fits the corpus in Vectorize's free 5M stored dimensions
+(~19k passages; currently ~4.1M used). Ingest is incremental with separate
+embed/metadata fingerprints (`rag_state/<index>.json`), so metadata-only
+changes (e.g. citation counts) cost no AI allowance.
+
+Worker (`worker/`): question → vector search (raw-score cut-off
+`MIN_SCORE` 0.60; below it, refuse with no LLM call) → 3 rewritten queries
+(llama-3.1-8b) → merge, re-rank with a citations-per-year prior → 12
+passages → answer model (`CHAT_MODEL`, Llama 3.3 70B) with a fallback when
+output looks broken. Sources come from retrieval, never from model output.
+`TESTING="1"` lets `eval_assistant.py answers --model/--debug` compare models
+on the live pipeline — keep it `"0"` when public.
+
+**Workers Free limits shape all of this**: ~10k AI neurons/day shared by
+nightly embedding and answers (~95 neurons per answer with Llama 3.3);
+DeepSeek V4 / Kimi K2.6 / GLM 5.3 are Paid-plan only. Tested and rejected on
+Free: gpt-oss-120b (leaked reasoning, looped, summed figures across studies),
+Gemma 4 (refused answerable questions), `bge-reranker-base` (dropped key
+papers, near-zero scores on Dutch).
 
 Rules when extending it:
 - **Never index anything under `data/social/`**, not even approved
@@ -158,8 +178,11 @@ Rules when extending it:
   in Drive and the Actions cache (`data/rag/` is gitignored).
 - Full text only with an open licence on the published version; "free to
   read" (bronze OA) is abstract-only. Don't loosen this without the owner.
-- The embedding model in `scripts/ingest_rag.py` and `worker/wrangler.toml`
-  must match; changing it needs `ingest_rag.py --rebuild`.
+- The embedding profile in `scripts/ingest_rag.py` (`EMBEDDERS`) and
+  `worker/wrangler.toml` (`EMBED_MODEL`/`EMBED_DIMS`/`QUERY_PREFIX`) must
+  match; changing it needs a new index + `ingest_rag.py --rebuild`.
+- Before changing retrieval or the prompt, run `scripts/eval_assistant.py`
+  (retrieval mode is nearly free; answers mode spends neurons).
 - The widget renders model output as text nodes only, never `innerHTML`.
 - It's framed as a literature summariser, not a decision-maker — keep the
   system prompt's "inform, don't decide" and "no accusations against named

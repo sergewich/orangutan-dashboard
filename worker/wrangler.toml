@@ -11,7 +11,7 @@ binding = "AI"
 
 [[vectorize]]
 binding = "VECTORIZE"
-index_name = "orangutan-literature"
+index_name = "orangutan-lit-v2"
 
 # Per-IP limit. Doesn't replace the Workers AI daily cap — see README.
 [[ratelimits]]
@@ -25,9 +25,26 @@ namespace_id = "1001"
 # Comma-separated. Localhost entries let the widget work under
 # `python3 -m http.server 8000` and the .claude/launch.json server on 8123.
 ALLOWED_ORIGINS = "https://sergewich.github.io,http://localhost:8000,http://localhost:8123"
-# Must match EMBED_MODEL in scripts/ingest_rag.py.
-EMBED_MODEL = "@cf/baai/bge-m3"
+# Embedding profile — must match the profile scripts/ingest_rag.py used for
+# the index above (EMBEDDERS["qwen3-256"]): model, stored dims, query prefix.
+EMBED_MODEL = "@cf/qwen/qwen3-embedding-0.6b"
+EMBED_DIMS = "256"
+QUERY_PREFIX = """Instruct: Given a question, retrieve passages from orangutan research literature that answer it
+Query: """
+# Answer model. Compared on Workers Free with scripts/eval_assistant.py:
+# Llama 3.3 70B is the most reliable there. gpt-oss-120b wrote richer
+# answers but derailed (leaked its reasoning, looped on one word) and summed
+# figures across studies; Gemma 4 refused answerable questions. Stronger
+# models (DeepSeek V4, Kimi K2.6, GLM 5.3) need the Workers Paid plan.
 CHAT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
-# Passages scoring below this cosine similarity are ignored. Tune after the
-# first real ingest by checking scores for on- and off-topic questions.
-MIN_SCORE = "0.45"
+# Used when an answer looks broken (see looksBroken in src/index.js).
+FALLBACK_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# Passages scoring below this cosine similarity are ignored (and if none
+# pass, the question is refused without an LLM call). Calibrated per
+# embedding model with scripts/eval_assistant.py.
+MIN_SCORE = "0.60"
+# Ranking boost per factor of 10 in citations per year (OpenAlex counts). 0 disables.
+CITE_WEIGHT = "0.04"
+# "1" lets test requests choose the model and see retrieval details
+# (scripts/eval_assistant.py). Must be "0" before the widget goes public.
+TESTING = "0"

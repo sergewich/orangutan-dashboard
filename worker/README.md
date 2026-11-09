@@ -6,9 +6,9 @@ Worker, and indexing runs as a nightly GitHub Action, so nothing depends on a
 local computer being on.
 
 ```
-Google Drive folder (your PDFs) ─┐
-literature.json (Literature tab) ├─ nightly GitHub Action ─▶ Vectorize index
-alert summaries (Map tab)       ─┘   (assistant_index.yml)        │
+OpenAlex (~6,300 works) + Europe PMC ─┐
+Google Drive folder (your PDFs)       ├─ nightly GitHub Action ─▶ Vectorize index
+newspapers, books, alert summaries   ─┘   (assistant_index.yml)    │
                                                                    ▼
 browser widget ──POST /api/chat──▶ Cloudflare Worker: embed question → top passages → LLM → answer + sources
 ```
@@ -57,7 +57,7 @@ and the Worker returns only the answer plus title, authors, year and link.
 ```
 cd worker
 npx wrangler login
-npx wrangler vectorize create orangutan-literature --dimensions=1024 --metric=cosine
+npx wrangler vectorize create orangutan-lit-v2 --dimensions=256 --metric=cosine
 npx wrangler deploy
 ```
 `deploy` prints a URL such as `https://orangutan-assistant.<subdomain>.workers.dev`.
@@ -133,11 +133,36 @@ ones get answers, adjust `MIN_SCORE` in `wrangler.toml` and redeploy.
   the index. Lookup caches and extracted text live in the Actions cache, never
   in the public repo. If GitHub evicts the cache, the next run re-fetches.
 
+## What it knows
+
+- **Every orangutan work in OpenAlex** (~6,300, all years): abstracts, with
+  gaps filled from Europe PMC, then Semantic Scholar's one-line summaries.
+- **Full text of ~500 Creative Commons papers** from Europe PMC.
+- Historic Dutch newspapers, Open Library book descriptions, the map's
+  alert summaries, and your PDF library.
+
+Full text loads over the first few nights (4,000 passages per night) so it
+doesn't use up the day's free AI allowance.
+
+## Testing changes
+
+`scripts/eval_assistant.py` holds 15 questions with known answer papers:
+```
+python3 scripts/eval_assistant.py retrieval          # does search find the right paper? (almost free)
+python3 scripts/eval_assistant.py answers            # ask the live chatbot every question
+```
+Set `TESTING = "1"` in `wrangler.toml` (and redeploy) to compare answer
+models with `answers --model <id> --debug`; set it back to `"0"` afterwards.
+
 ## Cost and abuse
 
-- On the Workers **Free** plan, Workers AI has a daily free allocation and
-  stops serving when it runs out (users see "unavailable"), so there is no
-  surprise bill. On **Paid**, overage is billed; set a budget alert.
+- On the Workers **Free** plan, Workers AI allows ~10,000 "neurons" a day and
+  stops serving when they run out (users see "reached today's usage limit"),
+  so there is no surprise bill. An answer costs ~95 neurons (Llama 3.3 70B),
+  so ~70–100 questions a day once the nightly job has taken its share.
+- The **Workers Paid** plan ($5/month) raises this to pay-as-you-go
+  (~$0.003 per answer) and unlocks much stronger answer models (DeepSeek V4,
+  Kimi K2.6, GLM 5.3) — change `CHAT_MODEL` and redeploy. On **Paid**, overage is billed; set a budget alert.
   Vectorize's free tier caps total stored vectors. A few hundred full-text
   PDFs can exceed it, in which case ingest fails with a quota error and the
   Paid plan (low cost at this scale) is needed. Check current limits in the
