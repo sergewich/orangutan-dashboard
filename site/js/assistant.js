@@ -10,7 +10,8 @@
  * untrusted.
  */
 (function () {
-  const ASSISTANT_ENDPOINT = ""; // e.g. "https://orangutan-assistant.<subdomain>.workers.dev/api/chat"
+  // Set to "" to hide the widget everywhere (e.g. to switch it off quickly).
+  const ASSISTANT_ENDPOINT = "https://orangutan-assistant.orangutan-dashboard.workers.dev/api/chat";
   if (!ASSISTANT_ENDPOINT) return;
 
   const TYPE_LABELS = {

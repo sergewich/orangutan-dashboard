@@ -127,6 +127,22 @@ def save_cache(name: str, data: dict) -> None:
 # Text fetchers. Each returns text or None; None is cached too ("" sentinel)
 # so a record with no abstract isn't re-requested every month.
 # --------------------------------------------------------------------------- #
+def openalex_request(session, params: dict):
+    """GET /works, waiting out OpenAlex's short-term rate limit (429 with
+    budget left) and only giving up when the daily budget is really gone."""
+    for attempt in range(5):
+        resp = session.get("https://api.openalex.org/works", params=params, timeout=30)
+        if resp.status_code != 429:
+            resp.raise_for_status()
+            return resp
+        remaining = resp.headers.get("X-RateLimit-Remaining-USD")
+        if remaining is not None and float(remaining) <= 0:
+            break
+        time.sleep(float(resp.headers.get("Retry-After") or 2 ** attempt))
+    raise RuntimeError("OpenAlex daily budget used up (or still rate-limited) — set OPENALEX_API_KEY "
+                       "in .env, or re-run tomorrow; finished lookups are cached")
+
+
 def openalex_abstract(rec: dict, session: requests.Session) -> str | None:
     params = {
         "per-page": 5,
@@ -141,10 +157,7 @@ def openalex_abstract(rec: dict, session: requests.Session) -> str | None:
     else:
         # Filter values can't contain , : | — strip punctuation before searching.
         params["filter"] = f"title.search:{norm_title(rec['title'])[:250]}"
-    resp = session.get("https://api.openalex.org/works", params=params, timeout=30)
-    if resp.status_code == 429:
-        raise RuntimeError("OpenAlex rate limit/budget hit — set OPENALEX_API_KEY in .env and re-run")
-    resp.raise_for_status()
+    resp = openalex_request(session, params)
     want = norm_title(rec["title"])
     for w in resp.json().get("results", []):
         if doi or norm_title(w.get("title")) == want:
@@ -336,7 +349,7 @@ def main() -> None:
     session = requests.Session()
     session.headers["User-Agent"] = f"orangutan-dashboard/1.0 (mailto:{CONTACT_EMAIL})"
 
-    passages, stats = [], {}
+    passages, stats, exhausted = [], {}, set()
     try:
         for i, rec in enumerate(records, 1):
             kind = rec.get("type")
@@ -345,11 +358,17 @@ def main() -> None:
             cache_name, fetch = FETCHERS[kind]
             cache = caches[cache_name]
             if rec["url"] not in cache:
+                if kind in exhausted:
+                    continue
                 try:
                     cache[rec["url"]] = fetch(rec, session) or ""
                 except (requests.RequestException, ET.ParseError, ValueError) as exc:
                     print(f"  WARNING: {kind} lookup failed for {rec['url']}: {exc}", file=sys.stderr)
                     continue  # not cached — retried next run
+                except RuntimeError as exc:  # rate limit/budget: skip this source, keep the others
+                    print(f"  WARNING: {exc} — skipping remaining {kind} lookups this run", file=sys.stderr)
+                    exhausted.add(kind)
+                    continue
                 time.sleep(0.15)
                 if i % 50 == 0:
                     print(f"  ...{i}/{len(records)} records")

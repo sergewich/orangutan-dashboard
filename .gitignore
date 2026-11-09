@@ -22,3 +22,6 @@ Thumbs.db
 # Literature Assistant corpus + lookup caches (rebuilt by scripts/build_rag_corpus.py;
 # holds third-party abstracts, so not committed). See worker/README.md.
 data/rag/
+
+# wrangler local state
+worker/.wrangler/

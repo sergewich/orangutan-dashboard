@@ -204,16 +204,29 @@ def full_text(pages: list[str]) -> str:
 # --------------------------------------------------------------------------- #
 # OpenAlex
 # --------------------------------------------------------------------------- #
+def openalex_request(session, params: dict):
+    """GET /works, waiting out OpenAlex's short-term rate limit (429 with
+    budget left) and only giving up when the daily budget is really gone."""
+    for attempt in range(5):
+        resp = session.get("https://api.openalex.org/works", params=params, timeout=30)
+        if resp.status_code != 429:
+            resp.raise_for_status()
+            return resp
+        remaining = resp.headers.get("X-RateLimit-Remaining-USD")
+        if remaining is not None and float(remaining) <= 0:
+            break
+        time.sleep(float(resp.headers.get("Retry-After") or 2 ** attempt))
+    raise RuntimeError("OpenAlex daily budget used up (or still rate-limited) — set OPENALEX_API_KEY "
+                       "in .env, or re-run tomorrow; finished lookups are cached")
+
+
 def openalex_get(session: requests.Session, **params) -> list[dict]:
     params.update({"mailto": CONTACT_EMAIL, "per-page": params.get("per-page", 5),
                    "select": "id,doi,title,publication_year,type,authorships,"
                              "abstract_inverted_index,locations,best_oa_location,primary_location"})
     if os.environ.get("OPENALEX_API_KEY"):
         params["api_key"] = os.environ["OPENALEX_API_KEY"]
-    resp = session.get("https://api.openalex.org/works", params=params, timeout=30)
-    if resp.status_code == 429:
-        raise RuntimeError("OpenAlex rate limit/budget hit — set OPENALEX_API_KEY in .env and re-run")
-    resp.raise_for_status()
+    resp = openalex_request(session, params)
     time.sleep(0.15)
     return resp.json().get("results", [])
 
