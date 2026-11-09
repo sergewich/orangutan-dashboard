@@ -37,6 +37,10 @@ jobs:
       - name: Fetch literature
         id: fetch-literature
         continue-on-error: true
+        env:
+          # Required since OpenAlex stopped keyless cursor paging (the
+          # 2026-11-01 run shrank the list from 600 to 200 journal articles).
+          OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
         run: python3 scripts/fetch_literature.py
 
       - name: Fetch threats (oil palm / mining / hydro)

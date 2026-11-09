@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -74,6 +75,11 @@ def fetch_openalex(query: str, limit: int) -> list[dict]:
             "cursor": cursor,
             "mailto": CONTACT_EMAIL,
         }
+        # Since late 2026 OpenAlex refuses cursor paging (anything past the
+        # first 200 results) without a key — the 2026-11-01 run silently
+        # shrank the list from 600 to 200 journal articles that way.
+        if os.environ.get("OPENALEX_API_KEY"):
+            params["api_key"] = os.environ["OPENALEX_API_KEY"]
         try:
             resp = requests.get(url, params=params, timeout=30)
             resp.raise_for_status()
@@ -256,6 +262,15 @@ def fetch_historic_newspapers(query: str, limit: int, before_date: str) -> list[
 # --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
+def load_env() -> None:
+    env = REPO_ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            if "=" in line and not line.lstrip().startswith("#"):
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                       formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -268,6 +283,7 @@ def main() -> None:
                         help="Only include historic newspaper records dated before this "
                              "(default: 1949-12-27, Dutch recognition of Indonesian independence).")
     args = parser.parse_args()
+    load_env()
 
     print("Fetching journal articles from OpenAlex...")
     journals = fetch_openalex("orangutan", args.openalex_limit)
