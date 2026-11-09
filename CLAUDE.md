@@ -6,10 +6,12 @@ species (*Pongo abelii*, *P. pygmaeus*, *P. tapanuliensis*): range maps,
 near-real-time deforestation and fire alerts, literature, threat/company
 data, and social/news incident monitoring. No live backend — data is
 pre-processed into versioned GeoJSON/CSV files in `data/`, refreshed on a
-schedule (GitHub Actions, not yet wired up), and the frontend just loads
-them. Full design doc: `orangutan-dashboard-brief.md`.
+schedule via GitHub Actions, and the frontend just loads them. The site is
+deployed to GitHub Pages at https://sergewich.github.io/orangutan-dashboard/,
+rebuilt on every push to `master`. Full design doc:
+`orangutan-dashboard-brief.md`.
 
-## Current state of the repo (as of 2026-07-11)
+## Current state of the repo (as of 2026-08-25)
 
 ```
 Orangutan_dashboard/
@@ -18,9 +20,10 @@ Orangutan_dashboard/
   .env / .env.example          # GFW_API_KEY, FIRMS_API_KEY (gitignored, never commit .env)
   data/
     ranges/                    # pongo_abelii/pygmaeus/tapanuliensis.geojson (converted shapefiles)
-    deforestation/              # pongo_tapanuliensis_integrated_alerts.geojson + summary.csv
-                                 # (only Tapanuli pulled so far — Phase 1 test case)
-    fire/                       # pongo_tapanuliensis fire alerts (NASA FIRMS)
+    deforestation/               # pongo_{abelii,pygmaeus,tapanuliensis}_integrated_alerts.geojson
+                                  # + summary.csv, all three species, monthly GFW refresh
+    fire/                        # pongo_{abelii,pygmaeus,tapanuliensis} fire alerts (NASA
+                                  # FIRMS), all three species, daily refresh
     literature/                  # literature.json — 980 real records (books/journals/news/
                                   # historic Dutch newspapers), see Literature tab below
     social/                      # raw/articles.json (scraped), drafts.json (LLM-extracted,
@@ -69,14 +72,26 @@ Orangutan_dashboard/
     js/literature.js, js/social.js, js/review.js, js/threats.js
     tabs/map.html, literature.html, social.html, threats.html   # public, linked in nav
     tabs/review.html             # LOCAL ONLY — deliberately not linked from nav, see below
-  .github/workflows/             # empty — scheduled refresh workflows not yet created
+  .github/workflows/
+    daily_fire_refresh.yml       # daily: re-run fetch_fire.py for all three species
+    monthly_refresh.yml          # monthly (1st of month): fetch_deforestation.py +
+                                  # fetch_literature.py + fetch_threats.py, all species
+    weekly_social_scrape.yml     # weekly: re-run scrape_social.py (raw articles only —
+                                  # does NOT run extract_incidents.py or touch
+                                  # incidents.json; review is still a manual local step)
+    pages_deploy.yml             # on push to master: builds _site/ (index.html + site/ +
+                                  # data/, minus data/ranges/raw) and deploys to GitHub
+                                  # Pages via actions/deploy-pages
 ```
 
 All four tabs from the original brief are now built (Map, Literature, Social,
-Threats). Nothing structurally unbuilt remains, though every data pipeline
-(deforestation/fire/literature/social/threats) currently only covers a
-one-time manual fetch — none are wired into the GitHub Actions schedule the
-brief describes.
+Threats). Nothing structurally unbuilt remains, and every data pipeline
+(deforestation/fire/literature/social/threats) is now on a GitHub Actions
+schedule (see `.github/workflows/` above) — the only deliberate gap is
+`extract_incidents.py` + `review_server.py`, which stay manual/local-only
+since incident review must remain a human-in-the-loop step (see review
+policy below). The site also auto-deploys to GitHub Pages on every push to
+`master`.
 
 Geometry/geospatial logic lives in `convert_ranges.py` (shapefile → WGS84
 GeoJSON reprojection) and `fetch_deforestation.py`/`fetch_fire.py` (clipping
