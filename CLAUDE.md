@@ -123,6 +123,43 @@ Python process anyway, so this is structurally impossible, not just a
 convention — but don't accidentally document or link it as if it were
 public-facing).
 
+## Literature Assistant (RAG chatbot)
+
+A floating "Ask the literature" widget (`site/js/assistant.js`, on every
+public page except `review.html`) backed by a **standalone Cloudflare
+Worker** in `worker/`, deployed separately with wrangler (not part of the
+GitHub Pages deploy). **Everything runs online** — the owner wants it to work
+with their computer off, so don't add steps that need a local machine.
+Setup, licensing rules, and refresh: `worker/README.md`.
+
+Nightly `.github/workflows/assistant_index.yml`:
+`sync_drive_library.py pull` (new PDFs from the owner's Google Drive library
+folder + the catalogue Google Sheet) → `catalog_library.py` (per file:
+`full` if the published version is openly licensed / PDF carries a CC
+statement, else `abstract`; OCR for scans; the Sheet's `override` column
+always wins) → `sync_drive_library.py push` → `build_rag_corpus.py`
+(library + literature.json abstracts/OCR + per-species alert summary) →
+`ingest_rag.py` (Workers AI `bge-m3` → Vectorize, incremental via the
+committed `rag_state/ingested.json`). The Worker answers only from retrieved
+passages, refuses below `MIN_SCORE` without calling the LLM, and returns
+sources from retrieval, never from model output.
+
+Rules when extending it:
+- **Never index anything under `data/social/`**, not even approved
+  `incidents.json`: an LLM paraphrase of an incident is a new, unreviewed
+  claim about trade/killings (see review policy above).
+- **Never put library PDFs, extracted text, or abstracts in the repo** —
+  `data/` is published by the Pages deploy and the repo is public. They live
+  in Drive and the Actions cache (`data/rag/` is gitignored).
+- Full text only with an open licence on the published version; "free to
+  read" (bronze OA) is abstract-only. Don't loosen this without the owner.
+- The embedding model in `scripts/ingest_rag.py` and `worker/wrangler.toml`
+  must match; changing it needs `ingest_rag.py --rebuild`.
+- The widget renders model output as text nodes only, never `innerHTML`.
+- It's framed as a literature summariser, not a decision-maker — keep the
+  system prompt's "inform, don't decide" and "no accusations against named
+  companies unless a passage states it" rules.
+
 ## Build / test / run
 
 - No build step — `site/` is plain static HTML/CSS/JS.

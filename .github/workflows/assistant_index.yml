@@ -1,0 +1,107 @@
+name: Literature Assistant index refresh
+
+# Nightly: picks up new PDFs from the Google Drive library folder, decides
+# full-text vs abstract-only per file (catalog_library.py), writes the
+# decisions back to the catalogue Google Sheet, rebuilds the corpus (library
+# + literature.json + alert summaries) and updates the Vectorize index.
+# Everything incremental — a quiet night costs a few API calls.
+# Setup: worker/README.md.
+
+on:
+  schedule:
+    - cron: "30 2 * * *"  # 02:30 UTC nightly
+  workflow_dispatch:
+    inputs:
+      recheck:
+        description: "Redo automatic licence decisions for every library file (keeps overrides)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: assistant-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      OPENALEX_API_KEY: ${{ secrets.OPENALEX_API_KEY }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      CF_RAG_API_TOKEN: ${{ secrets.CF_RAG_API_TOKEN }}
+      GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+      DRIVE_FOLDER_ID: ${{ secrets.DRIVE_FOLDER_ID }}
+      CATALOG_SHEET_ID: ${{ secrets.CATALOG_SHEET_ID }}
+      LIBRARY_WORKDIR: /tmp/library  # outside the checkout; PDFs never touch the repo
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install requests pypdf google-auth
+          # OCR for scanned reports (English, Indonesian, Dutch)
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ocrmypdf tesseract-ocr-ind tesseract-ocr-nld
+
+      # Lookup caches + extracted library text. Not committed: it holds
+      # third-party abstracts and full text. If GitHub evicts it, the next run
+      # just re-fetches (slower, same result).
+      - name: Restore caches
+        uses: actions/cache/restore@v4
+        with:
+          path: data/rag/cache
+          key: rag-cache-${{ github.run_id }}
+          restore-keys: rag-cache-
+
+      # The library steps are skipped until the Drive secrets exist, so the
+      # literature-only index works before the Google setup is done.
+      - name: Pull new PDFs + catalogue from Google Drive
+        if: env.DRIVE_FOLDER_ID != ''
+        run: python3 scripts/sync_drive_library.py pull --workdir "$LIBRARY_WORKDIR"
+
+      - name: Decide full text vs abstract for new files
+        if: env.DRIVE_FOLDER_ID != ''
+        run: |
+          python3 scripts/catalog_library.py --library "$LIBRARY_WORKDIR" \
+            --remote-listing "$LIBRARY_WORKDIR/drive_files.json" \
+            ${{ inputs.recheck && '--recheck' || '' }}
+
+      - name: Write decisions back to the catalogue sheet
+        if: env.DRIVE_FOLDER_ID != ''
+        run: python3 scripts/sync_drive_library.py push --workdir "$LIBRARY_WORKDIR"
+
+      - name: Build corpus
+        run: |
+          if [ -n "$DRIVE_FOLDER_ID" ]; then export LIBRARY_DIR="$LIBRARY_WORKDIR"; fi
+          python3 scripts/build_rag_corpus.py
+
+      - name: Update Vectorize index
+        run: python3 scripts/ingest_rag.py
+
+      - name: Save caches
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/rag/cache
+          key: rag-cache-${{ github.run_id }}
+
+      - name: Commit index manifest
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add rag_state/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore: literature assistant index refresh ($(date -u +%Y-%m-%d))"
+            git pull --rebase
+            git push
+          fi

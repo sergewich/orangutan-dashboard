@@ -1,0 +1,33 @@
+# Literature Assistant backend — a standalone Cloudflare Worker.
+# GitHub Pages can't run server code, so this deploys separately from the
+# site (see worker/README.md). No secrets: Workers AI and Vectorize are
+# bindings, so there is no API key to leak.
+name = "orangutan-assistant"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[ai]
+binding = "AI"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "orangutan-literature"
+
+# Per-IP limit. Doesn't replace the Workers AI daily cap — see README.
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "1001"
+  [ratelimits.simple]
+  limit = 8
+  period = 60
+
+[vars]
+# Comma-separated. Localhost entries let the widget work under
+# `python3 -m http.server 8000` and the .claude/launch.json server on 8123.
+ALLOWED_ORIGINS = "https://sergewich.github.io,http://localhost:8000,http://localhost:8123"
+# Must match EMBED_MODEL in scripts/ingest_rag.py.
+EMBED_MODEL = "@cf/baai/bge-m3"
+CHAT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
+# Passages scoring below this cosine similarity are ignored. Tune after the
+# first real ingest by checking scores for on- and off-topic questions.
+MIN_SCORE = "0.45"
