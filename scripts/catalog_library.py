@@ -90,6 +90,14 @@ OPENALEX_TYPES = {"article": "journal", "review": "journal", "letter": "journal"
 DOI_RE = re.compile(r"\b(10\.\d{4,9}/[^\s\"<>]+)", re.I)
 CC_URL_RE = re.compile(r"creativecommons\.org/(licenses/(by(?:-nc)?(?:-sa|-nd)?)|publicdomain/zero)", re.I)
 CC_TEXT_RE = re.compile(r"\bCC[\s-]?(BY(?:[\s-]NC)?(?:[\s-](?:SA|ND))?)\b|Creative Commons Attribution", re.I)
+# Many NGO/IUCN reports aren't CC-licensed but say e.g. "Reproduction of this
+# publication for educational or other non-commercial purposes is authorised
+# without prior written permission ... provided the source is fully
+# acknowledged" — permission for exactly what this non-commercial, citing
+# site does.
+NONCOMMERCIAL_RE = re.compile(
+    r"(reproduction|reproduce)[^.]{0,120}non-?commercial[^.]{0,150}(authori[sz]ed|permitted|without prior)"
+    r"|only non-?commercial uses? of the work (is|are) permitted", re.I)
 THESIS_RE = re.compile(r"\b(thesis|dissertation|doctor of philosophy|ph\.?\s?d\b|master of science|"
                        r"submitted in (partial )?fulfil+ment|skripsi|disertasi|tesis)\b", re.I)
 ABSTRACT_HEAD_RE = re.compile(
@@ -163,13 +171,19 @@ def find_doi(text: str) -> str | None:
 
 
 def license_in_pdf(pages: list[str]) -> str | None:
-    text = "\n".join(pages[:2] + pages[-1:])
+    # Reports put the licence on the imprint page, often a few pages in.
+    text = "\n".join(pages[:6] + pages[-2:])
+    # Re-join words split across lines ("non-\ncommercial") and collapse
+    # whitespace, or statements laid out over several lines never match.
+    text = re.sub(r"\s+", " ", re.sub(r"-\s*\n\s*", "-", text))
     m = CC_URL_RE.search(text)
     if m:
         return f"cc-{m.group(2).lower()}" if m.group(2) else "cc0"
     m = CC_TEXT_RE.search(text)
     if m:
         return "cc-" + re.sub(r"[\s-]+", "-", m.group(1).lower()) if m.group(1) else "cc-by"
+    if NONCOMMERCIAL_RE.search(text):
+        return "non-commercial reproduction permitted"
     return None
 
 
@@ -313,7 +327,10 @@ def catalog_file(path: Path, md5: str, session) -> dict:
 
     head = "\n".join(pages[:3])
     doi = find_doi(head)
-    title_guess = meta["title"] if len(meta["title"]) > 15 else first_line_title(pages[0])
+    meta_title = meta["title"]
+    if re.match(r"(microsoft (word|powerpoint)|untitled)\b", meta_title, re.I) or re.search(r"\.(docx?|pdf|indd)$", meta_title, re.I):
+        meta_title = ""  # a leftover file name, not a title
+    title_guess = meta_title if len(meta_title) > 15 else first_line_title(pages[0])
     work = lookup_openalex(session, doi, title_guess, pages[0])
 
     abstract = None

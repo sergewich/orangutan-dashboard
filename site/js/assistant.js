@@ -13,6 +13,21 @@
   const ASSISTANT_ENDPOINT = "https://orangutan-assistant.orangutan-dashboard.workers.dev/api/chat";
   if (!ASSISTANT_ENDPOINT) return;
 
+  // Soft launch: on the public site the widget stays hidden unless a page is
+  // opened once with ?assistant=1 (remembered in this browser; ?assistant=0
+  // forgets it). Always shown on localhost. Set PUBLIC = true to go live.
+  const PUBLIC = false;
+  if (!PUBLIC && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
+    const flag = new URLSearchParams(location.search).get("assistant");
+    try {
+      if (flag === "1") localStorage.setItem("assistant-preview", "1");
+      if (flag === "0") localStorage.removeItem("assistant-preview");
+      if (localStorage.getItem("assistant-preview") !== "1") return;
+    } catch {
+      if (flag !== "1") return; // storage blocked: show only with the flag present
+    }
+  }
+
   const TYPE_LABELS = {
     journal: "Journal article",
     preprint: "Preprint",

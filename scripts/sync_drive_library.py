@@ -34,6 +34,7 @@ import argparse
 import csv
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -57,9 +58,15 @@ FOLDER_MIME = "application/vnd.google-apps.folder"
 
 
 def session() -> AuthorizedSession:
-    raw = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON")
+    raw = (os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON") or "").strip()
     if not raw:
-        sys.exit("Set GOOGLE_SERVICE_ACCOUNT_JSON (the service account's JSON key text).")
+        sys.exit("Set GOOGLE_SERVICE_ACCOUNT_JSON (the service account's JSON key text, "
+                 "or locally the path to the downloaded key file).")
+    if not raw.startswith("{"):  # a path to the key file (handy in .env)
+        path = Path(raw)
+        if re.match(r"^[A-Za-z]:\\", raw):  # Windows path -> WSL path
+            path = Path("/mnt/" + raw[0].lower() + raw[2:].replace("\\", "/"))
+        raw = path.read_text()
     creds = service_account.Credentials.from_service_account_info(json.loads(raw), scopes=SCOPES)
     return AuthorizedSession(creds)
 
