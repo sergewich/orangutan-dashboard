@@ -142,7 +142,12 @@ always wins) → `sync_drive_library.py push` → `build_rag_corpus.py`
 `ingest_rag.py` (Workers AI `bge-m3` → Vectorize, incremental via the
 committed `rag_state/ingested.json`). The Worker answers only from retrieved
 passages, refuses below `MIN_SCORE` without calling the LLM, and returns
-sources from retrieval, never from model output.
+sources from retrieval, never from model output. Retrieval keeps the top 4
+hits for the question as asked, then fills to 8 from 3 search queries a small
+model (`REWRITE_MODEL`) writes — vague questions like "how many are left?"
+otherwise miss the key paper (tested: Hadi et al. 2026 ranked 10th). A
+cross-encoder reranker (`bge-reranker-base`) was tried and rejected: it
+dropped that paper and scores Dutch passages near zero.
 
 Rules when extending it:
 - **Never index anything under `data/social/`**, not even approved

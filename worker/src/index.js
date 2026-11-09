@@ -23,8 +23,17 @@ const SPECIES_LABELS = {
 const MAX_QUESTION = 500;
 const MAX_HISTORY = 4;
 const TOP_K = 10;
-const MAX_PASSAGES = 6;
+const MAX_PASSAGES = 8;
+const FROM_ORIGINAL = 4; // best hits for the question as asked are always kept
 const MAX_PER_SOURCE = 2;
+const REWRITE_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
+
+// Vague questions ("how many are left?") match loosely; a small model turns
+// them into specific searches whose hits fill the slots after FROM_ORIGINAL.
+const REWRITE_PROMPT = `You write search queries for a database of orangutan research literature (papers, reports, historic newspapers).
+Rewrite the user's question into 3 short, specific search queries that together cover what the user wants to know.
+Only when the question is about orangutans in general (no species named) AND the answer differs by species — population numbers, conservation status, range, or threats — write one query per species: Sumatran orangutan (Pongo abelii), Bornean orangutan (Pongo pygmaeus), Tapanuli orangutan (Pongo tapanuliensis).
+Write the queries in the same language as the question. Output only the queries, one per line, no numbering or quotes.`;
 
 const SYSTEM_PROMPT = `You are the Literature Assistant on the Orangutan Conservation Dashboard. You summarise published evidence about orangutans (Pongo abelii, P. pygmaeus, P. tapanuliensis) and the dashboard's own satellite alert data.
 
@@ -34,6 +43,7 @@ Rules:
 - If the passages answer the question only in part, answer that part and say plainly what they don't cover (for example, "the passages give drivers but no total number").
 - Only if no passage is relevant to the question at all, reply exactly: "${REFUSAL}"
 - Do not invent numbers, dates, population sizes, or study results. Quote figures only as they appear in a passage.
+- When passages give different figures for the same thing (e.g. population estimates), lead with the most recent study and give its year; mention older figures as older.
 - Passages typed "dashboard_data" are satellite alerts, not field-verified forest loss — say so when you use them.
 - Do not accuse any named company, person, or organisation of wrongdoing unless a passage states it, and attribute it to that source.
 - You inform, you do not decide: for management or policy questions, summarise what the evidence says and note its limits rather than issuing a recommendation.
@@ -107,21 +117,47 @@ async function answer(env, question, species, history) {
     .filter(Boolean)
     .join("\n");
 
-  const emb = await env.AI.run(env.EMBED_MODEL, { text: [retrievalQuery] });
-  const vector = (emb.data || emb.response)[0];
-  const { matches } = await env.VECTORIZE.query(vector, { topK: TOP_K, returnMetadata: "all" });
-
   const minScore = parseFloat(env.MIN_SCORE);
+  const search = async (vector) =>
+    (await env.VECTORIZE.query(vector, { topK: TOP_K, returnMetadata: "all" })).matches
+      .filter((m) => m.score >= minScore);
+
+  const emb = await env.AI.run(env.EMBED_MODEL, { text: [retrievalQuery] });
+  const original = await search((emb.data || emb.response)[0]);
+  // Off-topic questions stop here: no rewrite call, no LLM call.
+  if (!original.length) return { answer: REFUSAL, sources: [] };
+
+  const rewritten = await rewriteQueries(env, question, prevUser?.content);
+  let extraLists = [];
+  if (rewritten.length) {
+    const e = await env.AI.run(env.EMBED_MODEL, { text: rewritten });
+    extraLists = await Promise.all((e.data || e.response).map(search));
+  }
+
   const perSource = {};
+  const seen = new Set();
   const passages = [];
-  for (const m of matches) {
-    if (m.score < minScore || passages.length >= MAX_PASSAGES) continue;
+  const take = (m) => {
     const md = m.metadata || {};
     // Keyed by source, not url: library reports/theses often have no url.
     const key = md.source || md.url;
+    if (seen.has(m.id) || (perSource[key] || 0) >= MAX_PER_SOURCE) return;
+    seen.add(m.id);
     perSource[key] = (perSource[key] || 0) + 1;
-    if (perSource[key] > MAX_PER_SOURCE) continue;
     passages.push({ ...md, score: m.score });
+  };
+  for (const m of original) {
+    if (passages.length >= FROM_ORIGINAL) break;
+    take(m);
+  }
+  // Then round-robin across the rewritten searches (falling back to the
+  // original list if there are none), so each sub-question gets a share.
+  const lists = extraLists.length ? [...extraLists, original] : [original];
+  for (let i = 0; i < TOP_K && passages.length < MAX_PASSAGES; i++) {
+    for (const list of lists) {
+      if (passages.length >= MAX_PASSAGES) break;
+      if (list[i]) take(list[i]);
+    }
   }
   if (!passages.length) return { answer: REFUSAL, sources: [] };
 
@@ -174,6 +210,32 @@ async function answer(env, question, species, history) {
       cited: cited.has(i + 1),
     })),
   };
+}
+
+async function rewriteQueries(env, question, previousQuestion) {
+  try {
+    const result = await env.AI.run(REWRITE_MODEL, {
+      messages: [
+        { role: "system", content: REWRITE_PROMPT },
+        {
+          role: "user",
+          content: previousQuestion
+            ? `Previous question (for context): ${previousQuestion}\nQuestion: ${question}`
+            : question,
+        },
+      ],
+      max_tokens: 120,
+      temperature: 0,
+    });
+    return (result.response || "")
+      .split("\n")
+      .map((l) => l.replace(/^[\s\-*\d.)"]+|["\s]+$/g, ""))
+      .filter((l) => l.length > 3)
+      .slice(0, 3);
+  } catch (err) {
+    console.error("query rewrite failed", err); // fall back to the original search only
+    return [];
+  }
 }
 
 function json(data, status, headers) {
