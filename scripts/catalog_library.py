@@ -382,6 +382,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--library", help="folder of PDFs (default: LIBRARY_DIR or %s)" % DEFAULT_LIBRARY)
     parser.add_argument("--recheck", action="store_true", help="redo automatic decisions for every file")
+    parser.add_argument("--time-budget", type=float, default=0,
+                        help="stop starting new files after this many minutes (OCR of a big batch can "
+                             "outlast a CI job; files not reached are picked up next run)")
     parser.add_argument("--remote-listing", help="JSON list of {file, md5} for every file in the online "
                         "library (written by sync_drive_library.py). Catalogue rows for listed files "
                         "are kept even when the PDF wasn't downloaded this run.")
@@ -405,6 +408,7 @@ def main() -> None:
     rows, new, seen = [], [], set()
 
     pdfs = sorted(p for p in library.rglob("*") if p.suffix.lower() == ".pdf" and p.is_file())
+    started, deferred = time.time(), 0
     for i, path in enumerate(pdfs, 1):
         md5 = md5_of(path)
         if md5 in seen:  # the same PDF twice in the library
@@ -415,6 +419,9 @@ def main() -> None:
         if prev and not args.recheck and (TEXT_CACHE / f"{md5}.json").exists():
             prev["file"] = rel  # picks up renames/moves
             rows.append(prev)
+            continue
+        if args.time_budget and time.time() - started > args.time_budget * 60:
+            deferred += 1  # not catalogued: no row, no cache, so the next run picks it up
             continue
         print(f"[{i}/{len(pdfs)}] {rel}")
         try:
@@ -452,6 +459,8 @@ def main() -> None:
     for r in rows:
         eff = r.get("override") or r["access"]
         counts[eff] = counts.get(eff, 0) + 1
+    if deferred:
+        print(f"\nTime budget reached: {deferred} files left for the next run.")
     print(f"\n{len(rows)} files in {catalog_path} ({len(new)} new): "
           + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
 

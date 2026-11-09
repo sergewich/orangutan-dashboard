@@ -44,11 +44,12 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 sys.path.insert(0, str(SCRIPT_DIR))
 from catalog_library import (  # noqa: E402
-    DOI_RE, MIN_CHARS_PER_PAGE, abstract_from_pdf, find_doi, first_line_title, license_in_pdf,
-    load_env, lookup_openalex, md5_of, norm, openalex_license,
+    MIN_CHARS_PER_PAGE, abstract_from_pdf, find_doi, first_line_title, license_in_pdf,
+    load_env, md5_of, norm, openalex_license,
 )
 
 import logging  # noqa: E402
+logging.disable(logging.WARNING)  # pypdf font/encoding warnings are noise here
 
 import requests  # noqa: E402
 from pypdf import PdfReader  # noqa: E402
@@ -101,49 +102,94 @@ def sample_pages(path: Path) -> tuple[list[str], int, str]:
     return pages, n, title
 
 
-def decide(path: Path, index, session) -> dict:
-    by_doi, by_title = index
-    row = {"file": str(path), "decision": "", "reason": "", "title": "", "doi": "", "licence": "", "est_passages": 0}
+def inspect(path: Path) -> dict:
+    """Pass 1, local only: what can be read from the PDF itself."""
+    info = {"file": str(path), "doi": "", "title": "", "licence": "", "pages": 0,
+            "scanned": False, "has_abstract": False, "error": "", "head": ""}
     try:
         pages, n_pages, meta_title = sample_pages(path)
     except Exception as exc:
-        row.update(decision="skip", reason=f"unreadable PDF ({exc.__class__.__name__})")
-        return row
-
+        info["error"] = exc.__class__.__name__
+        return info
+    info["pages"] = n_pages
     if not pages or sum(len(p) for p in pages) / len(pages) < MIN_CHARS_PER_PAGE:
-        row.update(decision="upload", reason="scanned, no text layer — the nightly job OCRs it; can't check "
-                   "if it's already indexed", est_passages=max(1, n_pages * CHARS_PER_PAGE_EST // CHARS_PER_PASSAGE // 3))
-        return row
-
-    head = "\n".join(pages[:3])
-    doi = find_doi(head)
+        info["scanned"] = True
+        return info
     if re.match(r"(microsoft (word|powerpoint)|untitled)\b", meta_title, re.I) or re.search(r"\.(docx?|pdf)$", meta_title, re.I):
         meta_title = ""
-    title_guess = meta_title if len(meta_title) > 15 else first_line_title(pages[0])
+    info["doi"] = find_doi("\n".join(pages[:3])) or ""
+    info["title"] = meta_title if len(meta_title) > 15 else first_line_title(pages[0])
+    info["licence"] = license_in_pdf(pages) or ""
+    info["has_abstract"] = bool(abstract_from_pdf(pages))
+    info["head"] = " " + norm(" ".join(pages[:2])) + " "  # for matching known titles (dropped from the report)
+    return info
 
-    known = by_doi.get(doi) if doi else None
-    if not known and title_guess:
-        known = by_title.get(norm(title_guess))
-    if known and known["fulltext"]:
-        row.update(decision="skip", reason="already indexed in full text", doi=doi or "", title=title_guess)
+
+def openalex_by_doi(dois: list[str], session) -> dict:
+    """Pass 2: one OpenAlex request per 50 DOIs (a DOI filter costs $0.0001;
+    title searches cost 10x that, so the triage never does them)."""
+    import os
+    out = {}
+    key = os.environ.get("OPENALEX_API_KEY")
+    for i in range(0, len(dois), 50):
+        batch = dois[i:i + 50]
+        params = {"filter": "doi:" + "|".join(batch), "per-page": 100,
+                  "select": "doi,title,locations,best_oa_location,abstract_inverted_index",
+                  "mailto": "sergewich@gmail.com"}
+        if key:
+            params["api_key"] = key
+        try:
+            resp = session.get("https://api.openalex.org/works", params=params, timeout=60)
+            resp.raise_for_status()
+        except requests.RequestException as exc:
+            print(f"  WARNING: OpenAlex batch failed ({exc}); those PDFs are judged from the PDF alone")
+            continue
+        for w in resp.json().get("results", []):
+            out[(w.get("doi") or "").replace("https://doi.org/", "").lower()] = w
+    return out
+
+
+_TITLES: list[str] = []
+
+
+def title_index(by_title: dict) -> list[str]:
+    """Known titles long enough to be distinctive, longest first."""
+    if not _TITLES:
+        _TITLES.extend(sorted((t for t in by_title if len(t) >= 30 and len(t.split()) >= 5),
+                              key=len, reverse=True))
+    return _TITLES
+
+
+def decide(info: dict, index, oa: dict) -> dict:
+    by_doi, by_title = index
+    row = {**info, "decision": "", "reason": "", "est_passages": 0}
+    if info["error"]:
+        row.update(decision="skip", reason=f"unreadable PDF ({info['error']})")
+        return row
+    if info["scanned"]:
+        # Old scans are rarely openly licensed, so usually only an abstract gets indexed.
+        row.update(decision="upload", reason="scanned, no text layer — the nightly job OCRs it; can't check "
+                   "if it's already indexed", est_passages=2)
         return row
 
-    try:
-        work = lookup_openalex(session, doi, title_guess, pages[0])
-    except (requests.RequestException, RuntimeError):
-        work = None
-    if work:
-        doi = (work.get("doi") or "").replace("https://doi.org/", "").lower() or doi
-        title_guess = work.get("title") or title_guess
-        known = known or by_doi.get(doi) or by_title.get(norm(title_guess))
-        if known and known["fulltext"]:
-            row.update(decision="skip", reason="already indexed in full text", doi=doi or "", title=title_guess)
-            return row
-    lic, _ = openalex_license(work) if work else (None, None)
-    lic = lic or license_in_pdf(pages)
-    full_est = max(1, min(n_pages * CHARS_PER_PAGE_EST // CHARS_PER_PASSAGE, 400))
-    row.update(title=title_guess, doi=doi or "", licence=lic or "")
+    work = oa.get(info["doi"]) if info["doi"] else None
+    if work and work.get("title"):
+        row["title"] = work["title"]
+    known = (by_doi.get(info["doi"]) if info["doi"] else None) or by_title.get(norm(row["title"]))
+    if not known:
+        # Older PDFs often have no DOI and a useless title in their metadata,
+        # so look for any known (reasonably distinctive) title on the first pages.
+        for t in title_index(by_title):
+            if f" {t} " in info["head"]:
+                known, row["title"] = by_title[t], t
+                break
+    if known and known["fulltext"]:
+        row.update(decision="skip", reason="already indexed in full text")
+        return row
 
+    lic = (openalex_license(work)[0] if work else None) or info["licence"]
+    row["licence"] = lic or ""
+    full_est = max(1, min(info["pages"] * CHARS_PER_PAGE_EST // CHARS_PER_PASSAGE, 400))
     if lic:
         row.update(decision="upload", est_passages=full_est,
                    reason="openly licensed — adds full text" + (" (only the abstract is indexed now)" if known else ""))
@@ -152,11 +198,11 @@ def decide(path: Path, index, session) -> dict:
     elif known:
         row.update(decision="upload", est_passages=2,
                    reason="in the index without an abstract — the PDF's own abstract fills the gap")
+    elif info["has_abstract"] or (work and work.get("abstract_inverted_index")):
+        row.update(decision="upload", est_passages=2, reason="not in the index yet — adds its abstract/summary")
     else:
-        has_abs = bool(abstract_from_pdf(pages))
-        row.update(decision="upload", est_passages=2 if has_abs else 0,
-                   reason="not in the index yet — adds its abstract/summary" if has_abs else
-                   "not in the index; no licence or abstract found — will be excluded unless you set "
+        row.update(decision="upload", est_passages=0,
+                   reason="not in the index; no licence or abstract found — will be excluded unless you set "
                    "override=full in the sheet (do so if you know reuse is permitted)")
     return row
 
@@ -189,18 +235,26 @@ def main() -> None:
     session = requests.Session()
 
     pdfs = sorted(p for p in src.rglob("*") if p.suffix.lower() == ".pdf" and p.is_file())
-    print(f"{len(pdfs)} PDFs in {src}")
-    rows, seen = [], set()
+    print(f"{len(pdfs)} PDFs in {src} — reading them (cloud-only files download first, so this can take a while)")
+    rows, infos, seen = [], [], set()
     for i, path in enumerate(pdfs, 1):
         md5 = md5_of(path)
         if md5 in seen:
             rows.append({"file": str(path), "decision": "skip", "reason": "duplicate of another file here"})
-            continue
-        seen.add(md5)
-        if md5 in in_drive:
+        elif md5 in in_drive:
             rows.append({"file": str(path), "decision": "skip", "reason": "already in the Drive library"})
-            continue
-        row = decide(path, index, session)
+        else:
+            infos.append((path, inspect(path)))
+        seen.add(md5)
+        if i % 50 == 0:
+            print(f"  ...read {i}/{len(pdfs)}")
+
+    dois = sorted({info["doi"] for _, info in infos if info["doi"]})
+    print(f"Looking up {len(dois)} DOIs in OpenAlex ({(len(dois) + 49) // 50} requests)")
+    oa = openalex_by_doi(dois, session)
+
+    for path, info in infos:
+        row = decide(info, index, oa)
         rows.append(row)
         if row["decision"] == "upload" and not args.dry_run:
             dest = out / path.name
@@ -209,11 +263,9 @@ def main() -> None:
                 dest = out / f"{path.stem}_{k}{path.suffix}"
                 k += 1
             shutil.copy2(path, dest)
-        if i % 25 == 0:
-            print(f"  ...{i}/{len(pdfs)}")
 
     report = out / "triage_report.csv"
-    cols = ["decision", "reason", "est_passages", "title", "doi", "licence", "file"]
+    cols = ["decision", "reason", "est_passages", "title", "doi", "licence", "pages", "file"]
     with report.open("w", newline="", encoding="utf-8-sig") as f:
         w = csv.DictWriter(f, fieldnames=cols, extrasaction="ignore")
         w.writeheader()
