@@ -42,6 +42,8 @@ except ImportError:
     )
 
 SCRIPT_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from rag_sources import is_junk_work  # noqa: E402  (supplements, algorithms, off-topic deposits)
 REPO_ROOT = SCRIPT_DIR.parent
 DEFAULT_OUT_DIR = REPO_ROOT / "data" / "literature"
 
@@ -101,6 +103,8 @@ def fetch_openalex(query: str, limit: int) -> list[dict]:
                 if (a.get("author") or {}).get("display_name")
             )
             source_name = (loc.get("source") or {}).get("display_name") or "Unknown venue"
+            if is_junk_work(w.get("title") or w.get("display_name"), source_name):
+                continue
             best_url = oa_info.get("oa_url") or loc.get("landing_page_url") or w.get("ids", {}).get("doi")
             if not best_url:
                 continue

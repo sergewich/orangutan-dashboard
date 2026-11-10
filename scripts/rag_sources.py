@@ -70,6 +70,28 @@ def _abstract(inv: dict | None) -> str:
     return " ".join(w for _, w in sorted((p, w) for w, ps in inv.items() for p in ps))
 
 
+# OpenAlex lists supplementary files deposited in data repositories as
+# separate works ("Additional file 2 of …", "MOESM3 of …", "Table S1 from …"),
+# picks up repository items that mention orangutans only in passing, and
+# "orangutan-inspired" optimisation algorithms. Used by the Literature tab
+# (fetch_literature.py) and the assistant corpus (build_rag_corpus.py).
+SUPPLEMENT_RE = re.compile(
+    r"^(additional file|moesm\d|supplementa(ry|l)\b|(table|figure|fig\.|video|movie|data|dataset)\s*s\d)", re.I)
+# In repositories only (real papers say "data from" too): "X from <Title>".
+DEPOSIT_RE = re.compile(r"^.{0,80}\b(analyses|information|material|materials|tables?|figures?|data) from [A-Z]", re.I)
+ALGORITHM_RE = re.compile(r"(inspired|metaheuristic|optimi[sz]ation algorithm|optimi[sz]er\b)", re.I)
+ORANGUTAN_RE = re.compile(r"orang[\s-]?(utan|outan|oetan|hutan)|\bpongo\b|\bapes?\b", re.I)
+REPOSITORIES = ("figshare", "zenodo", "dryad", "mendeley data", "dataverse")
+
+
+def is_junk_work(title: str | None, venue: str | None) -> bool:
+    title, venue = (title or "").strip().lstrip("#").strip(), (venue or "").lower()
+    if not title or SUPPLEMENT_RE.search(title) or ALGORITHM_RE.search(title):
+        return True
+    # Repository deposits must be about apes in their title and not a paper's supplement.
+    return any(r in venue for r in REPOSITORIES) and (DEPOSIT_RE.search(title) or not ORANGUTAN_RE.search(title))
+
+
 def norm_doi(doi: str | None) -> str:
     return re.sub(r"^https?://(dx\.)?doi\.org/", "", (doi or "").strip()).lower()
 

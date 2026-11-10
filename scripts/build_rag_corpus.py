@@ -305,9 +305,9 @@ def harvested_passages(session) -> tuple[list[dict], set[str]]:
     """Passages from the OpenAlex harvest + Europe PMC full text. Also returns
     the normalised titles/DOIs covered, so literature.json entries already
     harvested aren't looked up again."""
-    from rag_sources import europepmc_fulltext, fill_missing_abstracts, harvest_openalex
+    from rag_sources import europepmc_fulltext, fill_missing_abstracts, harvest_openalex, is_junk_work
 
-    works = harvest_openalex(session, CACHE_DIR)
+    works = [w for w in harvest_openalex(session, CACHE_DIR) if not is_junk_work(w["title"], w.get("venue"))]
     fill_missing_abstracts(works, session, CACHE_DIR)
     fulltexts = europepmc_fulltext(session, CACHE_DIR)
 
