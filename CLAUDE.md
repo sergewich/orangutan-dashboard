@@ -43,9 +43,13 @@ Orangutan_dashboard/
     fetch_literature.py         # OpenAlex (journal articles) + Open Library (books) +
                                  # GDELT (recent news) + KB/Delpher SRU API (historic Dutch
                                  # colonial-era newspapers). All keyless public APIs.
-    scrape_social.py            # scrapes OIC/COP/YEL/SOCP/TRAFFIC news pages + a GDELT
-                                 # sweep into data/social/raw/articles.json. Raw text only —
-                                 # does not classify or publish anything.
+    scrape_social.py            # finds orangutan articles on NGO sites (OIC/COP/YEL/
+                                 # TRAFFIC), news sites (ANTARA, Kompas, Prokal, Jakarta
+                                 # Post, Tribunnews), the ministry's KSDAE news (covers the
+                                 # BKSDA offices) + a GDELT sweep (EN + ID), searching
+                                 # "orangutan" and "orang utan". Appends url/title/date to
+                                 # data/social/raw/articles.json — never article text
+                                 # (public repo); extract_incidents.py fetches text locally.
     extract_incidents.py        # runs raw articles through the local Ollama model
                                  # (structured-output schema) to draft data/social/drafts.json
                                  # records (trade/translocation_rescue/killing). Every draft

@@ -12,7 +12,10 @@ before anything reaches a public-facing data file. This is a firm project
 rule, not a suggestion — see MEMORY.md / project notes if unclear on why.
 
 Runs entirely on the local Ollama instance (http://127.0.0.1:11434) — no
-cloud API calls, no cost, nothing leaves this machine.
+cloud API calls, no cost. scrape_social.py stores links only (no article
+text in the public repo), so this script fetches each new article itself.
+Articles classified not relevant are remembered in
+data/social/not_relevant_ids.json so they aren't re-checked every run.
 
 Usage:
     python scripts/extract_incidents.py
@@ -37,6 +40,8 @@ except ImportError:
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
+sys.path.insert(0, str(SCRIPT_DIR))
+from scrape_social import extract_text, fetch  # noqa: E402
 DEFAULT_RAW_FILE = REPO_ROOT / "data" / "social" / "raw" / "articles.json"
 DEFAULT_DRAFTS_FILE = REPO_ROOT / "data" / "social" / "drafts.json"
 
@@ -71,6 +76,9 @@ Categories:
 - other_not_relevant: anything else (general conservation news, habitat/deforestation \
   stories with no specific incident, unrelated topics)
 
+The article may be in Indonesian or another language; always write the summary, \
+location and other fields in English.
+
 Article title: {title}
 Article text (may include site navigation noise — ignore that):
 {text}
@@ -85,7 +93,11 @@ def draft_id(url: str) -> str:
 
 
 def extract_one(article: dict) -> dict | None:
-    text = (article.get("text") or "")[:3500]
+    text = article.get("text")
+    if not text:
+        html = fetch(article["url"])
+        text = extract_text(html, article["url"])["text"] if html else ""
+    text = text[:3500]
     if not text:
         return None
     prompt = PROMPT_TEMPLATE.format(title=article.get("title", "Untitled"), text=text)
@@ -138,6 +150,8 @@ def main() -> None:
         sys.exit(f"{args.raw_file} not found — run scripts/scrape_social.py first.")
     articles = json.loads(args.raw_file.read_text(encoding="utf-8"))
 
+    not_relevant_file = args.drafts_file.parent / "not_relevant_ids.json"
+    not_relevant = set(json.loads(not_relevant_file.read_text())) if not_relevant_file.exists() else set()
     existing: dict[str, dict] = {}
     if args.drafts_file.exists():
         for d in json.loads(args.drafts_file.read_text(encoding="utf-8")):
@@ -148,7 +162,7 @@ def main() -> None:
     skipped_existing = 0
     for i, article in enumerate(articles, 1):
         did = draft_id(article["url"])
-        if did in existing:
+        if did in existing or did in not_relevant:
             skipped_existing += 1
             continue
         print(f"  [{i}/{len(articles)}] {article.get('org')}: {article.get('title', '')[:60]}")
@@ -156,6 +170,7 @@ def main() -> None:
         if draft is None:
             continue
         if args.skip_not_relevant and draft["category"] == "other_not_relevant":
+            not_relevant.add(did)
             continue
         existing[draft["id"]] = draft
         new_count += 1
@@ -163,9 +178,10 @@ def main() -> None:
     args.drafts_file.parent.mkdir(parents=True, exist_ok=True)
     all_drafts = list(existing.values())
     args.drafts_file.write_text(json.dumps(all_drafts, ensure_ascii=False, indent=None), encoding="utf-8")
+    not_relevant_file.write_text(json.dumps(sorted(not_relevant)))
 
     print(f"\n{new_count} new draft(s), {skipped_existing} already extracted, "
-          f"{len(all_drafts)} total in {args.drafts_file.relative_to(REPO_ROOT)}")
+          f"{len(all_drafts)} total in {args.drafts_file}")
     by_cat: dict[str, int] = {}
     for d in all_drafts:
         by_cat[d["category"]] = by_cat.get(d["category"], 0) + 1
