@@ -118,7 +118,7 @@ export default {
       console.error(err);
       // Workers Free: the daily AI allowance resets at 00:00 UTC.
       if (/neuron|daily|4006|capacity/i.test(String(err?.message || err))) {
-        return json({ error: "The assistant has reached today's usage limit. Please try again tomorrow." }, 503, cors);
+        return json({ error: "The assistant has reached its free daily usage limit. Please try again in a few hours." }, 503, cors);
       }
       return json({ error: "The assistant is unavailable right now. Please try again later." }, 502, cors);
     }
