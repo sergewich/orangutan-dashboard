@@ -77,6 +77,11 @@ jobs:
         if: env.DRIVE_FOLDER_ID != ''
         run: python3 scripts/sync_drive_library.py push --workdir "$LIBRARY_WORKDIR"
 
+      # References only (title/authors/year/link) for the public Literature tab.
+      - name: List library references on the Literature tab
+        if: env.DRIVE_FOLDER_ID != ''
+        run: python3 scripts/export_library_refs.py --catalog "$LIBRARY_WORKDIR/catalog.csv"
+
       - name: Build corpus
         run: |
           if [ -n "$DRIVE_FOLDER_ID" ]; then export LIBRARY_DIR="$LIBRARY_WORKDIR"; fi
@@ -96,12 +101,12 @@ jobs:
           path: data/rag/cache
           key: rag-cache-${{ github.run_id }}
 
-      - name: Commit index manifest
+      - name: Commit index manifest + library references
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add rag_state/
+          git add rag_state/ data/literature/library.json
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else

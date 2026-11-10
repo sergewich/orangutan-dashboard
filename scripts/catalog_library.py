@@ -77,9 +77,10 @@ DEFAULT_LIBRARY = "/mnt/c/AI_work/orangutan_library"
 CONTACT_EMAIL = "sergewich@gmail.com"
 
 COLUMNS = ["file", "md5", "title", "authors", "year", "doc_type", "doi", "url",
-           "license", "access", "reason", "override", "notes"]
-# Columns a person may edit; kept as-is on re-runs.
-USER_COLUMNS = {"title", "authors", "year", "doc_type", "url", "override", "notes"}
+           "license", "access", "reason", "override", "show", "notes"]
+# Columns a person may edit; kept as-is on re-runs. `show` (yes/no) controls
+# the public Literature tab listing — see export_library_refs.py.
+USER_COLUMNS = {"title", "authors", "year", "doc_type", "url", "override", "show", "notes"}
 
 OPEN_LICENSES = {"cc-by", "cc-by-sa", "cc-by-nc", "cc-by-nc-sa", "cc-by-nd",
                  "cc-by-nc-nd", "cc0", "public-domain"}

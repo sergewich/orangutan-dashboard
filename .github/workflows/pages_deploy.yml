@@ -3,6 +3,15 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [master]
+  # Commits made by other workflows (GITHUB_TOKEN) don't fire `push`, so
+  # redeploy after the scheduled data refreshes too.
+  workflow_run:
+    workflows:
+      - Daily fire alerts refresh
+      - Monthly data refresh
+      - Literature Assistant index refresh
+    types: [completed]
+    branches: [master]
   workflow_dispatch:
 
 permissions:
@@ -16,6 +25,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages

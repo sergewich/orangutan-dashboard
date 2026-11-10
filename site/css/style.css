@@ -175,6 +175,10 @@ main.landing .cta {
   display: inline-block; margin-left: 0.4rem; color: #6fbf73; border: 1px solid #6fbf73;
   border-radius: 999px; padding: 0.02rem 0.5rem; font-size: 0.72rem;
 }
+.lit-lib {
+  display: inline-block; margin-left: 0.4rem; color: #d1b54f; border: 1px solid #d1b54f;
+  border-radius: 999px; padding: 0.02rem 0.5rem; font-size: 0.72rem; cursor: help;
+}
 
 @media (max-width: 720px) {
   .lit-layout { grid-template-columns: 1fr; }

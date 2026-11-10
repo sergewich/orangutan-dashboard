@@ -1,18 +1,23 @@
 /* Orangutan Conservation Dashboard — literature tab
  *
  * Loads data/literature/literature.json (produced by scripts/fetch_literature.py
- * from OpenAlex, Open Library, GDELT, and the KB/Delpher SRU API) and renders
- * it as a filterable, most-recent-first list. Data is fetched over HTTP
+ * from OpenAlex, Open Library, GDELT, and the KB/Delpher SRU API) plus
+ * data/literature/library.json (references from the project's PDF library,
+ * scripts/export_library_refs.py) and renders them as a filterable,
+ * most-recent-first list. Data is fetched over HTTP
  * relative to the repo root — see site/js/map.js for the same convention.
  */
 
 const DATA_URL = "../../data/literature/literature.json";
+const LIBRARY_URL = "../../data/literature/library.json";
 
 const TYPE_META = {
   journal: { label: "Journal article", color: "#4fa3d1" },
   book: { label: "Book", color: "#b087d6" },
   news: { label: "News & media", color: "#6fbf73" },
   historic_newspaper: { label: "Historic newspaper (Dutch colonial era)", color: "#e8792b" },
+  report: { label: "Report", color: "#d1b54f" },
+  thesis: { label: "Thesis", color: "#d16f8e" },
 };
 
 const loadingEl = document.getElementById("loading");
@@ -54,12 +59,17 @@ function renderCard(rec) {
 
   const oaBadge = rec.type === "journal" && rec.open_access
     ? `<span class="lit-oa">open access</span>` : "";
+  const libBadge = rec.library
+    ? `<span class="lit-lib" title="In the project's document library, which the Literature Assistant reads">project library</span>` : "";
+  const title = /^https?:\/\//.test(rec.url || "")
+    ? `<a href="${escapeHTML(rec.url)}" target="_blank" rel="noopener">${escapeHTML(rec.title)}</a>`
+    : escapeHTML(rec.title);
 
   return `
     <article class="lit-card">
       <span class="lit-type" style="--type-color:${meta.color}">${meta.label}</span>
-      <h3><a href="${escapeHTML(rec.url)}" target="_blank" rel="noopener">${escapeHTML(rec.title)}</a></h3>
-      <div class="lit-meta">${bits.join(" · ")} ${oaBadge}</div>
+      <h3>${title}</h3>
+      <div class="lit-meta">${bits.join(" · ")} ${oaBadge} ${libBadge}</div>
     </article>
   `;
 }
@@ -82,6 +92,10 @@ function buildCheckbox(container, id, label, color) {
     const resp = await fetch(DATA_URL);
     if (!resp.ok) throw new Error(`${resp.status} ${resp.statusText} for ${DATA_URL}`);
     const records = await resp.json();
+    // The library list is optional — the tab works without it.
+    const lib = await fetch(LIBRARY_URL).then((r) => (r.ok ? r.json() : [])).catch(() => []);
+    records.push(...lib);
+    records.sort((a, b) => (b.year ?? -Infinity) - (a.year ?? -Infinity));
 
     // ── Build type filters (fixed, known set) ──────────────────────────────
     const presentTypes = [...new Set(records.map((r) => r.type))];

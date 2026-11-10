@@ -161,6 +161,11 @@ def push(args) -> None:
         edited = current.get(r["md5"]) or {}
         r.update({k: edited[k] for k in USER_COLUMNS if edited.get(k)})
     write_sheet(s, sheet_id, rows)
+    # Keep the local copy in step, for export_library_refs.py.
+    with (Path(args.workdir) / "catalog.csv").open("w", newline="", encoding="utf-8-sig") as f:
+        w = csv.DictWriter(f, fieldnames=COLUMNS, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(rows)
     print(f"Wrote {len(rows)} rows to the catalogue sheet")
 
 
