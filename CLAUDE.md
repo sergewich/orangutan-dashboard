@@ -211,8 +211,9 @@ Rules when extending it:
   different fix. The address bar must read `http://localhost:8000/...` —
   always go through the running server above, not the filesystem path.
 - To use the review queue (`site/tabs/review.html`), serve with
-  `python3 scripts/review_server.py --port 8124` instead (port 8000 is taken on
-  the Windows side of this machine, so localhost:8000 hits another program) of the plain `http.server` —
+  `python3 scripts/review_server.py --port 8124` instead of the plain
+  `http.server` (port 8000 is taken on the Windows side of this machine, so
+  localhost:8000 hits another program) —
   it serves the same static files plus the `POST /api/review` endpoint the
   page needs to persist approve/reject decisions. It's a
   `ThreadingHTTPServer`; the plain single-threaded `HTTPServer` stalls on
