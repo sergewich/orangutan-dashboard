@@ -28,6 +28,7 @@ import argparse
 import hashlib
 import json
 import sys
+import time
 from pathlib import Path
 
 try:
@@ -135,6 +136,24 @@ def extract_one(article: dict) -> dict | None:
     }
 
 
+def save(drafts_file: Path, drafts: dict, not_relevant_file: Path, not_relevant: set) -> None:
+    drafts_file.parent.mkdir(parents=True, exist_ok=True)
+    # The review page may have approved/rejected records since we loaded the
+    # file: the copy on disk wins for every record it has; we only add new ones.
+    for attempt in range(5):  # the review server may be mid-write
+        try:
+            if drafts_file.exists():
+                drafts.update({d["id"]: d for d in json.loads(drafts_file.read_text(encoding="utf-8"))})
+            break
+        except ValueError:
+            time.sleep(0.5)
+    # Write-then-rename, so the review page never reads a half-written file.
+    tmp = drafts_file.with_suffix(".tmp")
+    tmp.write_text(json.dumps(list(drafts.values()), ensure_ascii=False, indent=None), encoding="utf-8")
+    tmp.replace(drafts_file)
+    not_relevant_file.write_text(json.dumps(sorted(not_relevant)))
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__,
                                       formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -174,11 +193,10 @@ def main() -> None:
             continue
         existing[draft["id"]] = draft
         new_count += 1
+        save(args.drafts_file, existing, not_relevant_file, not_relevant)  # reviewable as they come
 
-    args.drafts_file.parent.mkdir(parents=True, exist_ok=True)
+    save(args.drafts_file, existing, not_relevant_file, not_relevant)
     all_drafts = list(existing.values())
-    args.drafts_file.write_text(json.dumps(all_drafts, ensure_ascii=False, indent=None), encoding="utf-8")
-    not_relevant_file.write_text(json.dumps(sorted(not_relevant)))
 
     print(f"\n{new_count} new draft(s), {skipped_existing} already extracted, "
           f"{len(all_drafts)} total in {args.drafts_file}")

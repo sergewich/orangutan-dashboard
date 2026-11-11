@@ -24,7 +24,9 @@ pages and tag pages are queried for both "orangutan" and "orang utan".
   - Centre for Orangutan Protection (COP)            orangutanprotection.com
   - Yayasan Ekosistem Lestari / SOCP (YEL)            yel.or.id
   - TRAFFIC (wildlife trade monitoring network)       traffic.org
+  - BOSF, IAR, OFI, Orangutan Foundation UK           their own news pages/feeds
   News
+  - Mongabay (English + Indonesian)                   mongabay.com, mongabay.co.id
   - ANTARA (English + Indonesian)                     antaranews.com
   - Kompas                                            kompas.com
   - Prokal (Kalimantan)                               prokal.co
@@ -40,11 +42,15 @@ Checked and left out (2026-11): bbksdasumut.com now redirects to a gambling
 site; bksdakaltim.menlhk.go.id and ksdae.menlhk.go.id no longer resolve
 (the ministry moved to kehutanan.go.id); the BKSDA West and Central
 Kalimantan blogs stopped posting in 2008 and 2014; Google search can't be
-scripted (GDELT covers the same news).
+scripted (GDELT covers the same news). Facebook/Instagram/X pages (BKSDA
+offices, ASTI, SOC, FKL, JAAN, SRI, CAN…) can't be collected: the platforms'
+terms forbid automated collection and they need a login. Their own websites
+are listed above where one exists and posts news.
 
 Usage:
     python scripts/scrape_social.py
     python scripts/scrape_social.py --per-source-limit 20
+    python scripts/scrape_social.py --only KSDAE --pages 0 --per-source-limit 2000   # backfill
 """
 
 from __future__ import annotations
@@ -101,6 +107,38 @@ SOURCES = [
         "article_re": re.compile(r"^https://www\.yel\.or\.id/news/[^/]+/$"),
     },
     {
+        "org": "BOSF",
+        "kind": "ngo_site",
+        "listing_urls": ["https://www.orangutan.or.id/our-latest-stories",
+                         "https://www.orangutan.or.id/press-releases"],
+        "base": "https://www.orangutan.or.id",
+        "article_re": re.compile(r"^https://www\.orangutan\.or\.id/[a-z0-9-]+$"),
+        # Stories and menu pages share one URL shape; drop the menu's links.
+        "nav_page": "https://www.orangutan.or.id/why-orangutans-matter",
+    },
+    {
+        "org": "IAR",
+        "kind": "ngo_site",
+        "require_orangutan": True,  # IAR also rescues slow lorises, macaques…
+        "listing_urls": ["https://www.internationalanimalrescue.org/news/"],
+        "base": "https://www.internationalanimalrescue.org",
+        "article_re": re.compile(r"^https://www\.internationalanimalrescue\.org/news/[^/]+/$"),
+    },
+    {
+        "org": "OFI",
+        "kind": "ngo_site",
+        "listing_urls": ["https://orangutan.org/feed/"],
+        "base": "https://orangutan.org",
+        "article_re": re.compile(r"^https://orangutan\.org/(?!(feed|donate|blog|blogs|e-news|about|contact)/)[a-z0-9-]+/$"),
+    },
+    {
+        "org": "OF-UK",
+        "kind": "ngo_site",
+        "listing_urls": ["https://www.orangutan.org.uk/blog?format=rss"],
+        "base": "https://www.orangutan.org.uk",
+        "article_re": re.compile(r"^https://www\.orangutan\.org\.uk/blog/[a-z0-9-]+$"),
+    },
+    {
         "org": "TRAFFIC",
         # TRAFFIC covers all wildlife trade globally — use their site search
         # to scope to orangutan-relevant results instead of scraping everything.
@@ -110,6 +148,23 @@ SOURCES = [
         "article_re": re.compile(
             r"^https://www\.traffic\.org/(news|publications/reports)/[^/]+/$"
         ),
+    },
+    {
+        "org": "Mongabay",
+        "kind": "news_site",
+        "listing_urls": ["https://news.mongabay.com/list/orangutans/",
+                         "https://news.mongabay.com/feed/?s=orangutan"],
+        "base": "https://news.mongabay.com",
+        "article_re": re.compile(r"^https://news\.mongabay\.com/\d{4}/\d{2}/[^/]+/$"),
+    },
+    {
+        # The tag page is rendered by JavaScript; the search feed isn't.
+        "org": "Mongabay (id)",
+        "kind": "news_site",
+        "listing_urls": ["https://mongabay.co.id/feed/?s=orangutan",
+                         "https://mongabay.co.id/feed/?s=orang+utan"],
+        "base": "https://mongabay.co.id",
+        "article_re": re.compile(r"^https://mongabay\.co\.id/\d{4}/\d{2}/\d{2}/[^/]+/$"),
     },
     {
         "org": "ANTARA",
@@ -162,10 +217,18 @@ SOURCES = [
         ),
     },
     {
+        # Best source for rescues and releases. Its search shows only the ~10
+        # newest hits, so also page through the section listings (newest
+        # first; --pages, --pages 0 = the whole archive) and keep links whose
+        # address mentions orangutans.
         "org": "KSDAE",
         "kind": "government",
         "listing_urls": ["https://ksdae.kehutanan.go.id/pencarian/?q=orangutan",
                          "https://ksdae.kehutanan.go.id/pencarian/?q=orang+utan"],
+        "paged_urls": ["https://ksdae.kehutanan.go.id/publikasi/berita/?page={page}",
+                       "https://ksdae.kehutanan.go.id/publikasi/artikel/?page={page}",
+                       "https://ksdae.kehutanan.go.id/publikasi/siaran-pers/?page={page}"],
+        "paged_link_re": re.compile(r"orang-?utan|orangutan", re.I),
         "base": "https://ksdae.kehutanan.go.id",
         "article_re": re.compile(
             r"^https://ksdae\.kehutanan\.go\.id/publikasi/(berita|artikel|siaran-pers)/[^/]+/$"
@@ -187,7 +250,9 @@ def fetch(url: str) -> str | None:
 def extract_article_links(html: str, base: str, article_re: re.Pattern) -> list[str]:
     """Article links in page order (search/tag pages list newest first)."""
     links = []
-    for href in re.findall(r'href=["\']([^"\']+)["\']', html):
+    # href="…" on web pages, <link>…</link> in RSS feeds.
+    for href in re.findall(r'href=["\']([^"\']+)["\']|<link>([^<]+)</link>', html):
+        href = href[0] or href[1]
         full = urljoin(base + "/", unescape(href))
         if article_re.match(full) and full not in links:
             links.append(full)
@@ -266,7 +331,7 @@ def extract_text(html: str, url: str) -> dict:
     return {"title": title, "date_hint": date, "text": text.strip()[:4000]}
 
 
-def scrape_source(source: dict, per_source_limit: int, known: set[str]) -> list[dict]:
+def scrape_source(source: dict, per_source_limit: int, known: set[str], pages: int = 5) -> list[dict]:
     org = source["org"]
     print(f"\n=== {org} ===")
     links: list[str] = []
@@ -277,6 +342,22 @@ def scrape_source(source: dict, per_source_limit: int, known: set[str]) -> list[
             continue
         links += [l for l in extract_article_links(html, source["base"], source["article_re"])
                   if l not in links]
+    for template in source.get("paged_urls", []):
+        page, previous = 1, None
+        while not pages or page <= pages:
+            html = fetch(template.format(page=page))
+            time.sleep(REQUEST_DELAY)
+            found = extract_article_links(html or "", source["base"], source["article_re"])
+            if not found or found == previous:
+                break  # past the last page (KSDAE repeats it forever)
+            previous = found
+            links += [l for l in found if source["paged_link_re"].search(l) and l not in links]
+            if page % 50 == 0:
+                print(f"  … page {page}: {len(links)} links so far")
+            page += 1
+    if source.get("nav_page"):
+        nav = set(extract_article_links(fetch(source["nav_page"]) or "", source["base"], source["article_re"]))
+        links = [l for l in links if l not in nav]
     new = [l for l in links if l not in known][:per_source_limit]
     print(f"  found {len(links)} article link(s), {len(new)} new")
 
@@ -288,7 +369,7 @@ def scrape_source(source: dict, per_source_limit: int, known: set[str]) -> list[
             continue
         ex = extract_text(html, url)
         # Search results can match "orang" + "utan" anywhere on the page.
-        if source["kind"] != "ngo_site" and not ORANGUTAN_RE.search(ex["title"] + " " + ex["text"]):
+        if (source["kind"] != "ngo_site" or source.get("require_orangutan")) and not ORANGUTAN_RE.search(ex["title"] + " " + ex["text"]):
             continue
         out.append({"org": org, "source_kind": source["kind"], "url": url,
                     "title": ex["title"], "date_hint": ex["date_hint"], "text": None})
@@ -349,6 +430,8 @@ def main() -> None:
                         help="Max new articles per source per run (default: 20).")
     parser.add_argument("--gdelt-limit", type=int, default=50)
     parser.add_argument("--skip-gdelt", action="store_true")
+    parser.add_argument("--pages", type=int, default=5,
+                        help="listing pages to scan on paged sources (KSDAE); 0 = whole archive")
     parser.add_argument("--only", help="comma-separated source names to run (e.g. Kompas,KSDAE)")
     args = parser.parse_args()
 
@@ -361,7 +444,7 @@ def main() -> None:
     for source in SOURCES:
         if only and source["org"].lower() not in only:
             continue
-        new.extend(scrape_source(source, args.per_source_limit, known))
+        new.extend(scrape_source(source, args.per_source_limit, known, args.pages))
     if not args.skip_gdelt and not only:
         new.extend(scrape_gdelt_sweep(args.gdelt_limit, known))
 

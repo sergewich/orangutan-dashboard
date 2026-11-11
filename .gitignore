@@ -6,6 +6,7 @@
 # land in a public repo before human review. Approved records go to
 # data/social/incidents.json instead, which IS tracked. See CLAUDE.md review policy.
 data/social/drafts.json
+data/social/not_relevant_ids.json
 
 # Python
 __pycache__/
