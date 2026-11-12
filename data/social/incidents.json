@@ -1920,22 +1920,6 @@
     "decision": "approved"
   },
   {
-    "id": "9d4d6e7c73e15598",
-    "org": "ANTARA (id)",
-    "source_kind": "news_site",
-    "url": "https://www.antaranews.com/berita/5835659/hoaks-klhk-menyatakan-orang-utan-kalimantan-punah-akibat-karhutla",
-    "title": "Hoaks! KLHK menyatakan orang utan Kalimantan punah akibat karhutla",
-    "date_hint": "2026-11-06",
-    "category": "translocation_rescue",
-    "summary": "Nine rescued orangutans were released into Hutan Lindung Batu Nyambu in Kabupaten Ketapang after undergoing intensive rehabilitation due to habitat loss from forest fires.",
-    "date": "2026-11-06",
-    "location": "",
-    "species_mentioned": "",
-    "confidence": "high",
-    "reviewed": true,
-    "decision": "approved"
-  },
-  {
     "id": "fb7d8c769a5c0303",
     "org": "ANTARA",
     "source_kind": "news_site",
