@@ -8,8 +8,7 @@ checks the draft and clicks Send (draft-then-send, by the owner's choice).
 
 Needs BREVO_API_KEY (restricted key: Email campaigns = All, Contacts =
 read/write). Optional: BREVO_LIST_NAME (default "Monthly digest"),
-DIGEST_TEST_TO (comma-separated; default: the sender address, which
-forwards to the site's Gmail via Cloudflare Email Routing),
+DIGEST_TEST_TO (comma-separated existing contacts; default: the site's Gmail),
 DIGEST_SENDER_DOMAIN (default orangutandashboard.org).
 
     python scripts/send_digest.py --digest /tmp/digest
@@ -26,6 +25,7 @@ from pathlib import Path
 import requests
 
 API = "https://api.brevo.com/v3"
+OWNER = "orangutanconservationsite@gmail.com"  # a contact on the list
 
 
 def load_env() -> None:
@@ -82,14 +82,15 @@ def main() -> None:
     campaign = call("POST", "/emailCampaigns", json={
         "name": f"Monthly digest — {summary['month']}",
         "subject": summary["subject"],
-        "sender": {"id": sender["id"]},
+        "sender": {"name": sender["name"], "email": sender["email"]},
         "htmlContent": f"<html><body>{body}</body></html>",
         # no scheduledAt: the campaign stays a draft until the owner sends it
     })
     # Brevo refuses recipients on create ("no contacts associated") but
     # accepts the same list on an update.
     call("PUT", f"/emailCampaigns/{campaign['id']}", json={"recipients": {"listIds": [list_id]}})
-    test_to = [e.strip() for e in (os.environ.get("DIGEST_TEST_TO") or sender["email"]).split(",") if e.strip()]
+    # Brevo only sends tests to existing contacts, so not to the sender itself.
+    test_to = [e.strip() for e in (os.environ.get("DIGEST_TEST_TO") or OWNER).split(",") if e.strip()]
     call("POST", f"/emailCampaigns/{campaign['id']}/sendTest", json={"emailTo": test_to})
     print(f"Draft campaign {campaign['id']} created for list {list_name!r}; test copy sent to "
           f"{len(test_to)} address(es). Send it from Brevo -> Campaigns.")
