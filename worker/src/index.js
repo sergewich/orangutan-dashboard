@@ -22,8 +22,8 @@ const SPECIES_LABELS = {
 
 const MAX_QUESTION = 500;
 const MAX_HISTORY = 4;
-const TOP_K = 15;
-const MAX_PASSAGES = 12;
+const TOP_K = 20;
+const MAX_PASSAGES = 16;
 const FROM_ORIGINAL = 6; // best hits for the question as asked are always kept
 const MAX_PER_SOURCE = 2;
 const REWRITE_MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
