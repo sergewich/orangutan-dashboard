@@ -8,7 +8,9 @@ checks the draft and clicks Send (draft-then-send, by the owner's choice).
 
 Needs BREVO_API_KEY (restricted key: Email campaigns = All, Contacts =
 read/write). Optional: BREVO_LIST_NAME (default "Monthly digest"),
-DIGEST_TEST_TO (comma-separated; default: the verified sender address).
+DIGEST_TEST_TO (comma-separated; default: the sender address, which
+forwards to the site's Gmail via Cloudflare Email Routing),
+DIGEST_SENDER_DOMAIN (default orangutandashboard.org).
 
     python scripts/send_digest.py --digest /tmp/digest
 """
@@ -69,7 +71,13 @@ def main() -> None:
         print(f"The {list_name!r} list has no subscribers yet; no draft created.")
         return
     list_id = match["id"]
-    sender = next(s for s in call("GET", "/senders")["senders"] if s["active"])
+    # Prefer the sender on the authenticated domain: mail "from" a Gmail
+    # address but sent by Brevo fails DMARC and university filters block it.
+    domain = os.environ.get("DIGEST_SENDER_DOMAIN", "orangutandashboard.org")
+    senders = [s for s in call("GET", "/senders")["senders"] if s["active"]]
+    sender = next((s for s in senders if s["email"].endswith("@" + domain)), None)
+    if sender is None:
+        sys.exit(f"No active Brevo sender @{domain} — add it under Settings -> Senders.")
 
     campaign = call("POST", "/emailCampaigns", json={
         "name": f"Monthly digest — {summary['month']}",

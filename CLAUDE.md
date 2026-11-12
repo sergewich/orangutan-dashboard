@@ -202,7 +202,7 @@ entries not yet in `digest_state.json`) and `send_digest.py`, which only
 creates a **draft** campaign and emails the owner a test copy — the owner
 clicks Send in Brevo. Don't make it send automatically without the owner.
 Secrets: `BREVO_API_KEY` (restricted: Email campaigns + Contacts), optional
-`DIGEST_TEST_TO`. Brevo free plan: 300 emails/day, sender is a Gmail address.
+`DIGEST_TEST_TO`. Brevo free plan: 300 emails/day. Sender updates@orangutandashboard.org (domain bought in Cloudflare, DKIM/DMARC records for Brevo; Cloudflare Email Routing forwards updates@ to the site Gmail). Never send from the Gmail address: it fails DMARC at universities.
 
 ## Build / test / run
 
