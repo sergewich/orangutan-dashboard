@@ -1,0 +1,45 @@
+name: Monthly subscriber digest
+
+# Builds the "what's new" email (approved news incidents + new Literature tab
+# entries since the last digest) and saves it as a DRAFT campaign in Brevo,
+# with a test copy to the owner. Nothing reaches subscribers until the owner
+# clicks Send in Brevo -> Campaigns. Runs after the monthly literature refresh.
+
+on:
+  schedule:
+    - cron: "0 9 2 * *"  # 09:00 UTC on the 2nd of each month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Build the digest
+        run: python3 scripts/build_digest.py --out "$RUNNER_TEMP/digest"
+
+      - name: Create the Brevo draft and send the owner a test copy
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          DIGEST_TEST_TO: ${{ secrets.DIGEST_TEST_TO }}
+        run: python3 scripts/send_digest.py --digest "$RUNNER_TEMP/digest"
+
+      - name: Record what this digest covered
+        run: |
+          python3 scripts/build_digest.py --update-state
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add digest_state.json
+          git diff --cached --quiet || git commit -m "chore: monthly digest state ($(date -u +%Y-%m))"
+          git push
