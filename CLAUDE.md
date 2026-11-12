@@ -192,6 +192,18 @@ Rules when extending it:
   system prompt's "inform, don't decide" and "no accusations against named
   companies unless a passage states it" rules.
 
+## Monthly subscriber digest (Brevo)
+
+`site/tabs/subscribe.html` embeds a Brevo sign-up form (iframe, double
+opt-in, list "Monthly digest", optional ORGANISATION/ROLE/COUNTRY) — built in
+the Brevo UI, so edit it there. `.github/workflows/monthly_digest.yml` (2nd of
+each month) runs `build_digest.py` (approved incidents + new Literature tab
+entries not yet in `digest_state.json`) and `send_digest.py`, which only
+creates a **draft** campaign and emails the owner a test copy — the owner
+clicks Send in Brevo. Don't make it send automatically without the owner.
+Secrets: `BREVO_API_KEY` (restricted: Email campaigns + Contacts), optional
+`DIGEST_TEST_TO`. Brevo free plan: 300 emails/day, sender is a Gmail address.
+
 ## Build / test / run
 
 - No build step — `site/` is plain static HTML/CSS/JS.
