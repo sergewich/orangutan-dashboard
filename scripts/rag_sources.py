@@ -28,6 +28,7 @@ import re
 import sys
 import time
 import xml.etree.ElementTree as ET
+from html import unescape
 from pathlib import Path
 
 import requests
@@ -293,4 +294,110 @@ def europepmc_fulltext(session, cache_dir: Path) -> list[dict]:
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache_path.write_text(json.dumps(cache, ensure_ascii=False))
     print(f"  Europe PMC: {len(out)} CC-licensed full-text papers")
+    return out
+
+
+# --------------------------------------------------------------------------- #
+# IUCN Red List — the three species' own conservation assessments
+# --------------------------------------------------------------------------- #
+# taxon_id, assessment_id from the current iucnredlist.org species page URL
+# (https://www.iucnredlist.org/species/<taxon_id>/<assessment_id>). IUCN
+# re-assesses a species every few years under a new assessment_id -- there's
+# no API lookup here, so update this by hand when that happens (the old id's
+# cache entry is simply orphaned, not reused).
+IUCN_REDLIST_ASSESSMENTS = {
+    "pongo_abelii": ("121097935", "247631244"),
+    "pongo_pygmaeus": ("17975", "259043172"),
+    "pongo_tapanuliensis": ("120588639", "247632253"),
+}
+# iucnredlist.org's bot protection rejects this module's usual polite
+# "orangutan-dashboard/1.0 (mailto:...)" User-Agent (403); a plain desktop
+# browser UA is accepted.
+IUCN_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+          "(KHTML, like Gecko) Chrome/120.0 Safari/537.36")
+IUCN_SECTION_HEADERS = ["Taxonomic Notes:", "Justification:", "Range Description:", "Population",
+                        "Habitat and Ecology", "Use and Trade", "Threats", "Conservation Actions",
+                        "Credits"]
+IUCN_JUNK_LINE_RE = re.compile(
+    r"^(©|Tiles \(C\) Esri|Compiled by:|The boundaries and names shown|"
+    r"For further information about this species|\(see Appendix|Distribution Map$|"
+    r"EXTANT|POSSIBLY EXTANT)")
+IUCN_TITLE_RE = re.compile(r'<meta name="citation_title" content="([^"]+)"', re.I)
+IUCN_AUTHOR_RE = re.compile(r'<meta name="citation_author" content="([^"]+)"', re.I)
+IUCN_YEAR_RE = re.compile(r'<meta name="citation_publication_date" content="(\d{4})"', re.I)
+
+
+def _iucn_lines(raw_html: str) -> list[str]:
+    body = re.sub(r"<(style|script)[^>]*>.*?</\1>", "", raw_html, flags=re.S | re.I)
+    body = re.sub(r"<[^>]+>", " ", body)
+    text = unescape(body)
+    lines = [re.sub(r"[ \t]+", " ", ln).strip() for ln in text.split("\n")]
+    return [ln for ln in lines if ln and not IUCN_JUNK_LINE_RE.search(ln)]
+
+
+def _iucn_sections(lines: list[str]) -> dict[str, str]:
+    """Named chunks of the assessment's narrative body (Justification,
+    Population, Threats, ...), cut from the "PDF preview" HTML route, which
+    is the same content as the real PDF but far easier to parse than a
+    binary PDF. Stops at "Credits": everything after that is the
+    bibliography, boilerplate and classification-scheme tables, not prose."""
+    idx = {}
+    for h in IUCN_SECTION_HEADERS:
+        for i, ln in enumerate(lines):
+            if ln == h:
+                idx[h] = i
+                break
+    present = [h for h in IUCN_SECTION_HEADERS if h in idx]
+    out = {}
+    for i, h in enumerate(present[:-1]):
+        out[h.rstrip(":")] = " ".join(lines[idx[h] + 1: idx[present[i + 1]]])
+    return out
+
+
+def iucn_redlist(session, cache_dir: Path) -> list[dict]:
+    """[{species, title, authors, year, url, sections: {name: text}}] for the
+    three species' current IUCN Red List assessments. Cached indefinitely per
+    (species, assessment_id) in IUCN_REDLIST_ASSESSMENTS above -- a fetch
+    failure (e.g. tighter bot protection) just skips that species this run,
+    retried next time.
+
+    Full text, not abstract-only: every IUCN Red List assessment carries the
+    same notice -- "Reproduction of this publication for educational or other
+    non-commercial purposes is authorized without prior written permission
+    from the copyright holder provided the source is fully acknowledged" --
+    that scripts/catalog_library.py's NONCOMMERCIAL_RE already treats as
+    license-equivalent to open for this non-commercial site."""
+    cache_path = cache_dir / "iucn_redlist.json"
+    cache = json.loads(cache_path.read_text()) if cache_path.exists() else {}
+    headers = {"User-Agent": IUCN_UA}
+
+    out, changed = [], False
+    for species, (taxon, assessment) in IUCN_REDLIST_ASSESSMENTS.items():
+        key = f"{taxon}/{assessment}"
+        if key not in cache:
+            page_url = f"https://www.iucnredlist.org/species/{taxon}/{assessment}"
+            try:
+                page = _get(session, page_url, headers=headers)
+                pdf = _get(session, f"{page_url}/pdf", headers=headers)
+                if not page.ok or not pdf.ok:
+                    raise requests.RequestException(f"HTTP {page.status_code}/{pdf.status_code}")
+            except requests.RequestException as exc:
+                print(f"  WARNING: IUCN Red List fetch failed for {species}: {exc}", file=sys.stderr)
+                continue
+            title_m = IUCN_TITLE_RE.search(page.text)
+            authors = [re.sub(r"\s+,", ",", a).strip() for a in IUCN_AUTHOR_RE.findall(page.text)]
+            year_m = IUCN_YEAR_RE.search(page.text)
+            cache[key] = {
+                "species": species, "url": page_url,
+                "title": title_m.group(1) if title_m else f"{species}: IUCN Red List assessment",
+                "authors": ", ".join(authors) or None,
+                "year": int(year_m.group(1)) if year_m else None,
+                "sections": _iucn_sections(_iucn_lines(pdf.text)),
+            }
+            changed = True
+            time.sleep(0.5)
+        out.append(cache[key])
+    if changed:
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        cache_path.write_text(json.dumps(cache, ensure_ascii=False))
     return out

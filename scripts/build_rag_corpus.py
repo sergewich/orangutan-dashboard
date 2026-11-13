@@ -293,6 +293,33 @@ def dashboard_passages() -> list[dict]:
     return out
 
 
+def iucn_redlist_passages(session) -> list[dict]:
+    """The three species' current IUCN Red List assessments -- full
+    narrative text, not abstract-only (see rag_sources.iucn_redlist for why
+    full text is permitted here)."""
+    from rag_sources import iucn_redlist
+
+    out = []
+    for rec in iucn_redlist(session, CACHE_DIR):
+        species = rec["species"]
+        for sec_name, sec_text in rec["sections"].items():
+            text = clean_text(sec_text)
+            if len(text) < MIN_TEXT_CHARS:
+                continue
+            slug = re.sub(r"[^a-z0-9]+", "_", sec_name.lower()).strip("_")
+            for n, chunk in enumerate(chunk_text(text)):
+                out.append({
+                    "id": f"iucn-{species}-{slug}-{n}", "source": f"iucn-{species}",
+                    "kind": "fulltext", "section": sec_name,
+                    "type": "report", "title": rec["title"], "authors": rec["authors"],
+                    "year": rec["year"], "venue": "IUCN Red List of Threatened Species",
+                    "url": rec["url"], "species": [species], "text": chunk,
+                })
+    n_species = len({p["source"] for p in out})
+    print(f"  IUCN Red List: {len(out)} passages from {n_species}/3 species assessments")
+    return out
+
+
 def source_key(doi: str | None, fallback: str) -> str:
     return f"doi:{doi}" if doi else fallback
 
@@ -506,6 +533,7 @@ def main() -> None:
         passages += lib
 
     passages += dashboard_passages()
+    passages += iucn_redlist_passages(session)
 
     # OpenAlex sometimes lists one paper twice (same DOI -> same ids); keep the
     # first, or the duplicates would look "changed" to ingest on every run.

@@ -43,7 +43,7 @@ except ImportError:
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-from rag_sources import is_junk_work  # noqa: E402  (supplements, algorithms, off-topic deposits)
+from rag_sources import is_junk_work, iucn_redlist  # noqa: E402
 REPO_ROOT = SCRIPT_DIR.parent
 DEFAULT_OUT_DIR = REPO_ROOT / "data" / "literature"
 
@@ -264,6 +264,31 @@ def fetch_historic_newspapers(query: str, limit: int, before_date: str) -> list[
 
 
 # --------------------------------------------------------------------------- #
+# IUCN Red List — the three species' own conservation assessments
+# --------------------------------------------------------------------------- #
+def fetch_iucn_redlist() -> list[dict]:
+    """Citation metadata for the three species' current IUCN Red List
+    assessments (no full text here -- that goes straight into the RAG corpus
+    via rag_sources.iucn_redlist, which this shares its cache with)."""
+    session = requests.Session()
+    session.headers["User-Agent"] = f"orangutan-dashboard/1.0 (mailto:{CONTACT_EMAIL})"
+    cache_dir = REPO_ROOT / "data" / "rag" / "cache"
+    out = []
+    for rec in iucn_redlist(session, cache_dir):
+        out.append({
+            "type": "report",
+            "title": rec["title"],
+            "authors": rec["authors"],
+            "year": rec["year"],
+            "source": "IUCN Red List of Threatened Species",
+            "url": rec["url"],
+            "open_access": True,
+            "language": "en",
+        })
+    return out
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 def load_env() -> None:
@@ -305,7 +330,11 @@ def main() -> None:
     historic = fetch_historic_newspapers("orang-oetan", args.historic_limit, args.colonial_end_date)
     print(f"  got {len(historic)}")
 
-    combined = journals + books + news + historic
+    print("Fetching IUCN Red List assessments...")
+    iucn = fetch_iucn_redlist()
+    print(f"  got {len(iucn)}")
+
+    combined = journals + books + news + historic + iucn
     combined.sort(key=lambda r: (r["year"] is not None, r["year"] or 0), reverse=True)
 
     args.out_dir.mkdir(parents=True, exist_ok=True)
