@@ -83,6 +83,11 @@ Orangutan_dashboard/
     weekly_social_scrape.yml     # weekly: re-run scrape_social.py (raw articles only —
                                   # does NOT run extract_incidents.py or touch
                                   # incidents.json; review is still a manual local step)
+    social_review_reminder.yml   # monthly, 25th: check_review_backlog.py counts raw
+                                  # articles never drafted + drafts awaiting human review;
+                                  # emails the owner (Brevo) only if something is pending,
+                                  # so the local draft+review step isn't missed before
+                                  # monthly_digest.yml runs on the 2nd
     pages_deploy.yml             # on push to master: builds _site/ (index.html + site/ +
                                   # data/, minus data/ranges/raw) and deploys to GitHub
                                   # Pages via actions/deploy-pages
@@ -203,6 +208,18 @@ creates a **draft** campaign and emails the owner a test copy — the owner
 clicks Send in Brevo. Don't make it send automatically without the owner.
 Secrets: `BREVO_API_KEY` (restricted: Email campaigns + Contacts), optional
 `DIGEST_TEST_TO`. Brevo free plan: 300 emails/day. Sender updates@orangutandashboard.org (domain bought in Cloudflare, DKIM/DMARC records for Brevo; Cloudflare Email Routing forwards updates@ to the site Gmail). Never send from the Gmail address: it fails DMARC at universities.
+
+Since `extract_incidents.py` (drafting) and `review_server.py` (human
+approval) both stay manual/local (see review policy above) and
+`build_digest.py` only picks up *approved* incidents, forgetting to run
+them before the 2nd means the digest silently skips new incidents.
+`social_review_reminder.yml` (25th of each month) runs
+`scripts/check_review_backlog.py`, which counts raw articles never drafted
+plus drafts awaiting review and emails the owner (reusing `BREVO_API_KEY`
+and the same updates@orangutandashboard.org sender, direct transactional
+email via `/smtp/email`, not a campaign) only when that count is non-zero
+— silent otherwise, so it doesn't nag every month. Recipient defaults to
+the owner's own address; override with the optional `REMINDER_TO` secret.
 
 ## Build / test / run
 

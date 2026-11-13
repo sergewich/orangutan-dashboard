@@ -1,0 +1,32 @@
+name: Social review backlog reminder
+
+# Checks whether any scraped social articles are still waiting on the local
+# draft (extract_incidents.py) or human-review (review_server.py) step, and
+# emails the owner only if something is pending. Runs a week before
+# monthly_digest.yml (2nd of the month) so there's time to catch up before
+# the digest ships — drafting/review can't run here, both need the local
+# Ollama model and a human, see CLAUDE.md's review policy.
+
+on:
+  schedule:
+    - cron: "0 9 25 * *"  # 09:00 UTC on the 25th of each month
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Check backlog and email the owner if anything is pending
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          REMINDER_TO: ${{ secrets.REMINDER_TO }}
+        run: python3 scripts/check_review_backlog.py
