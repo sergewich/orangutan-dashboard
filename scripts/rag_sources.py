@@ -325,6 +325,13 @@ IUCN_JUNK_LINE_RE = re.compile(
 IUCN_TITLE_RE = re.compile(r'<meta name="citation_title" content="([^"]+)"', re.I)
 IUCN_AUTHOR_RE = re.compile(r'<meta name="citation_author" content="([^"]+)"', re.I)
 IUCN_YEAR_RE = re.compile(r'<meta name="citation_publication_date" content="(\d{4})"', re.I)
+# iucnredlist.org's Cloudflare bot-protection 403s GitHub Actions' IP range
+# outright (confirmed in production) even with a browser User-Agent, which
+# is enough to get past it from a residential/dev IP. This committed,
+# point-in-time copy of a successful fetch is what nightly CI falls back to
+# -- refresh it by hand (re-run this function from a machine that isn't
+# blocked, dump the result) after a future IUCN re-assessment.
+IUCN_STATIC_SNAPSHOT = Path(__file__).resolve().parent.parent / "data" / "literature" / "iucn_redlist_fulltext.json"
 
 
 def _iucn_lines(raw_html: str) -> list[str]:
@@ -369,34 +376,44 @@ def iucn_redlist(session, cache_dir: Path) -> list[dict]:
     license-equivalent to open for this non-commercial site."""
     cache_path = cache_dir / "iucn_redlist.json"
     cache = json.loads(cache_path.read_text()) if cache_path.exists() else {}
+    snapshot = json.loads(IUCN_STATIC_SNAPSHOT.read_text()) if IUCN_STATIC_SNAPSHOT.exists() else {}
     headers = {"User-Agent": IUCN_UA}
 
     out, changed = [], False
     for species, (taxon, assessment) in IUCN_REDLIST_ASSESSMENTS.items():
         key = f"{taxon}/{assessment}"
         if key not in cache:
+            fetched = None
             page_url = f"https://www.iucnredlist.org/species/{taxon}/{assessment}"
             try:
                 page = _get(session, page_url, headers=headers)
                 pdf = _get(session, f"{page_url}/pdf", headers=headers)
                 if not page.ok or not pdf.ok:
                     raise requests.RequestException(f"HTTP {page.status_code}/{pdf.status_code}")
+                title_m = IUCN_TITLE_RE.search(page.text)
+                authors = [re.sub(r"\s+,", ",", a).strip() for a in IUCN_AUTHOR_RE.findall(page.text)]
+                year_m = IUCN_YEAR_RE.search(page.text)
+                fetched = {
+                    "species": species, "url": page_url,
+                    "title": title_m.group(1) if title_m else f"{species}: IUCN Red List assessment",
+                    "authors": ", ".join(authors) or None,
+                    "year": int(year_m.group(1)) if year_m else None,
+                    "sections": _iucn_sections(_iucn_lines(pdf.text)),
+                }
+                time.sleep(0.5)
             except requests.RequestException as exc:
-                print(f"  WARNING: IUCN Red List fetch failed for {species}: {exc}", file=sys.stderr)
-                continue
-            title_m = IUCN_TITLE_RE.search(page.text)
-            authors = [re.sub(r"\s+,", ",", a).strip() for a in IUCN_AUTHOR_RE.findall(page.text)]
-            year_m = IUCN_YEAR_RE.search(page.text)
-            cache[key] = {
-                "species": species, "url": page_url,
-                "title": title_m.group(1) if title_m else f"{species}: IUCN Red List assessment",
-                "authors": ", ".join(authors) or None,
-                "year": int(year_m.group(1)) if year_m else None,
-                "sections": _iucn_sections(_iucn_lines(pdf.text)),
-            }
-            changed = True
-            time.sleep(0.5)
-        out.append(cache[key])
+                if key in snapshot:
+                    print(f"  IUCN Red List: live fetch failed for {species} ({exc}) -- using the "
+                          f"committed snapshot ({IUCN_STATIC_SNAPSHOT.name})", file=sys.stderr)
+                    fetched = snapshot[key]
+                else:
+                    print(f"  WARNING: IUCN Red List fetch failed for {species} and no snapshot "
+                          f"covers it: {exc}", file=sys.stderr)
+            if fetched is not None:
+                cache[key] = fetched
+                changed = True
+        if key in cache:
+            out.append(cache[key])
     if changed:
         cache_dir.mkdir(parents=True, exist_ok=True)
         cache_path.write_text(json.dumps(cache, ensure_ascii=False))
