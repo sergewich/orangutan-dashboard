@@ -321,3 +321,9 @@ main.landing .cta {
 /* Subscribe page: Brevo sign-up form in an iframe (white card) */
 .subscribe-form { display: block; width: 100%; max-width: 560px; height: 1000px; border: 0; margin: 0 auto 2rem; border-radius: 6px; }
 main.landing .subscribe-note { margin-top: 1.6rem; }
+
+/* Protected areas tab: alert-counts table */
+.pa-table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; font-size: 0.88rem; }
+.pa-table th, .pa-table td { padding: 0.5rem 0.7rem; text-align: left; border-bottom: 1px solid var(--border); }
+.pa-table th { background: var(--panel-2); color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; user-select: none; }
+.pa-table tbody tr:hover { background: var(--panel-2); }

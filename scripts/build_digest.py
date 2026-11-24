@@ -32,7 +32,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 INCIDENTS = REPO_ROOT / "data" / "social" / "incidents.json"
 LITERATURE = [REPO_ROOT / "data" / "literature" / "literature.json",
               REPO_ROOT / "data" / "literature" / "library.json"]
+SITE_UPDATES = REPO_ROOT / "data" / "site_updates.json"
+PA_ALERTS_DIR = REPO_ROOT / "data" / "archive" / "pa_alerts"
 STATE = REPO_ROOT / "digest_state.json"
+MAX_PA_ALERTS = 20  # beyond this the email links to the dashboard instead
 SITE = "https://sergewich.github.io/orangutan-dashboard/"
 CATEGORIES = {"translocation_rescue": "Rescues and translocations",
               "trade": "Wildlife trade", "killing": "Killings"}
@@ -47,22 +50,42 @@ def lit_key(rec: dict) -> str:
 
 def load_state() -> dict:
     if STATE.exists():
-        return json.loads(STATE.read_text())
-    return {"last_digest": None, "incidents": [], "literature": []}
+        state = json.loads(STATE.read_text())
+    else:
+        state = {"last_digest": None, "incidents": [], "literature": []}
+    state.setdefault("site_updates", [])
+    return state
 
 
-def save_state(state: dict, incidents: list[dict], literature: list[dict]) -> None:
+def save_state(state: dict, incidents: list[dict], literature: list[dict], site_updates: list[dict]) -> None:
     state["incidents"] = sorted(set(state["incidents"]) | {r["id"] for r in incidents})
     state["literature"] = sorted(set(state["literature"]) | {lit_key(r) for r in literature})
+    state["site_updates"] = sorted(set(state["site_updates"]) | {r["id"] for r in site_updates})
     state["last_digest"] = dt.date.today().isoformat()
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=0) + "\n")
 
 
-def current() -> tuple[list[dict], list[dict]]:
+def current() -> tuple[list[dict], list[dict], list[dict], dict | None]:
     incidents = [r for r in json.loads(INCIDENTS.read_text())
                  if r.get("reviewed") and r.get("decision") == "approved"]
     literature = [r for p in LITERATURE if p.exists() for r in json.loads(p.read_text())]
-    return incidents, literature
+    site_updates = json.loads(SITE_UPDATES.read_text())["updates"] if SITE_UPDATES.exists() else []
+    pa_alerts = latest_pa_alerts()
+    return incidents, literature, site_updates, pa_alerts
+
+
+def latest_pa_alerts() -> dict | None:
+    """The most recently computed data/archive/pa_alerts/<YYYY-MM>.json, if
+    any. Unlike incidents/literature/site_updates this is NOT deduped against
+    digest_state.json — it's inherently a fresh monthly snapshot, not a
+    backlog of "new since last time" items, so it's included every digest
+    regardless of whether a previous digest already covered a past month."""
+    if not PA_ALERTS_DIR.exists():
+        return None
+    files = sorted(PA_ALERTS_DIR.glob("*.json"))
+    if not files:
+        return None
+    return json.loads(files[-1].read_text())
 
 
 def date_of(rec: dict) -> str:
@@ -73,17 +96,66 @@ def esc(s) -> str:
     return html.escape(str(s or ""))
 
 
-def render(incidents: list[dict], literature: list[dict], month: str) -> tuple[str, str]:
+def render(incidents: list[dict], literature: list[dict], site_updates: list[dict],
+           pa_alerts: dict | None, month: str) -> tuple[str, str]:
     lit = sorted(literature, key=lambda r: (-(r.get("year") or 0), (r.get("title") or "").lower()))
     shown = lit[:MAX_LITERATURE]
+    updates_clause = f", and {len(site_updates)} site update{'s' if len(site_updates) != 1 else ''}" if site_updates else ""
     h = [f'<div style="font-family:Arial,Helvetica,sans-serif;max-width:640px;margin:0 auto;color:#222;line-height:1.45">',
          f'<h1 style="font-size:22px;color:#8a4b14">Orangutan Conservation Dashboard — {esc(month)}</h1>',
          f'<p>New on the <a href="{SITE}">dashboard</a> since the last update: '
          f'{len(incidents)} news report{"s" * (len(incidents) != 1)} and '
-         f'{len(literature)} literature entr{"ies" if len(literature) != 1 else "y"}.</p>']
+         f'{len(literature)} literature entr{"ies" if len(literature) != 1 else "y"}'
+         f'{esc(updates_clause)}.</p>']
     t = [f"Orangutan Conservation Dashboard — {month}", "",
-         f"New since the last update: {len(incidents)} news reports, {len(literature)} literature entries.",
+         f"New since the last update: {len(incidents)} news reports, {len(literature)} literature entries"
+         f"{updates_clause}.",
          f"Dashboard: {SITE}", ""]
+
+    if site_updates:
+        h.append('<h2 style="font-size:18px;border-bottom:2px solid #d9a066">Site updates</h2><ul style="padding-left:18px">')
+        t += ["SITE UPDATES", ""]
+        for r in site_updates:
+            h.append(f'<li style="margin-bottom:8px"><b>{esc(r.get("title"))}</b>'
+                     f'<br><span style="font-size:13px">{esc(r.get("description"))}</span></li>')
+            t += [f"- {r.get('title')}", f"  {r.get('description') or ''}"]
+        h.append("</ul>")
+        t.append("")
+
+    if pa_alerts and pa_alerts.get("places"):
+        pa_month = pa_alerts.get("month", "")
+        active = [pl for pl in pa_alerts["places"]
+                  if (pl.get("fire_count") or 0) > 0 or (pl.get("deforestation_count") or 0) > 0]
+        active.sort(key=lambda pl: (pl.get("fire_count") or 0) + (pl.get("deforestation_count") or 0), reverse=True)
+        shown_pa = active[:MAX_PA_ALERTS]
+        h.append(f'<h2 style="font-size:18px;border-bottom:2px solid #d9a066">Protected areas — {esc(pa_month)}</h2>'
+                 '<p style="font-size:13px;color:#666">Fire and deforestation alerts for that month, counted '
+                 'inside each protected area\'s boundary (World Database on Protected Areas). Deforestation '
+                 'counts come from a complete query per area, not from the map\'s point layer, which can be '
+                 'an incomplete sample in very high-alert months — see the dashboard for details.</p>')
+        t += [f"PROTECTED AREAS — {pa_month}", ""]
+        if shown_pa:
+            h.append('<table style="width:100%;border-collapse:collapse;font-size:13px">'
+                      '<tr style="text-align:left;border-bottom:1px solid #ccc">'
+                      '<th style="padding:4px 6px 4px 0">Protected area</th>'
+                      '<th style="padding:4px 6px">Fire alerts</th>'
+                      '<th style="padding:4px 6px">Deforestation alerts</th></tr>')
+            for pl in shown_pa:
+                h.append('<tr style="border-bottom:1px solid #eee">'
+                         f'<td style="padding:4px 6px 4px 0">{esc(pl.get("name"))}</td>'
+                         f'<td style="padding:4px 6px">{(pl.get("fire_count") or 0):,}</td>'
+                         f'<td style="padding:4px 6px">{(pl.get("deforestation_count") or 0):,}</td></tr>')
+                t.append(f"- {pl.get('name')}: {pl.get('fire_count') or 0} fire, "
+                         f"{pl.get('deforestation_count') or 0} deforestation")
+            h.append("</table>")
+            if len(active) > len(shown_pa):
+                h.append(f"<p>…and {len(active) - len(shown_pa)} more protected area(s) with alerts this month.</p>")
+                t.append(f"...and {len(active) - len(shown_pa)} more.")
+        else:
+            h.append("<p>No fire or deforestation alerts were recorded inside a tracked protected area this month.</p>")
+            t.append("No fire or deforestation alerts recorded this month.")
+        h.append(f'<p><a href="{SITE}site/tabs/map.html">See the map</a></p>')
+        t += ["", f"Map: {SITE}site/tabs/map.html", ""]
 
     if incidents:
         h.append('<h2 style="font-size:18px;border-bottom:2px solid #d9a066">News</h2>'
@@ -137,12 +209,13 @@ def main() -> None:
     args = p.parse_args()
 
     state = load_state()
-    incidents, literature = current()
+    incidents, literature, site_updates, pa_alerts = current()
     if args.seed:
-        save_state(state, incidents, literature)
-        print(f"Seeded {STATE.name}: {len(incidents)} incidents, {len(literature)} literature entries")
+        save_state(state, incidents, literature, site_updates)
+        print(f"Seeded {STATE.name}: {len(incidents)} incidents, {len(literature)} literature entries, "
+              f"{len(site_updates)} site updates")
         return
-    seen_inc, seen_lit = set(state["incidents"]), set(state["literature"])
+    seen_inc, seen_lit, seen_upd = set(state["incidents"]), set(state["literature"]), set(state["site_updates"])
     new_inc = [r for r in incidents if r["id"] not in seen_inc]
     new_lit, keys = [], set()
     for r in literature:
@@ -150,10 +223,13 @@ def main() -> None:
         if k not in seen_lit and k not in keys:
             keys.add(k)
             new_lit.append(r)
+    new_upd = [r for r in site_updates if r["id"] not in seen_upd]
 
     month = dt.date.today().strftime("%B %Y")
-    body_html, body_text = render(new_inc, new_lit, month)
+    body_html, body_text = render(new_inc, new_lit, new_upd, pa_alerts, month)
     summary = {"month": month, "incidents": len(new_inc), "literature": len(new_lit),
+               "site_updates": len(new_upd),
+               "pa_alerts_month": (pa_alerts or {}).get("month"),
                "subject": f"Orangutan dashboard update, {month}: {len(new_inc)} news reports, "
                           f"{len(new_lit)} new publications"}
     if args.out:
@@ -164,7 +240,7 @@ def main() -> None:
         (out / "digest.json").write_text(json.dumps(summary, indent=1))
     print(json.dumps(summary))
     if args.update_state:
-        save_state(state, new_inc, new_lit)
+        save_state(state, new_inc, new_lit, new_upd)
 
 
 if __name__ == "__main__":

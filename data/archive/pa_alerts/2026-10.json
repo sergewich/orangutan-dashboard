@@ -1,0 +1,2626 @@
+{
+ "month": "2026-10",
+ "generated": "2026-11-24",
+ "places": [
+  {
+   "id": "pongo_abelii-aceh-barat-daya",
+   "name": "Aceh Barat Daya",
+   "species": "pongo_abelii",
+   "designations": [
+    "Sanctuary"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_abelii-aceh-selatan-ii",
+   "name": "Aceh Selatan II",
+   "species": "pongo_abelii",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_abelii-bukit-barisan",
+   "name": "Bukit Barisan",
+   "species": "pongo_abelii",
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 567,
+   "deforestation_area_ha": 6.9683,
+   "deforestation_by_confidence": {
+    "high": 42,
+    "highest": 10,
+    "nominal": 515
+   }
+  },
+  {
+   "id": "pongo_abelii-bukit-tiga-puluh",
+   "name": "Bukit Tiga Puluh",
+   "species": "pongo_abelii",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 1870,
+   "deforestation_area_ha": 23.0152,
+   "deforestation_by_confidence": {
+    "high": 531,
+    "nominal": 1339
+   }
+  },
+  {
+   "id": "pongo_abelii-deleng-lancuk",
+   "name": "Deleng Lancuk",
+   "species": "pongo_abelii",
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_abelii-gunung-leuser",
+   "name": "Gunung Leuser",
+   "species": "pongo_abelii",
+   "designations": [
+    "National Park",
+    "UNESCO-MAB Biosphere Reserve"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 2,
+   "deforestation_count": 17450,
+   "deforestation_area_ha": 214.3835,
+   "deforestation_by_confidence": {
+    "high": 2163,
+    "highest": 173,
+    "nominal": 15114
+   }
+  },
+  {
+   "id": "pongo_abelii-hutan-pinus-janthoi",
+   "name": "Hutan Pinus/ Janthoi",
+   "species": "pongo_abelii",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 354,
+   "deforestation_area_ha": 4.3396,
+   "deforestation_by_confidence": {
+    "high": 99,
+    "highest": 17,
+    "nominal": 238
+   }
+  },
+  {
+   "id": "pongo_abelii-janthoi",
+   "name": "Janthoi",
+   "species": "pongo_abelii",
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 9,
+   "deforestation_area_ha": 0.1103,
+   "deforestation_by_confidence": {
+    "nominal": 9
+   }
+  },
+  {
+   "id": "pongo_abelii-lau-debuk-debuk",
+   "name": "Lau Debuk Debuk",
+   "species": "pongo_abelii",
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_abelii-lingga-isaq",
+   "name": "Lingga Isaq",
+   "species": "pongo_abelii",
+   "designations": [
+    "Hunting Park"
+   ],
+   "iucn_cat": "VI",
+   "fire_count": 0,
+   "deforestation_count": 3305,
+   "deforestation_area_ha": 40.5654,
+   "deforestation_by_confidence": {
+    "high": 427,
+    "nominal": 2878
+   }
+  },
+  {
+   "id": "pongo_abelii-raflessia-i-ii-serbojadi",
+   "name": "Raflessia I/II Serbojadi",
+   "species": "pongo_abelii",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "III",
+   "fire_count": 0,
+   "deforestation_count": 13,
+   "deforestation_area_ha": 0.1596,
+   "deforestation_by_confidence": {
+    "nominal": 13
+   }
+  },
+  {
+   "id": "pongo_abelii-rawa-singkil",
+   "name": "Rawa Singkil",
+   "species": "pongo_abelii",
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "fire_count": 0,
+   "deforestation_count": 3400,
+   "deforestation_area_ha": 41.8049,
+   "deforestation_by_confidence": {
+    "high": 746,
+    "highest": 64,
+    "nominal": 2590
+   }
+  },
+  {
+   "id": "pongo_abelii-siranggas",
+   "name": "Siranggas",
+   "species": "pongo_abelii",
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "fire_count": 0,
+   "deforestation_count": 34,
+   "deforestation_area_ha": 0.418,
+   "deforestation_by_confidence": {
+    "high": 8,
+    "nominal": 26
+   }
+  },
+  {
+   "id": "pongo_abelii-subulussalam",
+   "name": "Subulussalam",
+   "species": "pongo_abelii",
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 72,
+   "deforestation_area_ha": 0.8853,
+   "deforestation_by_confidence": {
+    "high": 6,
+    "nominal": 66
+   }
+  },
+  {
+   "id": "pongo_abelii-tropical-rainforest-heritage-of-sumatra",
+   "name": "Tropical Rainforest Heritage of Sumatra",
+   "species": "pongo_abelii",
+   "designations": [
+    "World Heritage Site (natural or mixed)"
+   ],
+   "iucn_cat": "Not Applicable",
+   "fire_count": 2,
+   "deforestation_count": 85122,
+   "deforestation_area_ha": 1046.2678,
+   "deforestation_by_confidence": {
+    "high": 17097,
+    "highest": 1128,
+    "nominal": 66897
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-babanga",
+   "name": "Babanga",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-balat-damit-wildlife",
+   "name": "Balat Damit Wildlife",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-bald-hill",
+   "name": "Bald Hill",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-baradaya",
+   "name": "Baradaya",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-batang-ai",
+   "name": "Batang Ai National Park",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 43,
+   "deforestation_area_ha": 0.5292,
+   "deforestation_by_confidence": {
+    "nominal": 43
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-batu-timbang",
+   "name": "Batu Timbang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 26,
+   "deforestation_area_ha": 0.319,
+   "deforestation_by_confidence": {
+    "high": 8,
+    "nominal": 18
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-betung-kerihun",
+   "name": "Betung Kerihun",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 9830,
+   "deforestation_area_ha": 120.9751,
+   "deforestation_by_confidence": {
+    "high": 1277,
+    "nominal": 8553
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bidu-bidu",
+   "name": "Bidu-Bidu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 64,
+   "deforestation_area_ha": 0.7839,
+   "deforestation_by_confidence": {
+    "high": 14,
+    "nominal": 50
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-botitian",
+   "name": "Botitian",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-brantian-tatulit",
+   "name": "Brantian-Tatulit",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 26,
+   "deforestation_area_ha": 0.3191,
+   "deforestation_by_confidence": {
+    "nominal": 26
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-baka-bukit-raya",
+   "name": "Bukit Baka -  Bukit Raya",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 984,
+   "deforestation_area_ha": 12.1111,
+   "deforestation_by_confidence": {
+    "high": 110,
+    "nominal": 874
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-hampuan",
+   "name": "Bukit Hampuan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 42,
+   "deforestation_area_ha": 0.5141,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 41
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-kuamas",
+   "name": "Bukit Kuamas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 11,
+   "deforestation_area_ha": 0.1347,
+   "deforestation_by_confidence": {
+    "nominal": 11
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-kuamas-extension",
+   "name": "Bukit Kuamas (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-monkobo-and-bukit-mentapok",
+   "name": "Bukit Monkobo and Bukit Mentapok",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "III",
+   "fire_count": 0,
+   "deforestation_count": 24,
+   "deforestation_area_ha": 0.294,
+   "deforestation_by_confidence": {
+    "high": 6,
+    "nominal": 18
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-piton",
+   "name": "Bukit Piton",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 87,
+   "deforestation_area_ha": 1.0665,
+   "deforestation_by_confidence": {
+    "high": 15,
+    "nominal": 72
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-rawi-eks-plg-ii",
+   "name": "Bukit Rawi (Eks PLG II)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 35,
+   "deforestation_count": 355,
+   "deforestation_area_ha": 4.3668,
+   "deforestation_by_confidence": {
+    "high": 125,
+    "nominal": 230
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-sapat-hawung",
+   "name": "Bukit Sapat Hawung",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 759,
+   "deforestation_area_ha": 9.342,
+   "deforestation_by_confidence": {
+    "high": 75,
+    "nominal": 684
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-tangkiling",
+   "name": "Bukit Tangkiling",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Nature Recreation Park",
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-taviu",
+   "name": "Bukit Taviu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 205,
+   "deforestation_area_ha": 2.511,
+   "deforestation_by_confidence": {
+    "high": 30,
+    "nominal": 175
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-crocker-range",
+   "name": "Crocker Range",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve",
+    "State Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 1303,
+   "deforestation_area_ha": 15.9647,
+   "deforestation_by_confidence": {
+    "high": 138,
+    "highest": 3,
+    "nominal": 1162
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-dagat",
+   "name": "Dagat",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-danau-sentarum",
+   "name": "Danau Sentarum",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park",
+    "Wetland of International Importance (Ramsar Site)"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 1202,
+   "deforestation_area_ha": 14.7943,
+   "deforestation_by_confidence": {
+    "high": 10,
+    "nominal": 1192
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-danum-valley",
+   "name": "Danum Valley",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 380,
+   "deforestation_area_ha": 4.6608,
+   "deforestation_by_confidence": {
+    "high": 19,
+    "nominal": 361
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gemok-hill",
+   "name": "Gemok Hill",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 4,
+   "deforestation_area_ha": 0.0491,
+   "deforestation_by_confidence": {
+    "nominal": 4
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gn-lumaku",
+   "name": "Gn. Lumaku",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 118,
+   "deforestation_area_ha": 1.4472,
+   "deforestation_by_confidence": {
+    "high": 7,
+    "nominal": 111
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong",
+   "name": "Gomantong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 11,
+   "deforestation_area_ha": 0.1347,
+   "deforestation_by_confidence": {
+    "high": 3,
+    "nominal": 8
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi",
+   "name": "Gomantong, Materis, Bod Tai, Keruak & Pangi",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi-extension",
+   "name": "Gomantong, Materis, Bod Tai, Keruak & Pangi (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "VI",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-gosong-senggora-sepagar",
+   "name": "Gosong Senggora Sepagar",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-gunong-lumaku",
+   "name": "Gunong Lumaku",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 54,
+   "deforestation_area_ha": 0.6622,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 53
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-palung",
+   "name": "Gunung Palung",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 2,
+   "deforestation_count": 51313,
+   "deforestation_area_ha": 631.4691,
+   "deforestation_by_confidence": {
+    "high": 9503,
+    "highest": 1860,
+    "nominal": 39950
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-rara-wildlife-corridor",
+   "name": "Gunung Rara Wildlife Corridor",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 100,
+   "deforestation_area_ha": 1.2268,
+   "deforestation_by_confidence": {
+    "high": 12,
+    "nominal": 88
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-tinkar",
+   "name": "Gunung Tinkar",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 58,
+   "deforestation_area_ha": 0.711,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "highest": 1,
+    "nominal": 56
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-imbak-canyon",
+   "name": "Imbak Canyon",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 332,
+   "deforestation_area_ha": 4.0707,
+   "deforestation_by_confidence": {
+    "high": 32,
+    "nominal": 300
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-imbok",
+   "name": "Imbok",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-kabili-sepilok",
+   "name": "Kabili Sepilok",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 7,
+   "deforestation_area_ha": 0.0857,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 6
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kalumpang",
+   "name": "Kalumpang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 7,
+   "deforestation_area_ha": 0.0859,
+   "deforestation_by_confidence": {
+    "high": 2,
+    "nominal": 5
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kawag-gibong",
+   "name": "Kawag Gibong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 3,
+   "deforestation_area_ha": 0.0368,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 2
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kendawangan",
+   "name": "Kendawangan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "fire_count": 0,
+   "deforestation_count": 214,
+   "deforestation_area_ha": 2.6312,
+   "deforestation_by_confidence": {
+    "nominal": 214
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kerangas",
+   "name": "Kerangas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-kinabalu-park",
+   "name": "Kinabalu Park",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "State Park",
+    "World Heritage Site (natural or mixed)"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 2187,
+   "deforestation_area_ha": 26.7642,
+   "deforestation_by_confidence": {
+    "high": 430,
+    "highest": 19,
+    "nominal": 1738
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kretam",
+   "name": "Kretam",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-kubu-raya",
+   "name": "Kubu Raya",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-kulamba",
+   "name": "Kulamba",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 18,
+   "deforestation_area_ha": 0.2206,
+   "deforestation_by_confidence": {
+    "nominal": 18
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-kutai",
+   "name": "Kutai",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 44,
+   "deforestation_count": 3368,
+   "deforestation_area_ha": 41.4565,
+   "deforestation_by_confidence": {
+    "high": 528,
+    "nominal": 2840
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lamag",
+   "name": "Lamag",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-lamandau",
+   "name": "Lamandau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "fire_count": 0,
+   "deforestation_count": 268,
+   "deforestation_area_ha": 3.2951,
+   "deforestation_by_confidence": {
+    "high": 15,
+    "nominal": 253
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lanjak-entimau",
+   "name": "Lanjak Entimau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 973,
+   "deforestation_area_ha": 11.9714,
+   "deforestation_by_confidence": {
+    "high": 7,
+    "nominal": 966
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lapak-jaru",
+   "name": "Lapak Jaru",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 77,
+   "deforestation_area_ha": 0.9476,
+   "deforestation_by_confidence": {
+    "high": 4,
+    "nominal": 73
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lipaso",
+   "name": "Lipaso",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 60,
+   "deforestation_area_ha": 0.7349,
+   "deforestation_by_confidence": {
+    "high": 10,
+    "nominal": 50
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lower-kinabatangan",
+   "name": "Lower Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Wildlife Sanctuary"
+   ],
+   "iucn_cat": "IV",
+   "fire_count": 0,
+   "deforestation_count": 331,
+   "deforestation_area_ha": 4.0555,
+   "deforestation_by_confidence": {
+    "high": 213,
+    "nominal": 118
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-lungmanis",
+   "name": "Lungmanis",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 27,
+   "deforestation_area_ha": 0.3307,
+   "deforestation_by_confidence": {
+    "nominal": 27
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-madai-baturong",
+   "name": "Madai Baturong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 50,
+   "deforestation_area_ha": 0.6134,
+   "deforestation_by_confidence": {
+    "high": 5,
+    "nominal": 45
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mahakam-wilayah-hulu",
+   "name": "Mahakam Wilayah Hulu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "IV",
+   "fire_count": 0,
+   "deforestation_count": 182,
+   "deforestation_area_ha": 2.2402,
+   "deforestation_by_confidence": {
+    "high": 2,
+    "nominal": 180
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-basin",
+   "name": "Maliau Basin",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 965,
+   "deforestation_area_ha": 11.8386,
+   "deforestation_by_confidence": {
+    "high": 89,
+    "nominal": 876
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-buffer-zone-maliau-buffer-zone-extension",
+   "name": "Maliau Buffer Zone & Maliau Buffer Zone (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1249,
+   "deforestation_area_ha": 15.3225,
+   "deforestation_by_confidence": {
+    "high": 118,
+    "nominal": 1131
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-buffer-zone-extension-ii",
+   "name": "Maliau Buffer Zone (Extension II)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 363,
+   "deforestation_area_ha": 4.4533,
+   "deforestation_by_confidence": {
+    "high": 29,
+    "nominal": 334
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-malua",
+   "name": "Malua",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 104,
+   "deforestation_area_ha": 1.2749,
+   "deforestation_by_confidence": {
+    "high": 13,
+    "nominal": 91
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-malubuk",
+   "name": "Malubuk",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1,
+   "deforestation_area_ha": 0.0123,
+   "deforestation_by_confidence": {
+    "nominal": 1
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mamahat",
+   "name": "Mamahat",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-marang-eks-plg-i",
+   "name": "Marang (Eks PLG I)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 10,
+   "deforestation_area_ha": 0.123,
+   "deforestation_by_confidence": {
+    "nominal": 10
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-meliau-range",
+   "name": "Meliau Range",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 19,
+   "deforestation_area_ha": 0.2327,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 18
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-membalua",
+   "name": "Membalua",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-mengilan",
+   "name": "Mengilan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 107,
+   "deforestation_area_ha": 1.3135,
+   "deforestation_by_confidence": {
+    "high": 7,
+    "nominal": 100
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-merisuli",
+   "name": "Merisuli",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-milian-labau",
+   "name": "Milian-Labau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 4,
+   "deforestation_area_ha": 0.049,
+   "deforestation_by_confidence": {
+    "nominal": 4
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-milli-nonum",
+   "name": "Milli Nonum",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-mount-hatton",
+   "name": "Mount Hatton",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 168,
+   "deforestation_area_ha": 2.0595,
+   "deforestation_by_confidence": {
+    "high": 11,
+    "nominal": 157
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mount-louisa",
+   "name": "Mount Louisa",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 181,
+   "deforestation_area_ha": 2.2205,
+   "deforestation_by_confidence": {
+    "high": 17,
+    "nominal": 164
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mount-magdalena",
+   "name": "Mount Magdalena",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 667,
+   "deforestation_area_ha": 8.1826,
+   "deforestation_by_confidence": {
+    "high": 35,
+    "highest": 3,
+    "nominal": 629
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mount-pock",
+   "name": "Mount Pock",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 34,
+   "deforestation_area_ha": 0.4174,
+   "deforestation_by_confidence": {
+    "high": 4,
+    "nominal": 30
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mt-andrassy",
+   "name": "Mt. Andrassy",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-mt-conner",
+   "name": "Mt. Conner",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 9,
+   "deforestation_area_ha": 0.1105,
+   "deforestation_by_confidence": {
+    "high": 9
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-mt-wullersdorf",
+   "name": "Mt. Wullersdorf",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 53,
+   "deforestation_area_ha": 0.6506,
+   "deforestation_by_confidence": {
+    "high": 8,
+    "nominal": 45
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-muara-kaman-sedulang",
+   "name": "Muara Kaman Sedulang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 27,
+   "deforestation_count": 4014,
+   "deforestation_area_ha": 49.354,
+   "deforestation_by_confidence": {
+    "high": 1221,
+    "nominal": 2793
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-northern-gunung-rara",
+   "name": "Northern Gunung Rara",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 101,
+   "deforestation_area_ha": 1.2391,
+   "deforestation_by_confidence": {
+    "high": 16,
+    "nominal": 85
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-northern-kuamut",
+   "name": "Northern Kuamut",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 247,
+   "deforestation_area_ha": 3.0282,
+   "deforestation_by_confidence": {
+    "high": 12,
+    "nominal": 235
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-nuluhon-trusmadi",
+   "name": "Nuluhon Trusmadi",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 685,
+   "deforestation_area_ha": 8.3928,
+   "deforestation_by_confidence": {
+    "high": 38,
+    "nominal": 647
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-nurod-urod",
+   "name": "Nurod Urod",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 54,
+   "deforestation_area_ha": 0.6625,
+   "deforestation_by_confidence": {
+    "high": 7,
+    "nominal": 47
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-pararawen-i-ii",
+   "name": "Pararawen I-II",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 43,
+   "deforestation_area_ha": 0.5292,
+   "deforestation_by_confidence": {
+    "high": 20,
+    "nominal": 23
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-pensiangan",
+   "name": "Pensiangan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 2453,
+   "deforestation_area_ha": 30.0929,
+   "deforestation_by_confidence": {
+    "high": 197,
+    "nominal": 2256
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-pin-supu",
+   "name": "Pin-Supu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 7,
+   "deforestation_area_ha": 0.0858,
+   "deforestation_by_confidence": {
+    "nominal": 7
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-quoin-hill",
+   "name": "Quoin Hill",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1,
+   "deforestation_area_ha": 0.0123,
+   "deforestation_by_confidence": {
+    "nominal": 1
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-rafflesia",
+   "name": "Rafflesia",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sabuai-arut-selatan-kumai-kobar",
+   "name": "Sabuai, Arut Selatan-Kumai (Kobar)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sapagaya",
+   "name": "Sapagaya",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 6,
+   "deforestation_area_ha": 0.0736,
+   "deforestation_by_confidence": {
+    "nominal": 6
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sebangau",
+   "name": "Sebangau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 2515,
+   "deforestation_count": 18741,
+   "deforestation_area_ha": 230.5099,
+   "deforestation_by_confidence": {
+    "high": 9714,
+    "highest": 59,
+    "nominal": 8968
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-segarong",
+   "name": "Segarong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 4,
+   "deforestation_area_ha": 0.0491,
+   "deforestation_by_confidence": {
+    "nominal": 4
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sepagaya",
+   "name": "Sepagaya",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 14,
+   "deforestation_area_ha": 0.1718,
+   "deforestation_by_confidence": {
+    "nominal": 14
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sepilok-mangrove",
+   "name": "Sepilok (Mangrove)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 15,
+   "deforestation_area_ha": 0.1837,
+   "deforestation_by_confidence": {
+    "nominal": 15
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-silabukan",
+   "name": "Silabukan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 29,
+   "deforestation_area_ha": 0.3556,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 28
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-silam",
+   "name": "Silam",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-silimpopon",
+   "name": "Silimpopon",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 31,
+   "deforestation_area_ha": 0.3806,
+   "deforestation_by_confidence": {
+    "nominal": 31
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sook-lake",
+   "name": "Sook Lake",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sosopodon",
+   "name": "Sosopodon",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sugud-wildlife-corridor",
+   "name": "Sugud Wildlife Corridor",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-anjeranjermut",
+   "name": "Sungai Anjeranjermut",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-bakau-seruyan-hilir-timur-seruyan",
+   "name": "Sungai Bakau, Seruyan Hilir Timur (Seruyan)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-barito",
+   "name": "Sungai Barito",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 186,
+   "deforestation_count": 19428,
+   "deforestation_area_ha": 239.0072,
+   "deforestation_by_confidence": {
+    "high": 7487,
+    "highest": 2,
+    "nominal": 11939
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-gologob",
+   "name": "Sungai Gologob",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 177,
+   "deforestation_area_ha": 2.168,
+   "deforestation_by_confidence": {
+    "high": 135,
+    "nominal": 42
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-sungai-imbak-extension",
+   "name": "Sungai Imbak & Sungai Imbak (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 163,
+   "deforestation_area_ha": 1.9984,
+   "deforestation_by_confidence": {
+    "high": 12,
+    "nominal": 151
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-buffer-zone",
+   "name": "Sungai Imbak Buffer Zone",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 1,
+   "deforestation_count": 684,
+   "deforestation_area_ha": 8.3857,
+   "deforestation_by_confidence": {
+    "high": 86,
+    "nominal": 598
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-buffer-zone-extension",
+   "name": "Sungai Imbak Buffer Zone (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 202,
+   "deforestation_area_ha": 2.4763,
+   "deforestation_by_confidence": {
+    "high": 13,
+    "nominal": 189
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kapuas",
+   "name": "Sungai Kapuas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 404,
+   "deforestation_count": 1029,
+   "deforestation_area_ha": 12.6565,
+   "deforestation_by_confidence": {
+    "high": 267,
+    "nominal": 762
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kapur",
+   "name": "Sungai Kapur",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 3,
+   "deforestation_area_ha": 0.0368,
+   "deforestation_by_confidence": {
+    "nominal": 3
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kiluyu",
+   "name": "Sungai Kiluyu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 2,
+   "deforestation_area_ha": 0.0245,
+   "deforestation_by_confidence": {
+    "nominal": 2
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kinabatangan",
+   "name": "Sungai Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lasun-pulau-evans",
+   "name": "Sungai Lasun & Pulau Evans",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lokan",
+   "name": "Sungai Lokan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lulungoyan",
+   "name": "Sungai Lulungoyan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 47,
+   "deforestation_area_ha": 0.5762,
+   "deforestation_by_confidence": {
+    "high": 5,
+    "nominal": 42
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-maruap",
+   "name": "Sungai Maruap",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-penawan",
+   "name": "Sungai Penawan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 54,
+   "deforestation_area_ha": 0.662,
+   "deforestation_by_confidence": {
+    "high": 3,
+    "nominal": 51
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-sansiang",
+   "name": "Sungai Sansiang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-segama",
+   "name": "Sungai Segama",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-serudong",
+   "name": "Sungai Serudong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 61,
+   "deforestation_area_ha": 0.7489,
+   "deforestation_by_confidence": {
+    "high": 11,
+    "nominal": 50
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-siliawan-sungai-siliawan-extension",
+   "name": "Sungai Siliawan & Sungai Siliawan (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-siliawan-extension-ii",
+   "name": "Sungai Siliawan (Extension II)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-simpang-simpang-extension",
+   "name": "Sungai Simpang & Simpang (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-sumagas",
+   "name": "Sungai Sumagas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-talibu",
+   "name": "Sungai Talibu",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 16,
+   "deforestation_area_ha": 0.1961,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 15
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-taliwas",
+   "name": "Sungai Taliwas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 52,
+   "deforestation_area_ha": 0.6375,
+   "deforestation_by_confidence": {
+    "high": 4,
+    "nominal": 48
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-tiagau",
+   "name": "Sungai Tiagau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1041,
+   "deforestation_area_ha": 12.7709,
+   "deforestation_by_confidence": {
+    "high": 390,
+    "highest": 1,
+    "nominal": 650
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-tongod",
+   "name": "Sungai Tongod",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 6,
+   "deforestation_area_ha": 0.0736,
+   "deforestation_by_confidence": {
+    "nominal": 6
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tabin",
+   "name": "Tabin Wildlife Reserve",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 478,
+   "deforestation_area_ha": 5.8597,
+   "deforestation_by_confidence": {
+    "high": 31,
+    "nominal": 447
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tabin-extension",
+   "name": "Tabin Wildlife Reserve (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tajong",
+   "name": "Tajong",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1,
+   "deforestation_area_ha": 0.0123,
+   "deforestation_by_confidence": {
+    "nominal": 1
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-taman-botanikal-sepilok",
+   "name": "Taman Botanikal Sepilok",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tambulanan",
+   "name": "Tambulanan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 128,
+   "deforestation_area_ha": 1.5703,
+   "deforestation_by_confidence": {
+    "high": 6,
+    "nominal": 122
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tangkulap",
+   "name": "Tangkulap",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 31,
+   "deforestation_area_ha": 0.38,
+   "deforestation_by_confidence": {
+    "nominal": 31
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tanjong-nagas",
+   "name": "Tanjong Nagas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 20,
+   "deforestation_area_ha": 0.2455,
+   "deforestation_by_confidence": {
+    "high": 10,
+    "nominal": 10
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-keluang-teluk-keluang",
+   "name": "Tanjung Keluang-Teluk Keluang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "V",
+   "fire_count": 8,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-malatayur",
+   "name": "Tanjung Malatayur",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 119,
+   "deforestation_count": 13588,
+   "deforestation_area_ha": 167.1784,
+   "deforestation_by_confidence": {
+    "high": 11509,
+    "highest": 14,
+    "nominal": 2065
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-puting",
+   "name": "Tanjung Puting National Park",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park",
+    "Wetland of International Importance (Ramsar Site)"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 2979,
+   "deforestation_count": 28070,
+   "deforestation_area_ha": 345.0191,
+   "deforestation_by_confidence": {
+    "high": 2106,
+    "nominal": 25964
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tawai",
+   "name": "Tawai",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 70,
+   "deforestation_area_ha": 0.8574,
+   "deforestation_by_confidence": {
+    "nominal": 70
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tawau",
+   "name": "Tawau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 1,
+   "deforestation_area_ha": 0.0123,
+   "deforestation_by_confidence": {
+    "nominal": 1
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tawau-hill-park",
+   "name": "Tawau Hill Park",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "State Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 349,
+   "deforestation_area_ha": 4.2843,
+   "deforestation_by_confidence": {
+    "high": 53,
+    "nominal": 296
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-teluk-sebangau-pulang-pisau-katingan",
+   "name": "Teluk Sebangau (Pulang Pisau-Katingan)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tenompok",
+   "name": "Tenompok",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 18,
+   "deforestation_area_ha": 0.2203,
+   "deforestation_by_confidence": {
+    "nominal": 18
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-tg-cemeti-pulau-hanaut-katingan-kotim-katingan",
+   "name": "Tg. Cemeti, Pulau Hanaut-Katingan (Kotim-Katingan)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tg-temunong-hallo",
+   "name": "Tg. Temunong Hallo",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-timbah",
+   "name": "Timbah",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-timimbang",
+   "name": "Timimbang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 32,
+   "deforestation_area_ha": 0.3916,
+   "deforestation_by_confidence": {
+    "high": 2,
+    "nominal": 30
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-timimbang-extension",
+   "name": "Timimbang (Extension)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-tinagat",
+   "name": "Tinagat",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 7,
+   "deforestation_area_ha": 0.0859,
+   "deforestation_by_confidence": {
+    "nominal": 7
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-trusan-kinabatangan",
+   "name": "Trusan Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 3,
+   "deforestation_area_ha": 0.0367,
+   "deforestation_by_confidence": {
+    "nominal": 3
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-trusan-sugut",
+   "name": "Trusan Sugut",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 48,
+   "deforestation_area_ha": 0.5874,
+   "deforestation_by_confidence": {
+    "nominal": 48
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-ujung-pandaran-teluk-sampit-kotim",
+   "name": "Ujung Pandaran, Teluk Sampit (Kotim)",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-kalumpang",
+   "name": "Ulu Kalumpang",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 261,
+   "deforestation_area_ha": 3.2019,
+   "deforestation_by_confidence": {
+    "high": 99,
+    "nominal": 162
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-kukut",
+   "name": "Ulu Kukut",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-sapa-payau",
+   "name": "Ulu Sapa Payau",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 8,
+   "deforestation_area_ha": 0.098,
+   "deforestation_by_confidence": {
+    "nominal": 8
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-segama",
+   "name": "Ulu Segama",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 836,
+   "deforestation_area_ha": 10.2527,
+   "deforestation_by_confidence": {
+    "high": 80,
+    "nominal": 756
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-sg-napagon",
+   "name": "Ulu Sg. Napagon",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-telupid",
+   "name": "Ulu Telupid",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 30,
+   "deforestation_area_ha": 0.3675,
+   "deforestation_by_confidence": {
+    "high": 1,
+    "nominal": 29
+   }
+  },
+  {
+   "id": "pongo_pygmaeus-umas-umas",
+   "name": "Umas Umas",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_pygmaeus-usun-apau",
+   "name": "Usun Apau National Park",
+   "species": "pongo_pygmaeus",
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "fire_count": 0,
+   "deforestation_count": 194,
+   "deforestation_area_ha": 2.385,
+   "deforestation_by_confidence": {
+    "high": 20,
+    "nominal": 174
+   }
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-saut",
+   "name": "Dolok Saut",
+   "species": "pongo_tapanuliensis",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "III",
+   "fire_count": 0,
+   "deforestation_count": 0,
+   "deforestation_area_ha": 0,
+   "deforestation_by_confidence": {}
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-sibual-buali",
+   "name": "Dolok Sibual-buali",
+   "species": "pongo_tapanuliensis",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 973,
+   "deforestation_area_ha": 11.9713,
+   "deforestation_by_confidence": {
+    "high": 74,
+    "nominal": 899
+   }
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-sipirok",
+   "name": "Dolok Sipirok",
+   "species": "pongo_tapanuliensis",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 439,
+   "deforestation_area_ha": 5.4012,
+   "deforestation_by_confidence": {
+    "high": 41,
+    "nominal": 398
+   }
+  },
+  {
+   "id": "pongo_tapanuliensis-lubuk-raya",
+   "name": "Lubuk Raya",
+   "species": "pongo_tapanuliensis",
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "fire_count": 0,
+   "deforestation_count": 436,
+   "deforestation_area_ha": 5.3655,
+   "deforestation_by_confidence": {
+    "high": 49,
+    "nominal": 387
+   }
+  }
+ ]
+}

@@ -1,0 +1,2471 @@
+{
+ "updated": "2026-11-24",
+ "note": "Reference list of protected areas (WDPA site_pid numbers) confirmed to overlap each orangutan species' range, deduplicated to one record per physical place. No WDPA geometry or bulk attribute data is stored here (see CLAUDE.md's WDPA licensing note) — this is a cross-reference for querying UNEP-WCMC's and GFW's live services, same spirit as data/ngos/ngos.json. Rebuild with scripts/build_wdpa_places.py.",
+ "places": [
+  {
+   "id": "pongo_abelii-aceh-barat-daya",
+   "name": "Aceh Barat Daya",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555881550",
+   "site_pids": [
+    "555881550"
+   ],
+   "designations": [
+    "Sanctuary"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-aceh-selatan-ii",
+   "name": "Aceh Selatan II",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555881556",
+   "site_pids": [
+    "555881556"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-bukit-barisan",
+   "name": "Bukit Barisan",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555635878",
+   "site_pids": [
+    "555635878"
+   ],
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-bukit-tiga-puluh",
+   "name": "Bukit Tiga Puluh",
+   "species": "pongo_abelii",
+   "representative_site_pid": "124434",
+   "site_pids": [
+    "124434"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-deleng-lancuk",
+   "name": "Deleng Lancuk",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555635887",
+   "site_pids": [
+    "555635887"
+   ],
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-gunung-leuser",
+   "name": "Gunung Leuser",
+   "species": "pongo_abelii",
+   "representative_site_pid": "1251",
+   "site_pids": [
+    "1251",
+    "3030"
+   ],
+   "designations": [
+    "National Park",
+    "UNESCO-MAB Biosphere Reserve"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-hutan-pinus-janthoi",
+   "name": "Hutan Pinus/ Janthoi",
+   "species": "pongo_abelii",
+   "representative_site_pid": "20931",
+   "site_pids": [
+    "20931"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-janthoi",
+   "name": "Janthoi",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555635888",
+   "site_pids": [
+    "555635888"
+   ],
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-lau-debuk-debuk",
+   "name": "Lau Debuk Debuk",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555635890",
+   "site_pids": [
+    "555635890"
+   ],
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-lingga-isaq",
+   "name": "Lingga Isaq",
+   "species": "pongo_abelii",
+   "representative_site_pid": "8897",
+   "site_pids": [
+    "8897"
+   ],
+   "designations": [
+    "Hunting Park"
+   ],
+   "iucn_cat": "VI",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-raflessia-i-ii-serbojadi",
+   "name": "Raflessia I/II Serbojadi",
+   "species": "pongo_abelii",
+   "representative_site_pid": "10316",
+   "site_pids": [
+    "10316"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "III",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-rawa-singkil",
+   "name": "Rawa Singkil",
+   "species": "pongo_abelii",
+   "representative_site_pid": "17962",
+   "site_pids": [
+    "17962"
+   ],
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-siranggas",
+   "name": "Siranggas",
+   "species": "pongo_abelii",
+   "representative_site_pid": "34130",
+   "site_pids": [
+    "34130"
+   ],
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-subulussalam",
+   "name": "Subulussalam",
+   "species": "pongo_abelii",
+   "representative_site_pid": "555635882",
+   "site_pids": [
+    "555635882"
+   ],
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_abelii-tropical-rainforest-heritage-of-sumatra",
+   "name": "Tropical Rainforest Heritage of Sumatra",
+   "species": "pongo_abelii",
+   "representative_site_pid": "902335",
+   "site_pids": [
+    "902335"
+   ],
+   "designations": [
+    "World Heritage Site (natural or mixed)"
+   ],
+   "iucn_cat": "Not Applicable",
+   "status": "Inscribed"
+  },
+  {
+   "id": "pongo_pygmaeus-babanga",
+   "name": "Babanga",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705605",
+   "site_pids": [
+    "555705605"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-balat-damit-wildlife",
+   "name": "Balat Damit Wildlife",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705606",
+   "site_pids": [
+    "555705606"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bald-hill",
+   "name": "Bald Hill",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3385",
+   "site_pids": [
+    "3385"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-baradaya",
+   "name": "Baradaya",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705609",
+   "site_pids": [
+    "555705609"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-batang-ai",
+   "name": "Batang Ai National Park",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "12250",
+   "site_pids": [
+    "12250"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-batu-timbang",
+   "name": "Batu Timbang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9860",
+   "site_pids": [
+    "9860"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-betung-kerihun",
+   "name": "Betung Kerihun",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8673",
+   "site_pids": [
+    "8673"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bidu-bidu",
+   "name": "Bidu-Bidu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3391",
+   "site_pids": [
+    "3391"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-botitian",
+   "name": "Botitian",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62579",
+   "site_pids": [
+    "62579"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-brantian-tatulit",
+   "name": "Brantian-Tatulit",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9881",
+   "site_pids": [
+    "9881"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-baka-bukit-raya",
+   "name": "Bukit Baka -  Bukit Raya",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62496",
+   "site_pids": [
+    "62496"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-hampuan",
+   "name": "Bukit Hampuan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705612",
+   "site_pids": [
+    "555705612"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-kuamas",
+   "name": "Bukit Kuamas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62575",
+   "site_pids": [
+    "62575"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-kuamas-extension",
+   "name": "Bukit Kuamas (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705679",
+   "site_pids": [
+    "555705679"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-monkobo-and-bukit-mentapok",
+   "name": "Bukit Monkobo and Bukit Mentapok",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705613",
+   "site_pids": [
+    "555705613"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "III",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-piton",
+   "name": "Bukit Piton",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705614",
+   "site_pids": [
+    "555705614"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-rawi-eks-plg-ii",
+   "name": "Bukit Rawi (Eks PLG II)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635857",
+   "site_pids": [
+    "555635857"
+   ],
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-sapat-hawung",
+   "name": "Bukit Sapat Hawung",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "317258",
+   "site_pids": [
+    "317258"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-tangkiling",
+   "name": "Bukit Tangkiling",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635910",
+   "site_pids": [
+    "1915",
+    "555635910"
+   ],
+   "designations": [
+    "Nature Recreation Park",
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-bukit-taviu",
+   "name": "Bukit Taviu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62573",
+   "site_pids": [
+    "62573"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-crocker-range",
+   "name": "Crocker Range",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8796",
+   "site_pids": [
+    "8796",
+    "97991"
+   ],
+   "designations": [
+    "Forest Reserve",
+    "State Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-dagat",
+   "name": "Dagat",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "10070",
+   "site_pids": [
+    "10070"
+   ],
+   "designations": [
+    "Forest reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-danau-sentarum",
+   "name": "Danau Sentarum",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "317259",
+   "site_pids": [
+    "317259",
+    "95338"
+   ],
+   "designations": [
+    "National Park",
+    "Wetland of International Importance (Ramsar Site)"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-danum-valley",
+   "name": "Danum Valley",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "10279",
+   "site_pids": [
+    "10279"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gemok-hill",
+   "name": "Gemok Hill",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3402",
+   "site_pids": [
+    "3402"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gn-lumaku",
+   "name": "Gn. Lumaku",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705618",
+   "site_pids": [
+    "555705618"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong",
+   "name": "Gomantong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3399",
+   "site_pids": [
+    "3399"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi",
+   "name": "Gomantong, Materis, Bod Tai, Keruak & Pangi",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "317301",
+   "site_pids": [
+    "317301"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi-extension",
+   "name": "Gomantong, Materis, Bod Tai, Keruak & Pangi (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705680",
+   "site_pids": [
+    "555705680"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "VI",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gosong-senggora-sepagar",
+   "name": "Gosong Senggora Sepagar",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881657",
+   "site_pids": [
+    "555881657"
+   ],
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gunong-lumaku",
+   "name": "Gunong Lumaku",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9842",
+   "site_pids": [
+    "9842"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-palung",
+   "name": "Gunung Palung",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "20378",
+   "site_pids": [
+    "20378"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-rara-wildlife-corridor",
+   "name": "Gunung Rara Wildlife Corridor",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705620",
+   "site_pids": [
+    "555705620"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-gunung-tinkar",
+   "name": "Gunung Tinkar",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705621",
+   "site_pids": [
+    "555705621"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-imbak-canyon",
+   "name": "Imbak Canyon",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705622",
+   "site_pids": [
+    "555705622"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-imbok",
+   "name": "Imbok",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9863",
+   "site_pids": [
+    "9863"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kabili-sepilok",
+   "name": "Kabili Sepilok",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3406",
+   "site_pids": [
+    "3406"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kalumpang",
+   "name": "Kalumpang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9880",
+   "site_pids": [
+    "9880"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kawag-gibong",
+   "name": "Kawag Gibong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9879",
+   "site_pids": [
+    "9879"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kendawangan",
+   "name": "Kendawangan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881685",
+   "site_pids": [
+    "555881685"
+   ],
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kerangas",
+   "name": "Kerangas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705624",
+   "site_pids": [
+    "555705624"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kinabalu-park",
+   "name": "Kinabalu Park",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "785",
+   "site_pids": [
+    "220292",
+    "785"
+   ],
+   "designations": [
+    "State Park",
+    "World Heritage Site (natural or mixed)"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kretam",
+   "name": "Kretam",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "4039",
+   "site_pids": [
+    "4039"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kubu-raya",
+   "name": "Kubu Raya",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881587",
+   "site_pids": [
+    "555881587"
+   ],
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "VI",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kulamba",
+   "name": "Kulamba",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8794",
+   "site_pids": [
+    "8794"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-kutai",
+   "name": "Kutai",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "1256",
+   "site_pids": [
+    "1256"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lamag",
+   "name": "Lamag",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3420",
+   "site_pids": [
+    "3420"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lamandau",
+   "name": "Lamandau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "317260",
+   "site_pids": [
+    "317260"
+   ],
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "IV",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lanjak-entimau",
+   "name": "Lanjak Entimau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "1300",
+   "site_pids": [
+    "1300"
+   ],
+   "designations": [
+    "Wildlife Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lapak-jaru",
+   "name": "Lapak Jaru",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635879",
+   "site_pids": [
+    "555635879"
+   ],
+   "designations": [
+    "Grand Forest Park"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lipaso",
+   "name": "Lipaso",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9850",
+   "site_pids": [
+    "9850"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lower-kinabatangan",
+   "name": "Lower Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705694",
+   "site_pids": [
+    "555705694"
+   ],
+   "designations": [
+    "Wildlife Sanctuary"
+   ],
+   "iucn_cat": "IV",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-lungmanis",
+   "name": "Lungmanis",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9878",
+   "site_pids": [
+    "9878"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-madai-baturong",
+   "name": "Madai Baturong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3425",
+   "site_pids": [
+    "3425"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mahakam-wilayah-hulu",
+   "name": "Mahakam Wilayah Hulu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881730",
+   "site_pids": [
+    "555881730"
+   ],
+   "designations": [
+    "Marine Park"
+   ],
+   "iucn_cat": "IV",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-basin",
+   "name": "Maliau Basin",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8810",
+   "site_pids": [
+    "8810"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-buffer-zone-maliau-buffer-zone-extension",
+   "name": "Maliau Buffer Zone & Maliau Buffer Zone (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705692",
+   "site_pids": [
+    "555705692"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-maliau-buffer-zone-extension-ii",
+   "name": "Maliau Buffer Zone (Extension II)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705681",
+   "site_pids": [
+    "555705681"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-malua",
+   "name": "Malua",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705627",
+   "site_pids": [
+    "555705627"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-malubuk",
+   "name": "Malubuk",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9864",
+   "site_pids": [
+    "9864"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mamahat",
+   "name": "Mamahat",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9866",
+   "site_pids": [
+    "9866"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-marang-eks-plg-i",
+   "name": "Marang (Eks PLG I)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635864",
+   "site_pids": [
+    "555635864"
+   ],
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-meliau-range",
+   "name": "Meliau Range",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705629",
+   "site_pids": [
+    "555705629"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-membalua",
+   "name": "Membalua",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705630",
+   "site_pids": [
+    "555705630"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mengilan",
+   "name": "Mengilan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705631",
+   "site_pids": [
+    "555705631"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-merisuli",
+   "name": "Merisuli",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "10071",
+   "site_pids": [
+    "10071"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-milian-labau",
+   "name": "Milian-Labau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9883",
+   "site_pids": [
+    "9883"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-milli-nonum",
+   "name": "Milli Nonum",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705632",
+   "site_pids": [
+    "555705632"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mount-hatton",
+   "name": "Mount Hatton",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62577",
+   "site_pids": [
+    "62577"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mount-louisa",
+   "name": "Mount Louisa",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705633",
+   "site_pids": [
+    "555705633"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mount-magdalena",
+   "name": "Mount Magdalena",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705634",
+   "site_pids": [
+    "555705634"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mount-pock",
+   "name": "Mount Pock",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3433",
+   "site_pids": [
+    "3433"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mt-andrassy",
+   "name": "Mt. Andrassy",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3430",
+   "site_pids": [
+    "3430"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mt-conner",
+   "name": "Mt. Conner",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3432",
+   "site_pids": [
+    "3432"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-mt-wullersdorf",
+   "name": "Mt. Wullersdorf",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3435",
+   "site_pids": [
+    "3435"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-muara-kaman-sedulang",
+   "name": "Muara Kaman Sedulang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "1917",
+   "site_pids": [
+    "1917",
+    "8552"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-northern-gunung-rara",
+   "name": "Northern Gunung Rara",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705636",
+   "site_pids": [
+    "555705636"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-northern-kuamut",
+   "name": "Northern Kuamut",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705696",
+   "site_pids": [
+    "555705696"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-nuluhon-trusmadi",
+   "name": "Nuluhon Trusmadi",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705697",
+   "site_pids": [
+    "555705697"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-nurod-urod",
+   "name": "Nurod Urod",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705637",
+   "site_pids": [
+    "555705637"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-pararawen-i-ii",
+   "name": "Pararawen I-II",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "1914",
+   "site_pids": [
+    "1914"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-pensiangan",
+   "name": "Pensiangan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705638",
+   "site_pids": [
+    "555705638"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-pin-supu",
+   "name": "Pin-Supu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3451",
+   "site_pids": [
+    "3451"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-quoin-hill",
+   "name": "Quoin Hill",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3439",
+   "site_pids": [
+    "3439"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-rafflesia",
+   "name": "Rafflesia",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9827",
+   "site_pids": [
+    "9827"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sabuai-arut-selatan-kumai-kobar",
+   "name": "Sabuai, Arut Selatan-Kumai (Kobar)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881788",
+   "site_pids": [
+    "555881788"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sapagaya",
+   "name": "Sapagaya",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705641",
+   "site_pids": [
+    "555705641"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sebangau",
+   "name": "Sebangau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "317262",
+   "site_pids": [
+    "317262"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-segarong",
+   "name": "Segarong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3442",
+   "site_pids": [
+    "3442"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sepagaya",
+   "name": "Sepagaya",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3440",
+   "site_pids": [
+    "3440"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sepilok-mangrove",
+   "name": "Sepilok (Mangrove)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "10072",
+   "site_pids": [
+    "10072"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-silabukan",
+   "name": "Silabukan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9845",
+   "site_pids": [
+    "555705693",
+    "9845"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-silam",
+   "name": "Silam",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705643",
+   "site_pids": [
+    "555705643"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-silimpopon",
+   "name": "Silimpopon",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705644",
+   "site_pids": [
+    "555705644"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sook-lake",
+   "name": "Sook Lake",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705647",
+   "site_pids": [
+    "555705647"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sosopodon",
+   "name": "Sosopodon",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3447",
+   "site_pids": [
+    "3447"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sugud-wildlife-corridor",
+   "name": "Sugud Wildlife Corridor",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705648",
+   "site_pids": [
+    "555705648"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-anjeranjermut",
+   "name": "Sungai Anjeranjermut",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705649",
+   "site_pids": [
+    "555705649"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-bakau-seruyan-hilir-timur-seruyan",
+   "name": "Sungai Bakau, Seruyan Hilir Timur (Seruyan)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881790",
+   "site_pids": [
+    "555881790"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-barito",
+   "name": "Sungai Barito",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555571205",
+   "site_pids": [
+    "555571205"
+   ],
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-gologob",
+   "name": "Sungai Gologob",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705650",
+   "site_pids": [
+    "555705650"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-sungai-imbak-extension",
+   "name": "Sungai Imbak & Sungai Imbak (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705686",
+   "site_pids": [
+    "555705686"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-buffer-zone",
+   "name": "Sungai Imbak Buffer Zone",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705688",
+   "site_pids": [
+    "555705688"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-imbak-buffer-zone-extension",
+   "name": "Sungai Imbak Buffer Zone (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705687",
+   "site_pids": [
+    "555705687"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kapuas",
+   "name": "Sungai Kapuas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635866",
+   "site_pids": [
+    "555635866"
+   ],
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kapur",
+   "name": "Sungai Kapur",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "10075",
+   "site_pids": [
+    "10075"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kiluyu",
+   "name": "Sungai Kiluyu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705652",
+   "site_pids": [
+    "555705652"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-kinabatangan",
+   "name": "Sungai Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705653",
+   "site_pids": [
+    "555705653"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lasun-pulau-evans",
+   "name": "Sungai Lasun & Pulau Evans",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705654",
+   "site_pids": [
+    "555705654"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lokan",
+   "name": "Sungai Lokan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8799",
+   "site_pids": [
+    "8799"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-lulungoyan",
+   "name": "Sungai Lulungoyan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705655",
+   "site_pids": [
+    "555705655"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-maruap",
+   "name": "Sungai Maruap",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705656",
+   "site_pids": [
+    "555705656"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-penawan",
+   "name": "Sungai Penawan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705657",
+   "site_pids": [
+    "555705657"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-sansiang",
+   "name": "Sungai Sansiang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9872",
+   "site_pids": [
+    "9872"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-segama",
+   "name": "Sungai Segama",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705659",
+   "site_pids": [
+    "555705659"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-serudong",
+   "name": "Sungai Serudong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62581",
+   "site_pids": [
+    "62581"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-siliawan-sungai-siliawan-extension",
+   "name": "Sungai Siliawan & Sungai Siliawan (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "62601",
+   "site_pids": [
+    "62601"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-siliawan-extension-ii",
+   "name": "Sungai Siliawan (Extension II)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705685",
+   "site_pids": [
+    "555705685"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-simpang-simpang-extension",
+   "name": "Sungai Simpang & Simpang (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9825",
+   "site_pids": [
+    "9825"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-sumagas",
+   "name": "Sungai Sumagas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705660",
+   "site_pids": [
+    "555705660"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-talibu",
+   "name": "Sungai Talibu",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705661",
+   "site_pids": [
+    "555705661"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-taliwas",
+   "name": "Sungai Taliwas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705662",
+   "site_pids": [
+    "555705662"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-tiagau",
+   "name": "Sungai Tiagau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705663",
+   "site_pids": [
+    "555705663"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-sungai-tongod",
+   "name": "Sungai Tongod",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705664",
+   "site_pids": [
+    "555705664"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tabin",
+   "name": "Tabin Wildlife Reserve",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "8795",
+   "site_pids": [
+    "8795",
+    "9826"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tabin-extension",
+   "name": "Tabin Wildlife Reserve (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705689",
+   "site_pids": [
+    "555705689"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tajong",
+   "name": "Tajong",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705665",
+   "site_pids": [
+    "555705665"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-taman-botanikal-sepilok",
+   "name": "Taman Botanikal Sepilok",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705667",
+   "site_pids": [
+    "555705667"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tambulanan",
+   "name": "Tambulanan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705668",
+   "site_pids": [
+    "555705668"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tangkulap",
+   "name": "Tangkulap",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705670",
+   "site_pids": [
+    "555705670"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tanjong-nagas",
+   "name": "Tanjong Nagas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3458",
+   "site_pids": [
+    "3458"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-keluang-teluk-keluang",
+   "name": "Tanjung Keluang-Teluk Keluang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "17842",
+   "site_pids": [
+    "17842"
+   ],
+   "designations": [
+    "Nature Recreation Park"
+   ],
+   "iucn_cat": "V",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-malatayur",
+   "name": "Tanjung Malatayur",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555635870",
+   "site_pids": [
+    "555635870"
+   ],
+   "designations": [
+    "Undesigned"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tanjung-puting",
+   "name": "Tanjung Puting National Park",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555592554",
+   "site_pids": [
+    "1490",
+    "555592554"
+   ],
+   "designations": [
+    "National Park",
+    "Wetland of International Importance (Ramsar Site)"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tawai",
+   "name": "Tawai",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3462",
+   "site_pids": [
+    "3462"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tawau",
+   "name": "Tawau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705671",
+   "site_pids": [
+    "555705671"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tawau-hill-park",
+   "name": "Tawau Hill Park",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "795",
+   "site_pids": [
+    "795"
+   ],
+   "designations": [
+    "State Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-teluk-sebangau-pulang-pisau-katingan",
+   "name": "Teluk Sebangau (Pulang Pisau-Katingan)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881826",
+   "site_pids": [
+    "555881826"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tenompok",
+   "name": "Tenompok",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9851",
+   "site_pids": [
+    "9851"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tg-cemeti-pulau-hanaut-katingan-kotim-katingan",
+   "name": "Tg. Cemeti, Pulau Hanaut-Katingan (Kotim-Katingan)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881543",
+   "site_pids": [
+    "555881543"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tg-temunong-hallo",
+   "name": "Tg. Temunong Hallo",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705672",
+   "site_pids": [
+    "555705672"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-timbah",
+   "name": "Timbah",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705673",
+   "site_pids": [
+    "555705673"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-timimbang",
+   "name": "Timimbang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705690",
+   "site_pids": [
+    "555705690"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-timimbang-extension",
+   "name": "Timimbang (Extension)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705691",
+   "site_pids": [
+    "555705691"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ib",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-tinagat",
+   "name": "Tinagat",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3467",
+   "site_pids": [
+    "3467"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-trusan-kinabatangan",
+   "name": "Trusan Kinabatangan",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705674",
+   "site_pids": [
+    "555705674"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-trusan-sugut",
+   "name": "Trusan Sugut",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705675",
+   "site_pids": [
+    "555705675"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ujung-pandaran-teluk-sampit-kotim",
+   "name": "Ujung Pandaran, Teluk Sampit (Kotim)",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555881801",
+   "site_pids": [
+    "555881801"
+   ],
+   "designations": [
+    "Marine Protected Area"
+   ],
+   "iucn_cat": "Not Reported",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-kalumpang",
+   "name": "Ulu Kalumpang",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3468",
+   "site_pids": [
+    "3468"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-kukut",
+   "name": "Ulu Kukut",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705677",
+   "site_pids": [
+    "555705677"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-sapa-payau",
+   "name": "Ulu Sapa Payau",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "3471",
+   "site_pids": [
+    "3471"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-segama",
+   "name": "Ulu Segama",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "555705678",
+   "site_pids": [
+    "555705678"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-sg-napagon",
+   "name": "Ulu Sg. Napagon",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9875",
+   "site_pids": [
+    "9875"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-ulu-telupid",
+   "name": "Ulu Telupid",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9852",
+   "site_pids": [
+    "9852"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-umas-umas",
+   "name": "Umas Umas",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "9876",
+   "site_pids": [
+    "9876"
+   ],
+   "designations": [
+    "Forest Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_pygmaeus-usun-apau",
+   "name": "Usun Apau National Park",
+   "species": "pongo_pygmaeus",
+   "representative_site_pid": "14541",
+   "site_pids": [
+    "14541"
+   ],
+   "designations": [
+    "National Park"
+   ],
+   "iucn_cat": "II",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-saut",
+   "name": "Dolok Saut",
+   "species": "pongo_tapanuliensis",
+   "representative_site_pid": "10318",
+   "site_pids": [
+    "10318"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "III",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-sibual-buali",
+   "name": "Dolok Sibual-buali",
+   "species": "pongo_tapanuliensis",
+   "representative_site_pid": "10314",
+   "site_pids": [
+    "10314"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_tapanuliensis-dolok-sipirok",
+   "name": "Dolok Sipirok",
+   "species": "pongo_tapanuliensis",
+   "representative_site_pid": "10312",
+   "site_pids": [
+    "10312"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  },
+  {
+   "id": "pongo_tapanuliensis-lubuk-raya",
+   "name": "Lubuk Raya",
+   "species": "pongo_tapanuliensis",
+   "representative_site_pid": "555571216",
+   "site_pids": [
+    "555571216"
+   ],
+   "designations": [
+    "Nature Reserve"
+   ],
+   "iucn_cat": "Ia",
+   "status": "Designated"
+  }
+ ]
+}

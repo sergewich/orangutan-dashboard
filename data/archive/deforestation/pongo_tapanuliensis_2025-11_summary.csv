@@ -1,0 +1,12 @@
+species,date,confidence,alert_count,area_ha
+pongo_tapanuliensis,2025-11-04,high,274,3.3712
+pongo_tapanuliensis,2025-11-04,highest,51,0.6275
+pongo_tapanuliensis,2025-11-10,high,1814,22.3185
+pongo_tapanuliensis,2025-11-10,highest,331,4.0724
+pongo_tapanuliensis,2025-11-10,nominal,1,0.0123
+pongo_tapanuliensis,2025-11-22,high,2309,28.4088
+pongo_tapanuliensis,2025-11-22,highest,437,5.3766
+pongo_tapanuliensis,2025-11-22,nominal,2,0.0246
+pongo_tapanuliensis,2025-11-28,high,3795,46.6917
+pongo_tapanuliensis,2025-11-28,highest,725,8.92
+pongo_tapanuliensis,2025-11-28,nominal,5,0.0615

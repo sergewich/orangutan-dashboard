@@ -1,0 +1,12 @@
+species,date,confidence,alert_count,area_ha
+pongo_tapanuliensis,2026-09-02,high,2724,33.5147
+pongo_tapanuliensis,2026-09-02,nominal,3883,47.7744
+pongo_tapanuliensis,2026-09-07,nominal,87,1.0704
+pongo_tapanuliensis,2026-09-07,high,90,1.1073
+pongo_tapanuliensis,2026-09-08,nominal,3,0.0369
+pongo_tapanuliensis,2026-09-14,high,1159,14.2597
+pongo_tapanuliensis,2026-09-14,nominal,3258,40.0847
+pongo_tapanuliensis,2026-09-19,high,37,0.4552
+pongo_tapanuliensis,2026-09-19,nominal,140,1.7225
+pongo_tapanuliensis,2026-09-26,high,427,5.2536
+pongo_tapanuliensis,2026-09-26,nominal,2701,33.2317

@@ -1,0 +1,139 @@
+{
+ "deforestation": {
+  "pongo_abelii": {
+   "2025-11": {
+    "points_complete": false
+   },
+   "2025-12": {
+    "points_complete": false
+   },
+   "2026-01": {
+    "points_complete": false
+   },
+   "2026-02": {
+    "points_complete": false
+   },
+   "2026-03": {
+    "points_complete": false
+   },
+   "2026-04": {
+    "points_complete": false
+   },
+   "2026-05": {
+    "points_complete": false
+   },
+   "2026-06": {
+    "points_complete": false
+   },
+   "2026-07": {
+    "points_complete": false
+   },
+   "2026-08": {
+    "points_complete": false
+   },
+   "2026-09": {
+    "points_complete": true
+   },
+   "2026-10": {
+    "points_complete": false
+   }
+  },
+  "pongo_pygmaeus": {
+   "2025-11": {
+    "points_complete": false
+   },
+   "2025-12": {
+    "points_complete": false
+   },
+   "2026-01": {
+    "points_complete": false
+   },
+   "2026-02": {
+    "points_complete": false
+   },
+   "2026-03": {
+    "points_complete": false
+   },
+   "2026-04": {
+    "points_complete": false
+   },
+   "2026-05": {
+    "points_complete": false
+   },
+   "2026-06": {
+    "points_complete": false
+   },
+   "2026-07": {
+    "points_complete": false
+   },
+   "2026-08": {
+    "points_complete": false
+   },
+   "2026-09": {
+    "points_complete": false
+   },
+   "2026-10": {
+    "points_complete": false
+   }
+  },
+  "pongo_tapanuliensis": {
+   "2025-11": {
+    "points_complete": false
+   },
+   "2025-12": {
+    "points_complete": false
+   },
+   "2026-01": {
+    "points_complete": false
+   },
+   "2026-02": {
+    "points_complete": false
+   },
+   "2026-03": {
+    "points_complete": false
+   },
+   "2026-04": {
+    "points_complete": false
+   },
+   "2026-05": {
+    "points_complete": false
+   },
+   "2026-06": {
+    "points_complete": false
+   },
+   "2026-07": {
+    "points_complete": false
+   },
+   "2026-08": {
+    "points_complete": false
+   },
+   "2026-09": {
+    "points_complete": true
+   },
+   "2026-10": {
+    "points_complete": true
+   }
+  }
+ },
+ "fire": {
+  "pongo_abelii": [
+   "2026-07",
+   "2026-08",
+   "2026-09",
+   "2026-10"
+  ],
+  "pongo_pygmaeus": [
+   "2026-07",
+   "2026-08",
+   "2026-09",
+   "2026-10"
+  ],
+  "pongo_tapanuliensis": [
+   "2026-09",
+   "2026-10"
+  ]
+ },
+ "pa_alerts": [
+  "2026-10"
+ ]
+}

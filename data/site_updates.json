@@ -1,0 +1,11 @@
+{
+  "note": "Hand-curated list of dashboard feature/content updates for the monthly subscriber digest (scripts/build_digest.py). Not scraped, not automated — add an entry here when something worth announcing ships (a new tab, a new map layer, etc.). Each entry is sent once, tracked by id in digest_state.json, same as incidents/literature.",
+  "updates": [
+    {
+      "id": "wdpa-protected-areas-layer",
+      "date": "2026-11-24",
+      "title": "New map layer: protected areas (WDPA)",
+      "description": "The Map tab now has a \"Protected areas (WDPA)\" overlay showing official national parks, wildlife reserves and other protected areas across the orangutan range, from the World Database on Protected Areas."
+    }
+  ]
+}

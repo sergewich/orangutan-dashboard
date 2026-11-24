@@ -31,6 +31,17 @@ Orangutan_dashboard/
                                   # the ONLY file the public Social tab reads)
     threats/                     # oil_palm.geojson (2527), mining_concessions.geojson (3017),
                                   # hydro_plants.geojson (62) — see fetch_threats.py
+    archive/                      # permanent monthly snapshots of fire/deforestation alerts —
+                                  # data/fire/ and data/deforestation/ are rolling windows that
+                                  # get overwritten every refresh; see "Historic alert archive"
+                                  # below. manifest.json lists what's archived per species/month
+                                  # (and, for deforestation, whether that month's POINTS are
+                                  # complete — the aggregate counts always are).
+    wdpa_places.json              # hand-rebuilt reference: unique protected areas (deduped WDPA
+                                  # site_pid groups) confirmed to overlap each species' range.
+                                  # No WDPA geometry/bulk attributes stored (licensing, see
+                                  # below) — just names/ids, same spirit as data/ngos/ngos.json.
+                                  # Rebuild with scripts/build_wdpa_places.py.
   scripts/
     convert_ranges.py          # one-time: shapefile zips (data/ranges/raw/) -> GeoJSON.
                                 # Prefers ogr2ogr if on PATH, falls back to pyshp+pyproj.
@@ -66,6 +77,18 @@ Orangutan_dashboard/
                                   # Government/registry-sourced, so does NOT go through the
                                   # Social tab's review gate (see policy below) — but also isn't
                                   # independently verified by this project.
+    build_wdpa_places.py         # rebuilds data/wdpa_places.json (occasional/manual — species
+                                  # ranges rarely change, not wired into CI). See "Historic alert
+                                  # archive & per-protected-area counts" below.
+    archive_alerts.py             # freezes last month's fire/deforestation alerts into
+                                  # data/archive/ before the next refresh overwrites the live
+                                  # rolling-window files. Run monthly via monthly_refresh.yml.
+    compute_pa_alerts.py          # complete fire + deforestation alert counts per protected
+                                  # area in wdpa_places.json, for a given month. Run monthly via
+                                  # monthly_refresh.yml. Needs GFW_API_KEY.
+    backfill_archive_from_git.py  # one-time: mines old git commits of data/fire|deforestation
+                                  # to recover months from before archive_alerts.py existed.
+                                  # Already run once (2026-11-24) — no need to re-run.
   site/
     index.html                  # landing page, links to tabs/
     css/style.css
@@ -134,6 +157,45 @@ owner before pursuing that path, since it's a live legal/licensing
 condition they'd need to sign off on, not just a styling decision. If
 UNEP-WCMC's tile service ever goes down or changes URL, that's the thing to
 fix/replace, not a signal to switch to pre-fetched storage.
+
+### Historic alert archive & per-protected-area counts
+
+`data/fire/*.geojson` and `data/deforestation/*.geojson` are rolling
+windows — every refresh **overwrites** them (FIRMS NRT only retains a few
+weeks/months; the deforestation point file is deliberately capped to
+`--points-days`, see `fetch_deforestation.py`). Nothing before that window
+survived until `scripts/archive_alerts.py` started freezing each completed
+month into `data/archive/{fire,deforestation}/<species>_<YYYY-MM>.geojson`
+(+ a matching `_summary.csv`), run monthly via `monthly_refresh.yml`, right
+after that day's deforestation fetch. `data/archive/manifest.json` lists
+what's archived and drives the Map tab's month picker (GitHub Pages has no
+directory-listing API, so a static file has to say what's available).
+
+**Critical caveat discovered 2026-11-24, don't lose this**:
+`fetch_deforestation.py`'s `--max-points` cap (100,000/run) means the
+point-level deforestation file can be silently missing most or all of a
+high-volume month — confirmed during a dry-season fire spike, Bornean
+deforestation hit 2.86M alerts in a single month (August 2026) while the
+point file caps at 100k. The **aggregate summary CSV is never affected** (a
+separate, uncapped GFW query) — only the per-point file with coordinates.
+`archive_alerts.py` cross-checks the two and records
+`"points_complete": false` in the manifest whenever this happens, rather
+than silently presenting a partial point set as complete. Fire has no such
+cap anywhere in `fetch_fire.py` and no known upstream row limit either — the
+same investigation found no evidence of missing fire data. **When extending
+anything that shows individual alert points on a map: check
+`points_complete` and show the gap, don't hide it.** When extending anything
+that shows *counts* (not points): prefer `compute_pa_alerts.py`'s approach
+(a direct GFW count query per protected area, never point-capped) over
+spatially joining the point file, which inherits its gaps.
+
+`scripts/compute_pa_alerts.py` produces `data/archive/pa_alerts/<YYYY-MM>.json`
+— complete fire + deforestation counts per protected area (from
+`data/wdpa_places.json`), run monthly alongside the archiving step. This is
+what feeds the per-protected-area breakdown in the monthly digest
+(`site_updates`-style, see the digest section below) — it exists precisely
+*because* the point-file approach can't give reliable per-area counts for
+high-volume regions like Borneo.
 
 ## Mandatory human review for Social/Threats content
 
@@ -230,9 +292,13 @@ Rules when extending it:
 opt-in, list "Monthly digest", optional ORGANISATION/ROLE/COUNTRY) — built in
 the Brevo UI, so edit it there. `.github/workflows/monthly_digest.yml` (2nd of
 each month) runs `build_digest.py` (approved incidents + new Literature tab
-entries not yet in `digest_state.json`) and `send_digest.py`, which only
-creates a **draft** campaign and emails the owner a test copy — the owner
-clicks Send in Brevo. Don't make it send automatically without the owner.
+entries + hand-curated `data/site_updates.json` feature/content announcements
+— whichever of the three aren't yet in `digest_state.json`) and
+`send_digest.py`, which only creates a **draft** campaign and emails the
+owner a test copy — the owner clicks Send in Brevo. Don't make it send
+automatically without the owner. To announce a shipped feature in the next
+digest, add an entry to `data/site_updates.json` (id/date/title/description)
+— each entry is sent once, same dedup pattern as incidents/literature.
 Secrets: `BREVO_API_KEY` (restricted: Email campaigns + Contacts), optional
 `DIGEST_TEST_TO`. Brevo free plan: 300 emails/day. Sender updates@orangutandashboard.org (domain bought in Cloudflare, DKIM/DMARC records for Brevo; Cloudflare Email Routing forwards updates@ to the site Gmail). Never send from the Gmail address: it fails DMARC at universities.
 

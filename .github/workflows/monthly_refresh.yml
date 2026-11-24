@@ -50,12 +50,33 @@ jobs:
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: python3 scripts/fetch_threats.py
 
+      # Both data/fire/*.geojson and data/deforestation/*.geojson are rolling
+      # windows that get overwritten on every refresh — this freezes last
+      # month's alerts into a permanent data/archive/ snapshot before that
+      # happens again. Runs after fetch-deforestation (needs today's fresh
+      # deforestation file) — the day's fire file is already fresh too, since
+      # daily_fire_refresh.yml runs at 02:00 UTC, an hour before this job.
+      - name: Archive last month's fire + deforestation alerts
+        id: archive-alerts
+        continue-on-error: true
+        run: python3 scripts/archive_alerts.py
+
+      # Per-protected-area counts (see scripts/compute_pa_alerts.py's
+      # docstring for why this queries GFW directly per area rather than
+      # spatially joining the point-capped deforestation file).
+      - name: Compute per-protected-area alert counts
+        id: compute-pa-alerts
+        continue-on-error: true
+        env:
+          GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
+        run: python3 scripts/compute_pa_alerts.py
+
       - name: Commit and push if data changed
         if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/deforestation/ data/literature/ data/threats/
+          git add data/deforestation/ data/literature/ data/threats/ data/archive/
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
@@ -67,7 +88,7 @@ jobs:
         if: always()
         run: |
           failed=0
-          for outcome in "${{ steps.fetch-deforestation.outcome }}" "${{ steps.fetch-literature.outcome }}" "${{ steps.fetch-threats.outcome }}"; do
+          for outcome in "${{ steps.fetch-deforestation.outcome }}" "${{ steps.fetch-literature.outcome }}" "${{ steps.fetch-threats.outcome }}" "${{ steps.archive-alerts.outcome }}" "${{ steps.compute-pa-alerts.outcome }}"; do
             [ "$outcome" = "failure" ] && failed=1
           done
           if [ "$failed" = "1" ]; then

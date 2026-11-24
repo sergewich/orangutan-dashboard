@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Protected areas — Orangutan Conservation Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>🦧 Orangutan <span>Conservation</span> Dashboard</h1>
+    <nav class="tabs">
+      <a href="../index.html">Home</a>
+      <a href="map.html">Map</a>
+      <a href="literature.html">Literature</a>
+      <a href="threats.html">Threats</a>
+      <a href="protected-areas.html" class="active">Protected areas</a>
+      <a href="social.html">News</a>
+      <a href="ngos.html">Organisations</a>
+      <a href="subscribe.html">Subscribe</a>
+    </nav>
+  </header>
+
+  <main class="lit-page">
+    <div class="lit-intro">
+      <h2>Fire &amp; deforestation alerts by protected area</h2>
+      <p class="muted">
+        Monthly fire (NASA FIRMS) and deforestation (Global Forest Watch) alert
+        counts inside each protected area overlapping the orangutan range
+        (<a href="https://www.protectedplanet.net" target="_blank" rel="noopener">World
+        Database on Protected Areas</a>, deduplicated to one record per physical
+        place). Deforestation counts come from a complete query scoped to each
+        area's own boundary — not from spatially joining the Map tab's point
+        layer, which can be an incomplete sample of a high-volume month (see the
+        note below). Boundaries themselves aren't shown here — see the
+        <a href="map.html">Map tab's</a> "Protected areas (WDPA)" layer for that.
+      </p>
+    </div>
+
+    <div id="loading" class="loading">Loading…</div>
+
+    <div id="pa-layout" style="display:none">
+      <div class="info-box species-switcher" style="margin:0 0 1rem;max-width:320px">
+        <label for="month-select" style="display:block;margin-bottom:.3rem;color:var(--muted);font-size:.78rem">
+          Month</label>
+        <select id="month-select"></select>
+      </div>
+
+      <table class="pa-table">
+        <thead>
+          <tr>
+            <th>Protected area</th>
+            <th>Species</th>
+            <th>Designation</th>
+            <th>Fire alerts</th>
+            <th>Deforestation alerts</th>
+            <th>Area affected (ha)</th>
+          </tr>
+        </thead>
+        <tbody id="pa-rows"></tbody>
+      </table>
+      <p class="lit-count" id="pa-count"></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      Spot an error or have feedback on this site? Email
+      <a href="mailto:orangutanconservationsite@gmail.com">orangutanconservationsite@gmail.com</a>.
+    </p>
+  </footer>
+
+  <script src="../js/protected_areas.js"></script>
+
+  <!-- Cloudflare Web Analytics -->
+  <script src="../js/assistant.js"></script>
+  <script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "29d3b2f9d204446cb0d788787eff61d9"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
