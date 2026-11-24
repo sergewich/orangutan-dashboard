@@ -1,4 +1,4 @@
-FROM qwen2.5-coder:32b
+FROM qwen3.6:27b
 
 PARAMETER num_ctx 32000
 PARAMETER num_gpu 99

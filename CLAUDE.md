@@ -262,7 +262,7 @@ the owner's own address; override with the optional `REMINDER_TO` secret.
 
 This workstation runs fully offline via Ollama on the local RTX 5090. A
 custom model `orangutan-dashboard-engineer` is defined in `./Modelfile`
-(base `qwen2.5-coder:32b`, `num_ctx 32000`, `num_gpu 99`). Ollama is a native
+(base `qwen3.6:27b`, `num_ctx 32000`, `num_gpu 99`). Ollama is a native
 systemd-managed install (`/usr/local/bin/ollama`, not the snap package — the
 snap build can't see the GPU in this WSL setup and silently falls back
 toward CPU/system RAM instead of VRAM).
@@ -284,10 +284,13 @@ cd /mnt/c/AI_work/Orangutan_dashboard
 aider --model ollama_chat/orangutan-dashboard-engineer
 ```
 
-Note: VRAM is nearly maxed at the full 32k context (~24.1/24.5 GB used) —
-this WSL instance only exposes ~24GB of the 5090's 32GB. Fine for a single
-agent session; a second concurrent GPU task will likely OOM it. If that
-happens, lower `num_ctx` in `Modelfile` and re-run
+Note: at the full 32k context this loads at ~17GB VRAM (Q4_K_M, 100% GPU) —
+this WSL instance only exposes ~24GB of the 5090's 32GB, so there's headroom
+for a second concurrent GPU task now, unlike the old qwen2.5-coder:32b setup
+which left almost none. `orangutan-dashboard-engineer` is a thinking model
+(it emits a reasoning block before its answer, visible in Aider/CLI output)
+— expect slightly higher latency per response than the old base model. If
+VRAM ever gets tight, lower `num_ctx` in `Modelfile` and re-run
 `ollama create orangutan-dashboard-engineer -f Modelfile`.
 
 **If Ollama stops responding** (a request hangs indefinitely, `ollama ps`
