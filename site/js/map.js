@@ -71,6 +71,31 @@ const forestLossLayer = L.tileLayer(
   }
 );
 
+// ── Protected areas (WDPA, live embed) ──────────────────────────────────────
+// WDPA's terms (protectedplanet.net/en/legal) forbid redistributing the data
+// "by any means, including web downloads/services" without UNEP-WCMC's
+// written permission — so unlike the other overlays here, this one is NOT
+// fetched/stored/committed to data/. Instead it points straight at
+// UNEP-WCMC's own cached ArcGIS tile service (confirmed live, no token
+// needed, singleFusedMapCache) — same "reference, don't redistribute"
+// pattern as the Hansen forest-loss layer above, just for an Esri cache
+// instead of an XYZ one. Layer id 1 (WDPA_poly_latest) is the polygon layer;
+// id 0 is points-only sites too small to render as a polygon at low zoom.
+// The service's own maxLOD is 14 — request no deeper so Leaflet upscales
+// the z14 tile instead of asking for tiles that don't exist.
+const protectedAreasLayer = L.tileLayer(
+  "https://data-gis.unep-wcmc.org/server/rest/services/ProtectedSites/" +
+    "The_World_Database_of_Protected_Areas/MapServer/tile/{z}/{y}/{x}",
+  {
+    maxZoom: 19,
+    maxNativeZoom: 14,
+    opacity: 0.8,
+    attribution:
+      "UNEP-WCMC &amp; IUCN, World Database on Protected Areas (WDPA) — " +
+      '<a href="https://www.protectedplanet.net" target="_blank" rel="noopener">Protected Planet</a>',
+  }
+);
+
 // ── Overlay layer groups ──────────────────────────────────────────────────
 function speciesColorForName(sciName) {
   const match = SPECIES_LIST.find((s) => s.label.startsWith(sciName || ""));
@@ -268,6 +293,11 @@ legend.onAdd = function () {
     "<div class='row'><span class='dot high'></span>deforestation, high confidence</div>" +
     "<div class='row'><span class='dot nominal'></span>deforestation, nominal confidence</div>" +
     "<div class='row'><span class='dot fire'></span>fire (NASA FIRMS)</div>" +
+    // Rendered by UNEP-WCMC's own tile cache, not our styling — like the
+    // Hansen forest-loss layer above, we don't invent a swatch color for a
+    // palette we don't control; the toggle label + attribution link cover it.
+    "<div class='legend-heading' style='margin-top:.5rem'>Context layers</div>" +
+    "<div class='row muted'>Protected areas (WDPA) — toggle in layer control, top right</div>" +
     "<div class='legend-heading' style='margin-top:.5rem'>Threats (all species, region-wide)</div>" +
     "<div class='row'><span class='swatch oil-palm'></span>oil palm concession</div>" +
     "<div class='row'><span class='swatch mining'></span>mining concession</div>" +
@@ -291,6 +321,7 @@ L.control.layers(
     "Alerts — nominal": alertGroups.nominal,
     "Fire alerts": fireAlertsLayer,
     "Forest loss 2001–2025 (Hansen/UMD)": forestLossLayer,
+    "Protected areas (WDPA)": protectedAreasLayer,
     "Oil palm concessions": oilPalmLayer,
     "Mining concessions": miningLayer,
     "Hydroelectric plants": hydroLayer,

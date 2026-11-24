@@ -103,6 +103,7 @@ main.landing .cta {
   color: var(--muted); margin-bottom: 0.2rem;
 }
 .legend .row { display: flex; align-items: center; gap: 0.45rem; margin: 0.15rem 0; }
+.legend .row.muted { color: var(--muted); font-size: 0.78rem; }
 .legend .dot { width: 11px; height: 11px; border-radius: 50%; display: inline-block; }
 .legend .dot.nominal { background: var(--nominal); }
 .legend .dot.high { background: var(--high); }

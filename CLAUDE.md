@@ -70,9 +70,12 @@ Orangutan_dashboard/
     index.html                  # landing page, links to tabs/
     css/style.css
     js/map.js                   # Leaflet map: range + deforestation/fire alerts + Hansen
-                                 # forest-loss tile overlay + oil palm/mining/hydro (all off
-                                 # by default except range; oil palm/mining/hydro lazy-load
-                                 # on first toggle, see THREAT_LAYERS in map.js)
+                                 # forest-loss tile overlay + WDPA protected areas (live tile
+                                 # embed of UNEP-WCMC's own ArcGIS cache, not stored in data/ —
+                                 # WDPA's terms forbid redistributing the data itself, see
+                                 # "Protected areas (WDPA) layer" below) + oil palm/mining/
+                                 # hydro (all off by default except range; oil palm/mining/
+                                 # hydro lazy-load on first toggle, see THREAT_LAYERS in map.js)
     js/literature.js, js/social.js, js/review.js, js/threats.js
     tabs/map.html, literature.html, social.html, threats.html   # public, linked in nav
     tabs/review.html             # LOCAL ONLY — deliberately not linked from nav, see below
@@ -107,6 +110,30 @@ GeoJSON reprojection) and `fetch_deforestation.py`/`fetch_fire.py` (clipping
 alert queries to range polygons — bbox + client-side point-in-polygon for
 FIRMS, direct polygon query for GFW) — there is no separate "geometric math
 utilities" module; that logic is inline in these scripts.
+
+### Protected areas (WDPA) layer — live embed, deliberately not fetched/stored
+
+`site/js/map.js`'s "Protected areas (WDPA)" overlay points straight at
+UNEP-WCMC's own cached ArcGIS tile service
+(`data-gis.unep-wcmc.org/server/rest/services/ProtectedSites/` ...
+`The_World_Database_of_Protected_Areas/MapServer/tile/{z}/{y}/{x}`, confirmed
+live 2026-11-24, no token needed, `maxNativeZoom: 14`) rather than following
+the usual pattern of this repo (fetch → clip/simplify → commit a GeoJSON to
+`data/`, as `fetch_threats.py` does). **This is deliberate, not an
+oversight**: the WDPA terms (`protectedplanet.net/en/legal`) forbid
+redistributing the data "by any means, including web downloads [and] web
+services" without UNEP-WCMC's written permission — committing processed WDPA
+geometry to this public repo (deployed as static files on GitHub Pages)
+would be exactly that. Referencing their own live tile cache sidesteps this:
+we never possess or redistribute the data ourselves, the same "reference,
+don't store" approach already used for the Hansen forest-loss tile layer.
+Don't add a `fetch_protected_areas.py`-style script that downloads and
+commits WDPA polygons/attributes into `data/` without first getting
+UNEP-WCMC's written permission (business-support@unep-wcmc.org) — ask the
+owner before pursuing that path, since it's a live legal/licensing
+condition they'd need to sign off on, not just a styling decision. If
+UNEP-WCMC's tile service ever goes down or changes URL, that's the thing to
+fix/replace, not a signal to switch to pre-fetched storage.
 
 ## Mandatory human review for Social/Threats content
 
