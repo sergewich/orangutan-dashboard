@@ -221,7 +221,18 @@ what feeds the per-protected-area breakdown in the monthly digest
 high-volume regions like Borneo. Also surfaced on its own public tab,
 `site/tabs/protected-areas.html` (+ `site/js/protected_areas.js`): a
 sortable table per protected area, with a month picker reading
-`manifest.json`'s `pa_alerts` list. The digest additionally carries a
+`manifest.json`'s `pa_alerts` list, plus Species and Range checkbox
+filters. "Range" filters on each place's `range_categories` (set in
+`build_wdpa_places.py`'s `_range_category()`, copied through by
+`compute_pa_alerts.py`): `core` (confirmed native range), `extant_other`
+(confirmed presence but only via a reintroduced/introduced population,
+from the range polygon's ORIGIN code), or `possible` (IUCN's "Possibly
+Extant" — uncertain range, not confirmed orangutan habitat). A place can
+carry more than one, e.g. a park straddling both `core` and `possible` —
+2026-11-24 investigation found 35 of 174 places (20%) overlap *only* the
+uncertain `possible` range, nothing confirmed (e.g. Dolok Saut, Lubuk Raya
+for *P. tapanuliensis*) — worth remembering before citing "overlaps the
+range" as if it always meant confirmed habitat. The digest additionally carries a
 per-species "Species overview" table (fire/deforestation totals with a
 month-over-month trend, from `scripts/build_digest.py`'s
 `compute_species_trends()`) and links out to both this tab and the Map

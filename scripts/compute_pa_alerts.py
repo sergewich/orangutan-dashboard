@@ -282,6 +282,7 @@ def main() -> None:
         results.append({
             "id": place["id"], "name": place["name"], "species": species,
             "designations": place["designations"], "iucn_cat": place.get("iucn_cat"),
+            "range_categories": place.get("range_categories", []),
             "fire_count": fire_n,
             "deforestation_count": defor["count"] if defor else None,
             "deforestation_area_ha": defor["area_ha"] if defor else None,

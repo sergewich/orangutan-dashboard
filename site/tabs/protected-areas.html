@@ -34,6 +34,10 @@
         layer, which can be an incomplete sample of a high-volume month (see the
         note below). Boundaries themselves aren't shown here — see the
         <a href="map.html">Map tab's</a> "Protected areas (WDPA)" layer for that.
+        A protected area can overlap more than one part of the IUCN range
+        polygon — the Range filter below lets you narrow the list to areas
+        touching the confirmed native range, a reintroduced/introduced
+        population, and/or the uncertain "possibly extant" extended range.
       </p>
     </div>
 
@@ -47,6 +51,9 @@
 
         <label style="display:block;margin:.6rem 0 .3rem;color:var(--muted);font-size:.78rem">Species</label>
         <div id="species-filters" style="display:flex;flex-direction:column;gap:.25rem"></div>
+
+        <label style="display:block;margin:.6rem 0 .3rem;color:var(--muted);font-size:.78rem">Range</label>
+        <div id="range-filters" style="display:flex;flex-direction:column;gap:.25rem"></div>
       </div>
 
       <table class="pa-table">

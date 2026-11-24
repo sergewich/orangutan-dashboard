@@ -56,19 +56,38 @@ def ring_points(geom_type: str, coords) -> list:
             yield ring
 
 
-def species_rings(species: str) -> list[dict]:
-    """All rings for a species, from the original (unsimplified) range file,
-    each with a precomputed bbox for fast rejection in point_in_species."""
+# IUCN range-polygon PRESENCE/ORIGIN codes (see data/ranges/*.geojson
+# properties) grouped into the three categories surfaced on the Protected
+# areas tab's range filter. "core" is the confirmed native breeding range;
+# "extant_other" is confirmed presence but only via a reintroduced/
+# introduced population; "possible" is IUCN's "Possibly Extant" — range
+# that's uncertain/unconfirmed, not a place orangutans are known to use.
+def _range_category(props: dict) -> str:
+    if props.get("PRESENCE") == 1 and props.get("ORIGIN") == 1:
+        return "core"
+    if props.get("PRESENCE") == 1:
+        return "extant_other"
+    return "possible"
+
+
+def species_rings(species: str) -> dict[str, list[dict]]:
+    """Rings for a species, from the original (unsimplified) range file, each
+    with a precomputed bbox for fast rejection in point_in_species — grouped
+    by range category (see _range_category) plus an "all" bucket (every
+    ring, any category) used for the initial overlap-confirmation pass."""
     d = json.loads((REPO_ROOT / "data" / "ranges" / f"{species}.geojson").read_text())
-    rings = []
+    rings: dict[str, list[dict]] = {"all": [], "core": [], "extant_other": [], "possible": []}
     for ft in d["features"]:
         g = ft.get("geometry")
         if not g:
             continue
+        cat = _range_category(ft.get("properties") or {})
         for ring in ring_points(g["type"], g["coordinates"]):
             xs = [p[0] for p in ring]
             ys = [p[1] for p in ring]
-            rings.append({"pts": ring, "bbox": (min(xs), min(ys), max(xs), max(ys))})
+            entry = {"pts": ring, "bbox": (min(xs), min(ys), max(xs), max(ys))}
+            rings["all"].append(entry)
+            rings[cat].append(entry)
     return rings
 
 
@@ -159,21 +178,27 @@ def fetch_geometry_rings(site_pid: str) -> list:
     return rings
 
 
-def confirm_overlap(candidates: dict, rings: list[dict]) -> dict:
+def confirm_overlap(candidates: dict, rings: dict[str, list[dict]]) -> dict:
+    """Returns {site_pid: attrs} for confirmed candidates, with attrs also
+    carrying a "range_categories" list — which of core/extant_other/possible
+    (see _range_category) the candidate's boundary actually touches. Reuses
+    the one geometry fetch per candidate for both the initial any-overlap
+    confirmation and this per-category classification, rather than fetching
+    twice."""
     confirmed = {}
     for pid, attrs in candidates.items():
         geoms = fetch_geometry_rings(pid)
-        hit = False
+        cats_hit: set[str] = set()
         for ring in geoms:
             step = max(1, len(ring) // 30)
             for (x, y) in ring[::step]:
-                if point_in_species(x, y, rings):
-                    hit = True
-                    break
-            if hit:
+                for cat in ("core", "extant_other", "possible"):
+                    if cat not in cats_hit and point_in_species(x, y, rings[cat]):
+                        cats_hit.add(cat)
+            if len(cats_hit) == 3:
                 break
-        if hit:
-            confirmed[pid] = attrs
+        if cats_hit:
+            confirmed[pid] = {**attrs, "range_categories": sorted(cats_hit)}
         time.sleep(0.05)
     return confirmed
 
@@ -240,6 +265,13 @@ def build_places(species_filter: list[str]) -> dict:
                 "designations": sorted({r.get("desig_eng") for r in recs if r.get("desig_eng")}),
                 "iucn_cat": rep.get("iucn_cat"),
                 "status": rep.get("status"),
+                # Union across every merged record, not just the
+                # representative's — two stacked designations (e.g. Gunung
+                # Leuser's National Park + Biosphere Reserve) can have
+                # slightly different boundaries that touch different
+                # categories, and the union is the honest answer for "does
+                # this physical place touch this range category at all."
+                "range_categories": sorted({c for r in recs for c in r.get("range_categories", [])}),
             }
 
     places = [places_by_key[k] for k in sorted(places_by_key, key=lambda k: (k[0], k[1]))

@@ -14,7 +14,10 @@
     "Sanctuary"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-aceh-selatan-ii",
@@ -28,7 +31,11 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-bukit-barisan",
@@ -42,7 +49,11 @@
     "Grand Forest Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-bukit-tiga-puluh",
@@ -56,7 +67,10 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "extant_other"
+   ]
   },
   {
    "id": "pongo_abelii-deleng-lancuk",
@@ -70,7 +84,10 @@
     "Nature Recreation Park"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-gunung-leuser",
@@ -86,7 +103,11 @@
     "UNESCO-MAB Biosphere Reserve"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-hutan-pinus-janthoi",
@@ -100,7 +121,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "extant_other"
+   ]
   },
   {
    "id": "pongo_abelii-janthoi",
@@ -114,7 +138,10 @@
     "Nature Recreation Park"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "extant_other"
+   ]
   },
   {
    "id": "pongo_abelii-lau-debuk-debuk",
@@ -128,7 +155,10 @@
     "Nature Recreation Park"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-lingga-isaq",
@@ -142,7 +172,11 @@
     "Hunting Park"
    ],
    "iucn_cat": "VI",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-raflessia-i-ii-serbojadi",
@@ -156,7 +190,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "III",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_abelii-rawa-singkil",
@@ -170,7 +207,11 @@
     "Wildlife Reserve"
    ],
    "iucn_cat": "IV",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-siranggas",
@@ -184,7 +225,11 @@
     "Wildlife Reserve"
    ],
    "iucn_cat": "IV",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_abelii-subulussalam",
@@ -198,7 +243,10 @@
     "Grand Forest Park"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-babanga",
@@ -212,7 +260,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-balat-damit-wildlife",
@@ -226,7 +277,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bald-hill",
@@ -240,7 +295,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-baradaya",
@@ -254,7 +313,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-batang-ai",
@@ -268,7 +330,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-batu-timbang",
@@ -282,7 +348,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-betung-kerihun",
@@ -296,7 +365,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bidu-bidu",
@@ -310,7 +383,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-botitian",
@@ -324,7 +400,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-brantian-tatulit",
@@ -338,7 +417,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-baka-bukit-raya",
@@ -352,7 +435,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-hampuan",
@@ -366,7 +453,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-kuamas",
@@ -380,7 +470,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-kuamas-extension",
@@ -394,7 +488,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-monkobo-and-bukit-mentapok",
@@ -408,7 +506,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "III",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-piton",
@@ -422,7 +523,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-rawi-eks-plg-ii",
@@ -436,7 +540,11 @@
     "Undesigned"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-sapat-hawung",
@@ -450,7 +558,11 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-tangkiling",
@@ -466,7 +578,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-bukit-taviu",
@@ -480,7 +595,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-crocker-range",
@@ -496,7 +615,11 @@
     "State Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-dagat",
@@ -510,7 +633,10 @@
     "Forest reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-danau-sentarum",
@@ -526,7 +652,11 @@
     "Wetland of International Importance (Ramsar Site)"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-danum-valley",
@@ -540,7 +670,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gemok-hill",
@@ -554,7 +687,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gn-lumaku",
@@ -568,7 +705,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gomantong",
@@ -582,7 +723,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi",
@@ -596,7 +741,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gomantong-materis-bod-tai-keruak-pangi-extension",
@@ -610,7 +759,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "VI",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gosong-senggora-sepagar",
@@ -624,7 +777,11 @@
     "Marine Park"
    ],
    "iucn_cat": "VI",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gunong-lumaku",
@@ -638,7 +795,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gunung-palung",
@@ -652,7 +813,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gunung-rara-wildlife-corridor",
@@ -666,7 +831,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-gunung-tinkar",
@@ -680,7 +848,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-imbak-canyon",
@@ -694,7 +865,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-imbok",
@@ -708,7 +882,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kabili-sepilok",
@@ -722,7 +899,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kalumpang",
@@ -736,7 +917,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kawag-gibong",
@@ -750,7 +935,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kendawangan",
@@ -764,7 +952,10 @@
     "Marine Park"
    ],
    "iucn_cat": "VI",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kerangas",
@@ -778,7 +969,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kinabalu-park",
@@ -794,7 +989,11 @@
     "World Heritage Site (natural or mixed)"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kretam",
@@ -808,7 +1007,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kubu-raya",
@@ -822,7 +1025,10 @@
     "Marine Park"
    ],
    "iucn_cat": "VI",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kulamba",
@@ -836,7 +1042,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-kutai",
@@ -850,7 +1059,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lamag",
@@ -864,7 +1077,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lamandau",
@@ -878,7 +1095,11 @@
     "Wildlife Reserve"
    ],
    "iucn_cat": "IV",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lanjak-entimau",
@@ -892,7 +1113,11 @@
     "Wildlife Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lapak-jaru",
@@ -906,7 +1131,11 @@
     "Grand Forest Park"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lipaso",
@@ -920,7 +1149,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lower-kinabatangan",
@@ -934,7 +1166,11 @@
     "Wildlife Sanctuary"
    ],
    "iucn_cat": "IV",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-lungmanis",
@@ -948,7 +1184,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-madai-baturong",
@@ -962,7 +1201,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mahakam-wilayah-hulu",
@@ -976,7 +1219,11 @@
     "Marine Park"
    ],
    "iucn_cat": "IV",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-maliau-basin",
@@ -990,7 +1237,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-maliau-buffer-zone-maliau-buffer-zone-extension",
@@ -1004,7 +1254,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-maliau-buffer-zone-extension-ii",
@@ -1018,7 +1271,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-malua",
@@ -1032,7 +1288,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-malubuk",
@@ -1046,7 +1306,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mamahat",
@@ -1060,7 +1323,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-marang-eks-plg-i",
@@ -1074,7 +1340,10 @@
     "Undesigned"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-meliau-range",
@@ -1088,7 +1357,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-membalua",
@@ -1102,7 +1375,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mengilan",
@@ -1116,7 +1392,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-merisuli",
@@ -1130,7 +1410,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-milian-labau",
@@ -1144,7 +1428,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-milli-nonum",
@@ -1158,7 +1445,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mount-hatton",
@@ -1172,7 +1462,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mount-louisa",
@@ -1186,7 +1479,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mount-magdalena",
@@ -1200,7 +1496,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mount-pock",
@@ -1214,7 +1513,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mt-andrassy",
@@ -1228,7 +1531,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mt-conner",
@@ -1242,7 +1549,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-mt-wullersdorf",
@@ -1256,7 +1567,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-muara-kaman-sedulang",
@@ -1271,7 +1586,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-northern-gunung-rara",
@@ -1285,7 +1603,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-northern-kuamut",
@@ -1299,7 +1620,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-nuluhon-trusmadi",
@@ -1313,7 +1638,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-nurod-urod",
@@ -1327,7 +1656,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-pararawen-i-ii",
@@ -1341,7 +1673,11 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-pensiangan",
@@ -1355,7 +1691,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-pin-supu",
@@ -1369,7 +1708,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-quoin-hill",
@@ -1383,7 +1726,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-rafflesia",
@@ -1397,7 +1744,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sabuai-arut-selatan-kumai-kobar",
@@ -1411,7 +1762,11 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sapagaya",
@@ -1425,7 +1780,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sebangau",
@@ -1439,7 +1798,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-segarong",
@@ -1453,7 +1816,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sepagaya",
@@ -1467,7 +1834,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sepilok-mangrove",
@@ -1481,7 +1852,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-silabukan",
@@ -1496,7 +1871,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-silam",
@@ -1510,7 +1889,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-silimpopon",
@@ -1524,7 +1906,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sook-lake",
@@ -1538,7 +1924,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sosopodon",
@@ -1552,7 +1942,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sugud-wildlife-corridor",
@@ -1566,7 +1959,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-anjeranjermut",
@@ -1580,7 +1977,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-bakau-seruyan-hilir-timur-seruyan",
@@ -1594,7 +1994,10 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-barito",
@@ -1608,7 +2011,11 @@
     "Undesigned"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-gologob",
@@ -1622,7 +2029,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-imbak-sungai-imbak-extension",
@@ -1636,7 +2047,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-imbak-buffer-zone",
@@ -1650,7 +2065,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-imbak-buffer-zone-extension",
@@ -1664,7 +2082,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-kapuas",
@@ -1678,7 +2100,11 @@
     "Undesigned"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-kapur",
@@ -1692,7 +2118,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-kiluyu",
@@ -1706,7 +2136,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-kinabatangan",
@@ -1720,7 +2153,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-lasun-pulau-evans",
@@ -1734,7 +2170,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-lokan",
@@ -1748,7 +2187,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-lulungoyan",
@@ -1762,7 +2205,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-maruap",
@@ -1776,7 +2222,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-penawan",
@@ -1790,7 +2240,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-sansiang",
@@ -1804,7 +2257,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-segama",
@@ -1818,7 +2274,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-serudong",
@@ -1832,7 +2292,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-siliawan-sungai-siliawan-extension",
@@ -1846,7 +2310,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-siliawan-extension-ii",
@@ -1860,7 +2328,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-simpang-simpang-extension",
@@ -1874,7 +2345,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-sumagas",
@@ -1888,7 +2363,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-talibu",
@@ -1902,7 +2380,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-taliwas",
@@ -1916,7 +2398,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-tiagau",
@@ -1930,7 +2415,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-sungai-tongod",
@@ -1944,7 +2432,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tabin",
@@ -1959,7 +2451,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tabin-extension",
@@ -1973,7 +2469,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tajong",
@@ -1987,7 +2487,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-taman-botanikal-sepilok",
@@ -2001,7 +2504,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tambulanan",
@@ -2015,7 +2521,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tangkulap",
@@ -2029,7 +2538,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tanjong-nagas",
@@ -2043,7 +2556,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tanjung-keluang-teluk-keluang",
@@ -2057,7 +2573,11 @@
     "Nature Recreation Park"
    ],
    "iucn_cat": "V",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tanjung-malatayur",
@@ -2071,7 +2591,11 @@
     "Undesigned"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tanjung-puting",
@@ -2087,7 +2611,11 @@
     "Wetland of International Importance (Ramsar Site)"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tawai",
@@ -2101,7 +2629,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tawau",
@@ -2115,7 +2647,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tawau-hill-park",
@@ -2129,7 +2665,11 @@
     "State Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-teluk-sebangau-pulang-pisau-katingan",
@@ -2143,7 +2683,10 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tenompok",
@@ -2157,7 +2700,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tg-cemeti-pulau-hanaut-katingan-kotim-katingan",
@@ -2171,7 +2717,11 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tg-temunong-hallo",
@@ -2185,7 +2735,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-timbah",
@@ -2199,7 +2752,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-timimbang",
@@ -2213,7 +2769,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-timimbang-extension",
@@ -2227,7 +2787,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ib",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-tinagat",
@@ -2241,7 +2804,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-trusan-kinabatangan",
@@ -2255,7 +2822,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-trusan-sugut",
@@ -2269,7 +2840,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ujung-pandaran-teluk-sampit-kotim",
@@ -2283,7 +2858,11 @@
     "Marine Protected Area"
    ],
    "iucn_cat": "Not Reported",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-kalumpang",
@@ -2297,7 +2876,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-kukut",
@@ -2311,7 +2894,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-sapa-payau",
@@ -2325,7 +2911,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-segama",
@@ -2339,7 +2928,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-sg-napagon",
@@ -2353,7 +2946,10 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core"
+   ]
   },
   {
    "id": "pongo_pygmaeus-ulu-telupid",
@@ -2367,7 +2963,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-umas-umas",
@@ -2381,7 +2981,11 @@
     "Forest Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_pygmaeus-usun-apau",
@@ -2395,7 +2999,11 @@
     "National Park"
    ],
    "iucn_cat": "II",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_tapanuliensis-dolok-saut",
@@ -2409,7 +3017,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "III",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   },
   {
    "id": "pongo_tapanuliensis-dolok-sibual-buali",
@@ -2423,7 +3034,11 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_tapanuliensis-dolok-sipirok",
@@ -2437,7 +3052,11 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "core",
+    "possible"
+   ]
   },
   {
    "id": "pongo_tapanuliensis-lubuk-raya",
@@ -2451,7 +3070,10 @@
     "Nature Reserve"
    ],
    "iucn_cat": "Ia",
-   "status": "Designated"
+   "status": "Designated",
+   "range_categories": [
+    "possible"
+   ]
   }
  ]
 }

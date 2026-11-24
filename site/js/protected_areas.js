@@ -35,6 +35,30 @@ speciesFiltersEl.querySelectorAll(".species-filter").forEach((cb) => {
   });
 });
 
+// Which part of the IUCN range polygon a place overlaps (see
+// scripts/build_wdpa_places.py's _range_category) — a place can match more
+// than one, e.g. a park straddling both the confirmed and "possibly
+// extant" range. "possible" is IUCN's "Possibly Extant": uncertain range,
+// not a place orangutans are confirmed to use.
+const rangeFiltersEl = document.getElementById("range-filters");
+const RANGE_LIST = [
+  { id: "core", label: "Core (confirmed native)" },
+  { id: "extant_other", label: "Reintroduced / introduced" },
+  { id: "possible", label: "Extended (possibly extant)" },
+];
+const activeRanges = new Set(RANGE_LIST.map((r) => r.id));
+rangeFiltersEl.innerHTML = RANGE_LIST.map((r) => `
+  <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;cursor:pointer">
+    <input type="checkbox" class="range-filter" value="${r.id}" checked> ${r.label}
+  </label>`).join("");
+rangeFiltersEl.querySelectorAll(".range-filter").forEach((cb) => {
+  cb.addEventListener("change", () => {
+    if (cb.checked) activeRanges.add(cb.value);
+    else activeRanges.delete(cb.value);
+    if (window.__currentPAData) render(window.__currentPAData);
+  });
+});
+
 function setLoading(msg, isError = false) {
   if (!msg) { loadingEl.style.display = "none"; return; }
   loadingEl.style.display = "block";
@@ -76,7 +100,10 @@ function sortedPlaces(places) {
 
 function render(data) {
   const allPlaces = data.places || [];
-  const places = allPlaces.filter((p) => activeSpecies.has(p.species));
+  const places = allPlaces.filter((p) =>
+    activeSpecies.has(p.species) &&
+    (p.range_categories || []).some((c) => activeRanges.has(c))
+  );
   rowsEl.innerHTML = sortedPlaces(places).map((p) => `
     <tr>
       <td>${escapeHTML(p.name)}</td>
@@ -91,7 +118,7 @@ function render(data) {
     </tr>`).join("");
   countEl.textContent = places.length === allPlaces.length
     ? `${places.length} protected area(s) tracked for ${data.month}`
-    : `${places.length} of ${allPlaces.length} protected area(s) shown for ${data.month} (species filter applied)`;
+    : `${places.length} of ${allPlaces.length} protected area(s) shown for ${data.month} (filters applied)`;
 }
 
 document.querySelectorAll(".pa-table th").forEach((th, i) => {
