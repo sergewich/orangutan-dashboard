@@ -278,6 +278,16 @@ speciesControl.addTo(map);
 // picked. Always resets to "Current" on a species switch rather than trying
 // to keep the same month selected, since not every species has the same
 // months archived.
+//
+// Only offers a month if there's actually something to show on THIS map:
+// fire is listed only when the live window genuinely covered that month
+// (see archive_alerts.py — a month it never reached isn't added at all, so
+// every listed fire month is real, even a legitimate "0 fires"); for
+// deforestation, points_count > 0 is required, since a 0-point month has
+// nothing to plot — its (complete, reliable) aggregate numbers still exist,
+// just in the Species overview / Protected areas tab, not as dots on a map.
+// Most pre-archiving months (older than ~2026-11) will have no option here
+// at all for this reason — that's expected, not a bug, see CLAUDE.md.
 function updateMonthOptions(species) {
   const monthSelect = document.getElementById("month-select");
   if (!archiveManifest) {
@@ -285,7 +295,8 @@ function updateMonthOptions(species) {
     return;
   }
   const fireMonths = (archiveManifest.fire && archiveManifest.fire[species.id]) || [];
-  const deforMonths = Object.keys((archiveManifest.deforestation && archiveManifest.deforestation[species.id]) || {});
+  const deforInfo = (archiveManifest.deforestation && archiveManifest.deforestation[species.id]) || {};
+  const deforMonths = Object.keys(deforInfo).filter((m) => (deforInfo[m].points_count || 0) > 0);
   const months = [...new Set([...fireMonths, ...deforMonths])].sort().reverse();
   monthSelect.innerHTML = '<option value="current">Current</option>' +
     months.map((m) => `<option value="${m}">${m}</option>`).join("");
