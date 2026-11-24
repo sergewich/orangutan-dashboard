@@ -267,7 +267,8 @@ speciesControl.onAdd = function () {
     `</select>` +
     `<label for="month-select" style="display:block;margin:.5rem 0 .3rem;color:var(--muted);font-size:.78rem">` +
     `Month</label>` +
-    `<select id="month-select"><option value="current">Current</option></select>`;
+    `<select id="month-select"><option value="current">Current</option></select>` +
+    `<div id="month-note" class="muted" style="font-size:.72rem;margin-top:.35rem;display:none"></div>`;
   L.DomEvent.disableClickPropagation(div);
   return div;
 };
@@ -279,27 +280,42 @@ speciesControl.addTo(map);
 // to keep the same month selected, since not every species has the same
 // months archived.
 //
-// Only offers a month if there's actually something to show on THIS map:
-// fire is listed only when the live window genuinely covered that month
-// (see archive_alerts.py — a month it never reached isn't added at all, so
-// every listed fire month is real, even a legitimate "0 fires"); for
-// deforestation, points_count > 0 is required, since a 0-point month has
-// nothing to plot — its (complete, reliable) aggregate numbers still exist,
-// just in the Species overview / Protected areas tab, not as dots on a map.
-// Most pre-archiving months (older than ~2026-11) will have no option here
-// at all for this reason — that's expected, not a bug, see CLAUDE.md.
+// Only offers a month when its deforestation data is FULLY complete
+// (points_complete === true) — a partial sample (some points, but below the
+// --max-points cap vs. the real total) still carries a "this isn't the full
+// picture" warning that reads as broken to a casual visitor, even though
+// it's technically honest. Stricter than just requiring points_count > 0
+// (2026-11-24 change, after a partial month — real points shown, but still
+// flagged incomplete — read as confusing/broken in practice). Fire doesn't
+// gate this independently (no cap/completeness concept exists for it, see
+// CLAUDE.md), so a month only appears if deforestation is fully trustworthy;
+// for a high-volume species where no month ever reaches that bar (Bornean
+// orangutans, consistently in the hundreds of thousands to millions/month),
+// this can mean only "Current" is offered — that's an honest reflection of
+// what's actually complete, not a bug.
 function updateMonthOptions(species) {
   const monthSelect = document.getElementById("month-select");
+  const monthNote = document.getElementById("month-note");
   if (!archiveManifest) {
     monthSelect.innerHTML = '<option value="current">Current</option>';
+    monthNote.style.display = "none";
     return;
   }
-  const fireMonths = (archiveManifest.fire && archiveManifest.fire[species.id]) || [];
   const deforInfo = (archiveManifest.deforestation && archiveManifest.deforestation[species.id]) || {};
-  const deforMonths = Object.keys(deforInfo).filter((m) => (deforInfo[m].points_count || 0) > 0);
-  const months = [...new Set([...fireMonths, ...deforMonths])].sort().reverse();
+  const months = Object.keys(deforInfo).filter((m) => deforInfo[m].points_complete === true).sort().reverse();
   monthSelect.innerHTML = '<option value="current">Current</option>' +
     months.map((m) => `<option value="${m}">${m}</option>`).join("");
+
+  // Explains an empty-looking dropdown rather than leaving it to look
+  // broken — real for high-volume species/months, see updateMonthOptions'
+  // file-level comment above.
+  if (months.length === 0) {
+    monthNote.textContent = "No past months currently meet the completeness bar for this species — "
+      + "see the Protected areas tab for reliable historical counts.";
+    monthNote.style.display = "block";
+  } else {
+    monthNote.style.display = "none";
+  }
 }
 
 function updateInfo(deforestation, fire, month, deforIncomplete, deforPointsCount) {
