@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-12",
+  "updated": "2026-11-24",
   "note": "Hand-curated directory of NGOs active in the Sumatra/Borneo orangutan landscape. Not scraped, not automated — maintained manually. If a listing is outdated or a link is broken, please use the feedback email in the site footer.",
   "organizations": [
     {
@@ -350,6 +350,24 @@
         "research"
       ],
       "description": "US-based NGO supporting Sumatran orangutan conservation through conservation scholarships, education, and field-project funding. (A distinct organization from \"The Orangutan Project\", also listed in this directory, despite the similar name.)"
+    },
+    {
+      "name": "OrangJuga",
+      "acronym": "OrangJuga",
+      "website": "https://orangjuga.net",
+      "region": [
+        "Borneo"
+      ],
+      "species": [
+        "Pongo pygmaeus"
+      ],
+      "focus": [
+        "research",
+        "advocacy_policy",
+        "habitat_protection",
+        "rescue_rehabilitation"
+      ],
+      "description": "US-registered 501(c)3 charity running behavioural-ecology research and practitioner-led conservation work focused on practical, collaborative coexistence between people and orangutans in human-transformed landscapes in Borneo."
     },
     {
       "name": "Orangutan Appeal UK",
