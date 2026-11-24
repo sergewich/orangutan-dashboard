@@ -186,15 +186,24 @@ deforestation hit 2.86M alerts in a single month (August 2026) while the
 point file caps at 100k. The **aggregate summary CSV is never affected** (a
 separate, uncapped GFW query) — only the per-point file with coordinates.
 `archive_alerts.py` cross-checks the two and records
-`"points_complete": false` in the manifest whenever this happens, rather
-than silently presenting a partial point set as complete. Fire has no such
-cap anywhere in `fetch_fire.py` and no known upstream row limit either — the
-same investigation found no evidence of missing fire data. **When extending
-anything that shows individual alert points on a map: check
-`points_complete` and show the gap, don't hide it.** When extending anything
-that shows *counts* (not points): prefer `compute_pa_alerts.py`'s approach
-(a direct GFW count query per protected area, never point-capped) over
-spatially joining the point file, which inherits its gaps.
+`"points_complete": false` **and** `"points_count": N` in the manifest
+whenever this happens — both fields matter, not just the boolean. 0 points
+with a nonzero summary total is a *different* gap from a few thousand points
+surviving out of a few million: it means the live rolling window never
+reached back that far when the month was archived, i.e. no point-level data
+exists for that month at all, not that "volume was too high." Found and
+fixed 2026-11-24 after the Map tab's month picker showed a misleading
+"volume was too high" banner for *Pongo tapanuliensis* (a low-volume
+species!) on a month that actually had zero archived points for an unrelated
+reason. **When extending anything that shows individual alert points on a
+map: check both `points_complete` and `points_count`, and word the gap
+accordingly — don't hide it, and don't misattribute it either.** Fire has no
+such cap anywhere in `fetch_fire.py` and no known upstream row limit either
+— the same investigation found no evidence of missing fire data. When
+extending anything that shows *counts* (not points): prefer
+`compute_pa_alerts.py`'s approach (a direct GFW count query per protected
+area, never point-capped) over spatially joining the point file, which
+inherits its gaps.
 
 `scripts/compute_pa_alerts.py` produces `data/archive/pa_alerts/<YYYY-MM>.json`
 — complete fire + deforestation counts per protected area (from

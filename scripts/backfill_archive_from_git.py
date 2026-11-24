@@ -209,7 +209,9 @@ def backfill_deforestation_points(species: str, manifest: dict, dry_run: bool) -
         if summary_csv.exists():
             summary_total = sum(int(r["alert_count"]) for r in csv.DictReader(summary_csv.open()))
         complete = summary_total == 0 or len(feats) >= COMPLETENESS_SLACK * summary_total
-        manifest["deforestation"].setdefault(species, {})[month] = {"points_complete": complete}
+        manifest["deforestation"].setdefault(species, {})[month] = {
+            "points_complete": complete, "points_count": len(feats),
+        }
         flag = "" if complete else "  (still incomplete, but better than before)"
         print(f"defor  {species} {month}: {len(feats)} point(s) recovered from commit {commit[:10]} ({commit_date}){flag}")
 

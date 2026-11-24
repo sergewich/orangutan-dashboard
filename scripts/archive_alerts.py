@@ -123,16 +123,29 @@ def archive_fire(species: str, month: str, force: bool) -> str | None:
     return f"{len(feats)} alert(s)"
 
 
-def archive_deforestation(species: str, month: str, force: bool) -> tuple[str | None, bool]:
+def archive_deforestation(species: str, month: str, force: bool) -> tuple[str | None, bool, int]:
+    """Returns (log message, points_complete, points_count). `points_count`
+    matters on its own, not just as a boolean: 0 points with a nonzero
+    summary total means NO point-level data survives for this month at all
+    (the live window never reached back that far when this ran) — a
+    different, more total gap than a high-volume month where most points
+    were truncated but some remain. The frontend (map.js) uses this
+    distinction to avoid saying "too high volume" when the real reason is
+    "no point data was ever captured for this month." """
     live = load_json(DEFOR_DIR / f"{species}_integrated_alerts.geojson")
     summary_csv = DEFOR_DIR / f"{species}_integrated_alerts_summary.csv"
     if not live or not summary_csv.exists():
-        return None, True
+        return None, True, 0
 
     out_geo = ARCHIVE_DIR / "deforestation" / f"{species}_{month}.geojson"
     out_csv = ARCHIVE_DIR / "deforestation" / f"{species}_{month}_summary.csv"
     if out_geo.exists() and not force:
-        return "skipped (already archived)", True
+        existing = json.loads(out_geo.read_text())
+        n = len(existing.get("features", []))
+        existing_total = (sum(int(r["alert_count"]) for r in csv.DictReader(out_csv.open()))
+                           if out_csv.exists() else 0)
+        complete = existing_total == 0 or n >= COMPLETENESS_SLACK * existing_total
+        return "skipped (already archived)", complete, n
 
     feats = filter_features(live, "date", month)
     write_geojson(feats, out_geo)
@@ -147,7 +160,7 @@ def archive_deforestation(species: str, month: str, force: bool) -> tuple[str | 
 
     summary_total = sum(int(r["alert_count"]) for r in rows)
     complete = summary_total == 0 or len(feats) >= COMPLETENESS_SLACK * summary_total
-    return f"{len(feats)} point(s), {summary_total} per summary CSV", complete
+    return f"{len(feats)} point(s), {summary_total} per summary CSV", complete, len(feats)
 
 
 def main() -> None:
@@ -171,12 +184,17 @@ def main() -> None:
         else:
             print(f"fire   {species} {month}: no live data to archive, skipped")
 
-        defor_result, complete = archive_deforestation(species, month, args.force)
+        defor_result, complete, points_count = archive_deforestation(species, month, args.force)
         if defor_result:
-            flag = "" if complete else "  ** INCOMPLETE: point data was truncated by --max-points during the live refresh, summary counts are still accurate **"
+            if complete:
+                flag = ""
+            elif points_count == 0:
+                flag = "  ** NO POINT DATA: the live window never reached this far back, only aggregate counts are available **"
+            else:
+                flag = "  ** INCOMPLETE: point data was truncated by --max-points during the live refresh, summary counts are still accurate **"
             print(f"defor  {species} {month}: {defor_result}{flag}")
             manifest["deforestation"].setdefault(species, {})
-            manifest["deforestation"][species][month] = {"points_complete": complete}
+            manifest["deforestation"][species][month] = {"points_complete": complete, "points_count": points_count}
         else:
             print(f"defor  {species} {month}: no live data to archive, skipped")
 

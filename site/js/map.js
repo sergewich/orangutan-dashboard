@@ -291,8 +291,22 @@ function updateMonthOptions(species) {
     months.map((m) => `<option value="${m}">${m}</option>`).join("");
 }
 
-function updateInfo(deforestation, fire, month, deforIncomplete) {
+function updateInfo(deforestation, fire, month, deforIncomplete, deforPointsCount) {
   const monthLabel = month === "current" ? "Current" : month;
+  // Two distinct gaps, not one — see CLAUDE.md's "Historic alert archive"
+  // section. 0 points with a nonzero summary means the live rolling window
+  // never reached back this far when the month was archived (no point data
+  // was ever captured, not a volume issue); >0 but still below the summary
+  // total means the live refresh's --max-points cap genuinely truncated a
+  // high-volume month. Conflating the two would wrongly blame "too much
+  // data" for a month that in fact has none at all.
+  const incompleteNote = !deforIncomplete ? "" : deforPointsCount === 0
+    ? `<div class='warning'>⚠ No individual alert points are available for this month — only the aggregate `
+      + `totals could be recovered (see the Species overview in the monthly digest, or the Protected areas `
+      + `tab, for exact counts).</div>`
+    : `<div class='warning'>⚠ This month's deforestation alert volume was too high for every alert to be `
+      + `stored as an individual point (see the Protected areas tab for complete counts) — the points shown `
+      + `here are a partial sample, not the full picture.</div>`;
   infoControl._div.innerHTML =
     `<h3>${currentSpecies.label}</h3>` +
     `<div class='muted' style='margin-bottom:.3rem'>${monthLabel}</div>` +
@@ -301,11 +315,7 @@ function updateInfo(deforestation, fire, month, deforIncomplete) {
     `<div style='margin-top:.2rem'><b>${deforestation.total.toLocaleString()}</b> alert points shown</div>` +
     `<div class='muted'>nominal ${deforestation.nominal.toLocaleString()} · ` +
     `high ${deforestation.high.toLocaleString()} · highest ${deforestation.highest.toLocaleString()}</div>` +
-    (deforIncomplete
-      ? `<div class='warning'>⚠ This month's deforestation alert volume was too high for every alert to be `
-        + `stored as an individual point (see the Protected areas tab for complete counts) — the points shown `
-        + `here are a partial sample, not the full picture.</div>`
-      : "") +
+    incompleteNote +
     `<div style='margin-top:.5rem'>NASA FIRMS fire alerts</div>` +
     (fire.total > 0
       ? `<div class='muted'>window: ${fire.minDate || "?"} → ${fire.maxDate || "?"}</div>` +
@@ -409,6 +419,7 @@ async function loadSpeciesAlerts(species, month = "current") {
     archiveManifest.deforestation[species.id] &&
     archiveManifest.deforestation[species.id][month];
   const deforIncomplete = !!(deforInfo && deforInfo.points_complete === false);
+  const deforPointsCount = deforInfo ? deforInfo.points_count : null;
 
   alertGroups.nominal.clearLayers();
   alertGroups.high.clearLayers();
@@ -460,7 +471,7 @@ async function loadSpeciesAlerts(species, month = "current") {
     alertGroups.high.addTo(map);
     alertGroups.nominal.addTo(map);
 
-    updateInfo(stats, fireStats, month, deforIncomplete);
+    updateInfo(stats, fireStats, month, deforIncomplete, deforPointsCount);
     setLoading(null);
   } catch (err) {
     console.error(err);

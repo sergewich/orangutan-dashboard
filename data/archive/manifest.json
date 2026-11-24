@@ -2,116 +2,152 @@
  "deforestation": {
   "pongo_abelii": {
    "2025-11": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2025-12": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-01": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-02": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-03": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-04": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-05": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-06": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 9140
    },
    "2026-07": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-08": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-09": {
-    "points_complete": true
+    "points_complete": true,
+    "points_count": 82665
    },
    "2026-10": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 17335
    }
   },
   "pongo_pygmaeus": {
    "2025-11": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2025-12": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-01": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-02": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-03": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-04": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-05": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-06": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 16342
    },
    "2026-07": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-08": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-09": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 100000
    },
    "2026-10": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    }
   },
   "pongo_tapanuliensis": {
    "2025-11": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2025-12": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-01": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-02": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-03": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-04": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 0
    },
    "2026-05": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 18488
    },
    "2026-06": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 8300
    },
    "2026-07": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 24659
    },
    "2026-08": {
-    "points_complete": false
+    "points_complete": false,
+    "points_count": 2496
    },
    "2026-09": {
-    "points_complete": true
+    "points_complete": true,
+    "points_count": 14509
    },
    "2026-10": {
-    "points_complete": true
+    "points_complete": true,
+    "points_count": 6463
    }
   }
  },
