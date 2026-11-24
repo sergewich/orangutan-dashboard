@@ -89,6 +89,7 @@ main.landing .cta {
 }
 .info-box h3 { margin: 0 0 0.35rem; font-size: 0.9rem; color: var(--accent); }
 .info-box .muted { color: var(--muted); }
+.info-box .warning { color: #ffb4a8; border: 1px solid #7a3b34; border-radius: 6px; padding: 0.4rem 0.55rem; margin-top: 0.4rem; }
 .info-box b { color: #fff; }
 
 .species-switcher { margin-top: 0.5rem; }

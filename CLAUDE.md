@@ -98,9 +98,16 @@ Orangutan_dashboard/
                                  # WDPA's terms forbid redistributing the data itself, see
                                  # "Protected areas (WDPA) layer" below) + oil palm/mining/
                                  # hydro (all off by default except range; oil palm/mining/
-                                 # hydro lazy-load on first toggle, see THREAT_LAYERS in map.js)
-    js/literature.js, js/social.js, js/review.js, js/threats.js
-    tabs/map.html, literature.html, social.html, threats.html   # public, linked in nav
+                                 # hydro lazy-load on first toggle, see THREAT_LAYERS in map.js).
+                                 # A per-species month picker (reading data/archive/manifest.json)
+                                 # swaps the deforestation/fire layers between the live rolling
+                                 # window ("Current") and a permanent past-month snapshot from
+                                 # data/archive/ — shows a warning banner when the selected
+                                 # month's deforestation points are a partial sample (see
+                                 # "Historic alert archive" below), never hides the gap.
+    js/literature.js, js/social.js, js/review.js, js/threats.js, js/protected_areas.js
+    tabs/map.html, literature.html, social.html, threats.html, protected-areas.html
+                                 # all public, linked in nav
     tabs/review.html             # LOCAL ONLY — deliberately not linked from nav, see below
   .github/workflows/
     daily_fire_refresh.yml       # daily: re-run fetch_fire.py for all three species
@@ -195,7 +202,14 @@ spatially joining the point file, which inherits its gaps.
 what feeds the per-protected-area breakdown in the monthly digest
 (`site_updates`-style, see the digest section below) — it exists precisely
 *because* the point-file approach can't give reliable per-area counts for
-high-volume regions like Borneo.
+high-volume regions like Borneo. Also surfaced on its own public tab,
+`site/tabs/protected-areas.html` (+ `site/js/protected_areas.js`): a
+sortable table per protected area, with a month picker reading
+`manifest.json`'s `pa_alerts` list. The digest additionally carries a
+per-species "Species overview" table (fire/deforestation totals with a
+month-over-month trend, from `scripts/build_digest.py`'s
+`compute_species_trends()`) and links out to both this tab and the Map
+tab's month picker for anyone who wants to dig further.
 
 ## Mandatory human review for Social/Threats content
 
@@ -298,7 +312,12 @@ entries + hand-curated `data/site_updates.json` feature/content announcements
 owner a test copy — the owner clicks Send in Brevo. Don't make it send
 automatically without the owner. To announce a shipped feature in the next
 digest, add an entry to `data/site_updates.json` (id/date/title/description)
-— each entry is sent once, same dedup pattern as incidents/literature.
+— each entry is sent once, same dedup pattern as incidents/literature. Two
+sections are NOT deduped against `digest_state.json` — they're a fresh
+monthly snapshot every time, not a backlog: the per-species "Species
+overview" trend table and the per-protected-area breakdown (both from
+`data/archive/`, see "Historic alert archive & per-protected-area counts"
+above).
 Secrets: `BREVO_API_KEY` (restricted: Email campaigns + Contacts), optional
 `DIGEST_TEST_TO`. Brevo free plan: 300 emails/day. Sender updates@orangutandashboard.org (domain bought in Cloudflare, DKIM/DMARC records for Brevo; Cloudflare Email Routing forwards updates@ to the site Gmail). Never send from the Gmail address: it fails DMARC at universities.
 

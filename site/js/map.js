@@ -18,15 +18,27 @@ const SPECIES_LIST = [
   { id: "pongo_pygmaeus", label: "Pongo pygmaeus (Bornean orangutan)", color: "#a06cd5", center: [0.8, 113.5], zoom: 6 },
 ];
 
-function speciesUrls(id) {
+// month is "current" (the live rolling-window files) or "YYYY-MM" (a
+// permanent snapshot in data/archive/, see scripts/archive_alerts.py and
+// CLAUDE.md's "Historic alert archive" section).
+function speciesUrls(id, month) {
+  if (!month || month === "current") {
+    return {
+      rangeUrl: `../../data/ranges/${id}.geojson`,
+      alertsUrl: `../../data/deforestation/${id}_integrated_alerts.geojson`,
+      fireAlertsUrl: `../../data/fire/${id}_fire_alerts.geojson`,
+    };
+  }
   return {
     rangeUrl: `../../data/ranges/${id}.geojson`,
-    alertsUrl: `../../data/deforestation/${id}_integrated_alerts.geojson`,
-    fireAlertsUrl: `../../data/fire/${id}_fire_alerts.geojson`,
+    alertsUrl: `../../data/archive/deforestation/${id}_${month}.geojson`,
+    fireAlertsUrl: `../../data/archive/fire/${id}_${month}.geojson`,
   };
 }
 
 let currentSpecies = SPECIES_LIST[0];
+let currentMonth = "current";
+let archiveManifest = null; // data/archive/manifest.json, loaded once at init
 
 const CONFIDENCE_COLORS = { nominal: "#f2d13c", high: "#f2913c", highest: "#e2402c" };
 
@@ -252,25 +264,53 @@ speciesControl.onAdd = function () {
     `Deforestation &amp; fire alerts for</label>` +
     `<select id="species-select">` +
     SPECIES_LIST.map((s) => `<option value="${s.id}">${s.label}</option>`).join("") +
-    `</select>`;
+    `</select>` +
+    `<label for="month-select" style="display:block;margin:.5rem 0 .3rem;color:var(--muted);font-size:.78rem">` +
+    `Month</label>` +
+    `<select id="month-select"><option value="current">Current</option></select>`;
   L.DomEvent.disableClickPropagation(div);
   return div;
 };
 speciesControl.addTo(map);
 
-function updateInfo(deforestation, fire) {
+// Archived months are per-species (see data/archive/manifest.json) — rebuilt
+// every species switch so a stale list from the previous species can't be
+// picked. Always resets to "Current" on a species switch rather than trying
+// to keep the same month selected, since not every species has the same
+// months archived.
+function updateMonthOptions(species) {
+  const monthSelect = document.getElementById("month-select");
+  if (!archiveManifest) {
+    monthSelect.innerHTML = '<option value="current">Current</option>';
+    return;
+  }
+  const fireMonths = (archiveManifest.fire && archiveManifest.fire[species.id]) || [];
+  const deforMonths = Object.keys((archiveManifest.deforestation && archiveManifest.deforestation[species.id]) || {});
+  const months = [...new Set([...fireMonths, ...deforMonths])].sort().reverse();
+  monthSelect.innerHTML = '<option value="current">Current</option>' +
+    months.map((m) => `<option value="${m}">${m}</option>`).join("");
+}
+
+function updateInfo(deforestation, fire, month, deforIncomplete) {
+  const monthLabel = month === "current" ? "Current" : month;
   infoControl._div.innerHTML =
     `<h3>${currentSpecies.label}</h3>` +
+    `<div class='muted' style='margin-bottom:.3rem'>${monthLabel}</div>` +
     `<div>GFW integrated deforestation alerts</div>` +
     `<div class='muted'>window: ${deforestation.minDate || "?"} → ${deforestation.maxDate || "?"}</div>` +
     `<div style='margin-top:.2rem'><b>${deforestation.total.toLocaleString()}</b> alert points shown</div>` +
     `<div class='muted'>nominal ${deforestation.nominal.toLocaleString()} · ` +
     `high ${deforestation.high.toLocaleString()} · highest ${deforestation.highest.toLocaleString()}</div>` +
+    (deforIncomplete
+      ? `<div class='warning'>⚠ This month's deforestation alert volume was too high for every alert to be `
+        + `stored as an individual point (see the Protected areas tab for complete counts) — the points shown `
+        + `here are a partial sample, not the full picture.</div>`
+      : "") +
     `<div style='margin-top:.5rem'>NASA FIRMS fire alerts</div>` +
     (fire.total > 0
       ? `<div class='muted'>window: ${fire.minDate || "?"} → ${fire.maxDate || "?"}</div>` +
         `<div style='margin-top:.2rem'><b>${fire.total.toLocaleString()}</b> alert point${fire.total === 1 ? "" : "s"} shown</div>`
-      : `<div class='muted'>no fire alerts detected in the current window (refreshed daily)</div>`);
+      : `<div class='muted'>no fire alerts detected in this window</div>`);
 }
 
 const legend = L.control({ position: "bottomleft" });
@@ -359,10 +399,16 @@ async function loadJSON(url) {
 // (now-simplified) range boundaries, so only one species' worth loads at a
 // time, swapped by the switcher control — rather than fetching all three
 // simultaneously on every page view.
-async function loadSpeciesAlerts(species) {
+async function loadSpeciesAlerts(species, month = "current") {
   currentSpecies = species;
+  currentMonth = month;
   updateLegendSpecies(species);
-  const urls = speciesUrls(species.id);
+  const urls = speciesUrls(species.id, month);
+  const deforInfo = month !== "current" &&
+    archiveManifest && archiveManifest.deforestation &&
+    archiveManifest.deforestation[species.id] &&
+    archiveManifest.deforestation[species.id][month];
+  const deforIncomplete = !!(deforInfo && deforInfo.points_complete === false);
 
   alertGroups.nominal.clearLayers();
   alertGroups.high.clearLayers();
@@ -370,7 +416,8 @@ async function loadSpeciesAlerts(species) {
   fireAlertsLayer.clearLayers();
 
   try {
-    setLoading(`Loading deforestation alerts for ${species.label}…`);
+    const monthLabel = month === "current" ? "current" : month;
+    setLoading(`Loading deforestation alerts for ${species.label} (${monthLabel})…`);
     const stats = { total: 0, nominal: 0, high: 0, highest: 0, minDate: null, maxDate: null };
     try {
       const alerts = await loadJSON(urls.alertsUrl);
@@ -389,7 +436,7 @@ async function loadSpeciesAlerts(species) {
       console.warn("Deforestation alerts not loaded:", alertErr.message);
     }
 
-    setLoading(`Loading fire alerts for ${species.label}…`);
+    setLoading(`Loading fire alerts for ${species.label} (${monthLabel})…`);
     const fireStats = { total: 0, minDate: null, maxDate: null };
     try {
       const fireAlerts = await loadJSON(urls.fireAlertsUrl);
@@ -413,7 +460,7 @@ async function loadSpeciesAlerts(species) {
     alertGroups.high.addTo(map);
     alertGroups.nominal.addTo(map);
 
-    updateInfo(stats, fireStats);
+    updateInfo(stats, fireStats, month, deforIncomplete);
     setLoading(null);
   } catch (err) {
     console.error(err);
@@ -427,7 +474,14 @@ async function loadSpeciesAlerts(species) {
 
 document.getElementById("species-select").addEventListener("change", (e) => {
   const species = SPECIES_LIST.find((s) => s.id === e.target.value);
-  if (species) loadSpeciesAlerts(species);
+  if (species) {
+    updateMonthOptions(species);
+    loadSpeciesAlerts(species, "current");
+  }
+});
+
+document.getElementById("month-select").addEventListener("change", (e) => {
+  loadSpeciesAlerts(currentSpecies, e.target.value);
 });
 
 (async function init() {
@@ -450,7 +504,14 @@ document.getElementById("species-select").addEventListener("change", (e) => {
       map.fitBounds(rangeLayer.getBounds(), { padding: [20, 20] });
     } catch (_) { /* keep the default overview center if bounds are empty */ }
 
-    await loadSpeciesAlerts(currentSpecies);
+    try {
+      archiveManifest = await loadJSON("../../data/archive/manifest.json");
+    } catch (err) {
+      console.warn("Archive manifest not loaded — month picker will only show 'Current':", err.message);
+    }
+    updateMonthOptions(currentSpecies);
+
+    await loadSpeciesAlerts(currentSpecies, "current");
   } catch (err) {
     console.error(err);
     setLoading(

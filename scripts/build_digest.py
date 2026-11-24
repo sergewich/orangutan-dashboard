@@ -22,6 +22,7 @@ the reviewed incident summaries shown on the News tab.
 from __future__ import annotations
 
 import argparse
+import csv
 import datetime as dt
 import html
 import json
@@ -33,10 +34,14 @@ INCIDENTS = REPO_ROOT / "data" / "social" / "incidents.json"
 LITERATURE = [REPO_ROOT / "data" / "literature" / "literature.json",
               REPO_ROOT / "data" / "literature" / "library.json"]
 SITE_UPDATES = REPO_ROOT / "data" / "site_updates.json"
-PA_ALERTS_DIR = REPO_ROOT / "data" / "archive" / "pa_alerts"
+ARCHIVE_DIR = REPO_ROOT / "data" / "archive"
+PA_ALERTS_DIR = ARCHIVE_DIR / "pa_alerts"
 STATE = REPO_ROOT / "digest_state.json"
 MAX_PA_ALERTS = 20  # beyond this the email links to the dashboard instead
 SITE = "https://sergewich.github.io/orangutan-dashboard/"
+SPECIES_LIST = ["pongo_abelii", "pongo_pygmaeus", "pongo_tapanuliensis"]
+SPECIES_LABEL = {"pongo_abelii": "Sumatran orangutan", "pongo_pygmaeus": "Bornean orangutan",
+                  "pongo_tapanuliensis": "Tapanuli orangutan"}
 CATEGORIES = {"translocation_rescue": "Rescues and translocations",
               "trade": "Wildlife trade", "killing": "Killings"}
 TYPE_LABEL = {"journal": "Article", "book": "Book", "thesis": "Thesis", "report": "Report",
@@ -65,13 +70,71 @@ def save_state(state: dict, incidents: list[dict], literature: list[dict], site_
     STATE.write_text(json.dumps(state, ensure_ascii=False, indent=0) + "\n")
 
 
-def current() -> tuple[list[dict], list[dict], list[dict], dict | None]:
+def current() -> tuple[list[dict], list[dict], list[dict], dict | None, list[dict]]:
     incidents = [r for r in json.loads(INCIDENTS.read_text())
                  if r.get("reviewed") and r.get("decision") == "approved"]
     literature = [r for p in LITERATURE if p.exists() for r in json.loads(p.read_text())]
     site_updates = json.loads(SITE_UPDATES.read_text())["updates"] if SITE_UPDATES.exists() else []
     pa_alerts = latest_pa_alerts()
-    return incidents, literature, site_updates, pa_alerts
+    species_trends = []
+    if pa_alerts:
+        species_trends = compute_species_trends(pa_alerts["month"])
+    return incidents, literature, site_updates, pa_alerts, species_trends
+
+
+def prev_month_str(month: str) -> str:
+    year, mon = (int(x) for x in month.split("-"))
+    year, mon = (year - 1, 12) if mon == 1 else (year, mon - 1)
+    return f"{year:04d}-{mon:02d}"
+
+
+def month_fire_total(species: str, month: str) -> int | None:
+    p = ARCHIVE_DIR / "fire" / f"{species}_{month}_summary.csv"
+    if not p.exists():
+        return None
+    return sum(int(r["alert_count"]) for r in csv.DictReader(p.open()))
+
+
+def month_defor_totals(species: str, month: str) -> tuple[int, float] | None:
+    p = ARCHIVE_DIR / "deforestation" / f"{species}_{month}_summary.csv"
+    if not p.exists():
+        return None
+    rows = list(csv.DictReader(p.open()))
+    count = sum(int(r["alert_count"]) for r in rows)
+    area = sum(float(r["area_ha"]) for r in rows)
+    return count, round(area, 1)
+
+
+def compute_species_trends(month: str) -> list[dict]:
+    """Per-species fire + deforestation totals for `month`, with a
+    month-over-month comparison where the previous month was also archived
+    (see scripts/archive_alerts.py) — a raw count alone doesn't tell a
+    subscriber whether things are getting better or worse."""
+    prev = prev_month_str(month)
+    out = []
+    for species in SPECIES_LIST:
+        fire_now = month_fire_total(species, month)
+        fire_prev = month_fire_total(species, prev)
+        defor_now = month_defor_totals(species, month)
+        defor_prev = month_defor_totals(species, prev)
+        out.append({
+            "species": species,
+            "fire_now": fire_now, "fire_prev": fire_prev,
+            "defor_count_now": defor_now[0] if defor_now else None,
+            "defor_area_now": defor_now[1] if defor_now else None,
+            "defor_count_prev": defor_prev[0] if defor_prev else None,
+        })
+    return out
+
+
+def trend_str(now: int | None, prev: int | None) -> str:
+    if now is None:
+        return "no data"
+    if prev is None or prev == 0:
+        return f"{now:,}"
+    pct = (now - prev) / prev * 100
+    arrow = "▲" if pct > 5 else ("▼" if pct < -5 else "→")
+    return f"{now:,} ({arrow} {abs(pct):.0f}% vs last month)"
 
 
 def latest_pa_alerts() -> dict | None:
@@ -97,7 +160,7 @@ def esc(s) -> str:
 
 
 def render(incidents: list[dict], literature: list[dict], site_updates: list[dict],
-           pa_alerts: dict | None, month: str) -> tuple[str, str]:
+           pa_alerts: dict | None, species_trends: list[dict], month: str) -> tuple[str, str]:
     lit = sorted(literature, key=lambda r: (-(r.get("year") or 0), (r.get("title") or "").lower()))
     shown = lit[:MAX_LITERATURE]
     updates_clause = f", and {len(site_updates)} site update{'s' if len(site_updates) != 1 else ''}" if site_updates else ""
@@ -121,6 +184,34 @@ def render(incidents: list[dict], literature: list[dict], site_updates: list[dic
             t += [f"- {r.get('title')}", f"  {r.get('description') or ''}"]
         h.append("</ul>")
         t.append("")
+
+    if species_trends:
+        trend_month = pa_alerts.get("month", "") if pa_alerts else ""
+        h.append(f'<h2 style="font-size:18px;border-bottom:2px solid #d9a066">Species overview — {esc(trend_month)}</h2>'
+                 '<table style="width:100%;border-collapse:collapse;font-size:13px">'
+                 '<tr style="text-align:left;border-bottom:1px solid #ccc">'
+                 '<th style="padding:4px 6px 4px 0">Species</th>'
+                 '<th style="padding:4px 6px">Fire alerts</th>'
+                 '<th style="padding:4px 6px">Deforestation alerts</th>'
+                 '<th style="padding:4px 6px">Area affected (ha)</th></tr>')
+        t += [f"SPECIES OVERVIEW — {trend_month}", ""]
+        for s in species_trends:
+            label = SPECIES_LABEL.get(s["species"], s["species"])
+            fire_cell = trend_str(s["fire_now"], s["fire_prev"])
+            defor_cell = trend_str(s["defor_count_now"], s["defor_count_prev"])
+            area_cell = f'{s["defor_area_now"]:,}' if s["defor_area_now"] is not None else "no data"
+            h.append(f'<tr style="border-bottom:1px solid #eee">'
+                     f'<td style="padding:4px 6px 4px 0">{esc(label)}</td>'
+                     f'<td style="padding:4px 6px">{esc(fire_cell)}</td>'
+                     f'<td style="padding:4px 6px">{esc(defor_cell)}</td>'
+                     f'<td style="padding:4px 6px">{esc(area_cell)}</td></tr>')
+            t.append(f"- {label}: {fire_cell} fire, {defor_cell} deforestation, {area_cell} ha")
+        h.append('</table>'
+                 f'<p><a href="{SITE}site/tabs/map.html">Browse past months on the map</a> '
+                 '(pick a species, then a month, from the panel in the top right) — '
+                 f'or see the <a href="{SITE}site/tabs/protected-areas.html">full per-protected-area breakdown</a>.</p>')
+        t += ["", f"Browse past months: {SITE}site/tabs/map.html",
+              f"Per-protected-area breakdown: {SITE}site/tabs/protected-areas.html", ""]
 
     if pa_alerts and pa_alerts.get("places"):
         pa_month = pa_alerts.get("month", "")
@@ -209,7 +300,7 @@ def main() -> None:
     args = p.parse_args()
 
     state = load_state()
-    incidents, literature, site_updates, pa_alerts = current()
+    incidents, literature, site_updates, pa_alerts, species_trends = current()
     if args.seed:
         save_state(state, incidents, literature, site_updates)
         print(f"Seeded {STATE.name}: {len(incidents)} incidents, {len(literature)} literature entries, "
@@ -226,7 +317,7 @@ def main() -> None:
     new_upd = [r for r in site_updates if r["id"] not in seen_upd]
 
     month = dt.date.today().strftime("%B %Y")
-    body_html, body_text = render(new_inc, new_lit, new_upd, pa_alerts, month)
+    body_html, body_text = render(new_inc, new_lit, new_upd, pa_alerts, species_trends, month)
     summary = {"month": month, "incidents": len(new_inc), "literature": len(new_lit),
                "site_updates": len(new_upd),
                "pa_alerts_month": (pa_alerts or {}).get("month"),
