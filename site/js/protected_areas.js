@@ -8,17 +8,32 @@
  * tab's point layer, are always complete even in high-volume months.
  */
 
-const COMMON_NAME_MAP = {
-  pongo_abelii: "Sumatran",
-  pongo_pygmaeus: "Bornean",
-  pongo_tapanuliensis: "Tapanuli",
-};
+const SPECIES_LIST = [
+  { id: "pongo_abelii", label: "Sumatran" },
+  { id: "pongo_pygmaeus", label: "Bornean" },
+  { id: "pongo_tapanuliensis", label: "Tapanuli" },
+];
+const COMMON_NAME_MAP = Object.fromEntries(SPECIES_LIST.map((s) => [s.id, s.label]));
 
 const loadingEl = document.getElementById("loading");
 const layoutEl = document.getElementById("pa-layout");
 const monthSelect = document.getElementById("month-select");
+const speciesFiltersEl = document.getElementById("species-filters");
 const rowsEl = document.getElementById("pa-rows");
 const countEl = document.getElementById("pa-count");
+
+const activeSpecies = new Set(SPECIES_LIST.map((s) => s.id));
+speciesFiltersEl.innerHTML = SPECIES_LIST.map((s) => `
+  <label style="display:flex;align-items:center;gap:.4rem;font-size:.85rem;cursor:pointer">
+    <input type="checkbox" class="species-filter" value="${s.id}" checked> ${s.label}
+  </label>`).join("");
+speciesFiltersEl.querySelectorAll(".species-filter").forEach((cb) => {
+  cb.addEventListener("change", () => {
+    if (cb.checked) activeSpecies.add(cb.value);
+    else activeSpecies.delete(cb.value);
+    if (window.__currentPAData) render(window.__currentPAData);
+  });
+});
 
 function setLoading(msg, isError = false) {
   if (!msg) { loadingEl.style.display = "none"; return; }
@@ -60,7 +75,8 @@ function sortedPlaces(places) {
 }
 
 function render(data) {
-  const places = data.places || [];
+  const allPlaces = data.places || [];
+  const places = allPlaces.filter((p) => activeSpecies.has(p.species));
   rowsEl.innerHTML = sortedPlaces(places).map((p) => `
     <tr>
       <td>${escapeHTML(p.name)}</td>
@@ -73,7 +89,9 @@ function render(data) {
       <td>${p.deforestation_area_ha === null || p.deforestation_area_ha === undefined
         ? "—" : p.deforestation_area_ha.toLocaleString(undefined, { maximumFractionDigits: 1 })}</td>
     </tr>`).join("");
-  countEl.textContent = `${places.length} protected area(s) tracked for ${data.month}`;
+  countEl.textContent = places.length === allPlaces.length
+    ? `${places.length} protected area(s) tracked for ${data.month}`
+    : `${places.length} of ${allPlaces.length} protected area(s) shown for ${data.month} (species filter applied)`;
 }
 
 document.querySelectorAll(".pa-table th").forEach((th, i) => {
