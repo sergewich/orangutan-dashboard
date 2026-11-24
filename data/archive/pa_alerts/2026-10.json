@@ -134,24 +134,6 @@
    ]
   },
   {
-   "id": "pongo_abelii-janthoi",
-   "name": "Janthoi",
-   "species": "pongo_abelii",
-   "designations": [
-    "Nature Recreation Park"
-   ],
-   "iucn_cat": "Not Reported",
-   "fire_count": 0,
-   "deforestation_count": 9,
-   "deforestation_area_ha": 0.1103,
-   "deforestation_by_confidence": {
-    "nominal": 9
-   },
-   "range_categories": [
-    "extant_other"
-   ]
-  },
-  {
    "id": "pongo_abelii-lau-debuk-debuk",
    "name": "Lau Debuk Debuk",
    "species": "pongo_abelii",

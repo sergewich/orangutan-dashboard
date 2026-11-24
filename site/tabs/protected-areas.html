@@ -25,19 +25,11 @@
     <div class="lit-intro">
       <h2>Fire &amp; deforestation alerts by protected area</h2>
       <p class="muted">
-        Monthly fire (NASA FIRMS) and deforestation (Global Forest Watch) alert
-        counts inside each protected area overlapping the orangutan range
-        (<a href="https://www.protectedplanet.net" target="_blank" rel="noopener">World
-        Database on Protected Areas</a>, deduplicated to one record per physical
-        place). Deforestation counts come from a complete query scoped to each
-        area's own boundary — not from spatially joining the Map tab's point
-        layer, which can be an incomplete sample of a high-volume month (see the
-        note below). Boundaries themselves aren't shown here — see the
-        <a href="map.html">Map tab's</a> "Protected areas (WDPA)" layer for that.
-        A protected area can overlap more than one part of the IUCN range
-        polygon — the Range filter below lets you narrow the list to areas
-        touching the confirmed native range, a reintroduced/introduced
-        population, and/or the uncertain "possibly extant" extended range.
+        Monthly fire and deforestation alerts for protected areas across the
+        orangutan range (<a href="https://www.protectedplanet.net" target="_blank" rel="noopener">World
+        Database on Protected Areas</a>). These counts are always complete,
+        even in months with too many alerts for the <a href="map.html">Map
+        tab</a> to plot every point.
       </p>
     </div>
 
@@ -52,7 +44,7 @@
         <label style="display:block;margin:.6rem 0 .3rem;color:var(--muted);font-size:.78rem">Species</label>
         <div id="species-filters" style="display:flex;flex-direction:column;gap:.25rem"></div>
 
-        <label style="display:block;margin:.6rem 0 .3rem;color:var(--muted);font-size:.78rem">Range</label>
+        <label style="display:block;margin:.6rem 0 .3rem;color:var(--muted);font-size:.78rem">Where orangutans live</label>
         <div id="range-filters" style="display:flex;flex-direction:column;gap:.25rem"></div>
       </div>
 

@@ -42,9 +42,9 @@ speciesFiltersEl.querySelectorAll(".species-filter").forEach((cb) => {
 // not a place orangutans are confirmed to use.
 const rangeFiltersEl = document.getElementById("range-filters");
 const RANGE_LIST = [
-  { id: "core", label: "Core (confirmed native)" },
-  { id: "extant_other", label: "Reintroduced / introduced" },
-  { id: "possible", label: "Extended (possibly extant)" },
+  { id: "core", label: "Confirmed habitat" },
+  { id: "extant_other", label: "Reintroduced population" },
+  { id: "possible", label: "Possible habitat" },
 ];
 const activeRanges = new Set(RANGE_LIST.map((r) => r.id));
 rangeFiltersEl.innerHTML = RANGE_LIST.map((r) => `
@@ -111,7 +111,7 @@ function render(data) {
       <td>${escapeHTML((p.designations || []).join(", "))}</td>
       <td>${fmt(p.fire_count)}</td>
       <td>${p.deforestation_count === null
-        ? '<span title="Could not be queried this run">—</span>'
+        ? '<span title="Not available this month">—</span>'
         : fmt(p.deforestation_count)}</td>
       <td>${p.deforestation_area_ha === null || p.deforestation_area_ha === undefined
         ? "—" : p.deforestation_area_ha.toLocaleString(undefined, { maximumFractionDigits: 1 })}</td>

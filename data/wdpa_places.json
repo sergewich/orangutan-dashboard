@@ -127,23 +127,6 @@
    ]
   },
   {
-   "id": "pongo_abelii-janthoi",
-   "name": "Janthoi",
-   "species": "pongo_abelii",
-   "representative_site_pid": "555635888",
-   "site_pids": [
-    "555635888"
-   ],
-   "designations": [
-    "Nature Recreation Park"
-   ],
-   "iucn_cat": "Not Reported",
-   "status": "Designated",
-   "range_categories": [
-    "extant_other"
-   ]
-  },
-  {
    "id": "pongo_abelii-lau-debuk-debuk",
    "name": "Lau Debuk Debuk",
    "species": "pongo_abelii",

@@ -234,6 +234,17 @@ EXCLUDED_IDS = {
         "already counted under the separate 'Gunung Leuser' entry (National "
         "Park + Biosphere Reserve). Excluded 2026-11-24 at the owner's "
         "request to avoid double-counting that ground.",
+    "pongo_abelii-janthoi":
+        "WDPA 'Janthoi' (Nature Recreation Park, site_pid 555635888, 25.9 km²) "
+        "appears to be a spurious/stale WDPA record, not a real separate "
+        "protected area: Indonesian government and press sources (Mongabay, "
+        "ksdae.kehutanan.go.id) only ever describe one reserve here — Cagar "
+        "Alam Jantho, established by SK Menteri Kehutanan No. 186/Kpts-II/1984,"
+        " also called 'Cagar Alam Hutan Pinus Jantho' — matching the separate "
+        "'Hutan Pinus/Janthoi' entry (Nature Reserve, site_pid 20931, 153.5 "
+        "km², close to the decree's ~154-166 km² across revisions), which is "
+        "kept. No source confirms an actual distinct Taman Wisata Alam Jantho."
+        " Excluded 2026-11-24 at the owner's request.",
 }
 
 
