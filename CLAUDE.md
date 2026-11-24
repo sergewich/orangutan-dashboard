@@ -41,7 +41,14 @@ Orangutan_dashboard/
                                   # site_pid groups) confirmed to overlap each species' range.
                                   # No WDPA geometry/bulk attributes stored (licensing, see
                                   # below) — just names/ids, same spirit as data/ngos/ngos.json.
-                                  # Rebuild with scripts/build_wdpa_places.py.
+                                  # Rebuild with scripts/build_wdpa_places.py, which also applies
+                                  # a hand-curated EXCLUDED_IDS list for composite/landscape-scale
+                                  # designations (e.g. a UNESCO World Heritage Site covering
+                                  # ground already counted under a separately-listed national
+                                  # park) that name-based dedup can't catch on its own, since the
+                                  # two entries have genuinely different names. Removing a place
+                                  # from the live JSON without also adding it to EXCLUDED_IDS just
+                                  # means the next full rebuild brings it back.
   scripts/
     convert_ranges.py          # one-time: shapefile zips (data/ranges/raw/) -> GeoJSON.
                                 # Prefers ogr2ogr if on PATH, falls back to pyshp+pyproj.

@@ -193,6 +193,25 @@ def slugify(name: str) -> str:
     return s or "place"
 
 
+# Composite/landscape-scale designations that cover ground already counted
+# under a separately-listed park, but whose name is different enough that
+# normalize_name()'s dedup-by-name can't catch the overlap (that only strips
+# a shared designation-type suffix, e.g. "X National Park" + "X Biosphere
+# Reserve" -> "X" -> merged; it can't match two genuinely different names
+# for the same ground). Counting both would double-count alerts for that
+# area. Add a (generated id -> reason) entry here only after checking the
+# overlap yourself (e.g. the geometry, or just recognizing the place) — this
+# is a hand-curated exception list, not something to infer automatically.
+EXCLUDED_IDS = {
+    "pongo_abelii-tropical-rainforest-heritage-of-sumatra":
+        "UNESCO World Heritage Site — a composite listing whose component "
+        "falling inside the Sumatran range is the Gunung Leuser cluster, "
+        "already counted under the separate 'Gunung Leuser' entry (National "
+        "Park + Biosphere Reserve). Excluded 2026-11-24 at the owner's "
+        "request to avoid double-counting that ground.",
+}
+
+
 def build_places(species_filter: list[str]) -> dict:
     places_by_key: dict[tuple, dict] = {}
     for species in species_filter:
@@ -223,7 +242,8 @@ def build_places(species_filter: list[str]) -> dict:
                 "status": rep.get("status"),
             }
 
-    places = [places_by_key[k] for k in sorted(places_by_key, key=lambda k: (k[0], k[1]))]
+    places = [places_by_key[k] for k in sorted(places_by_key, key=lambda k: (k[0], k[1]))
+              if places_by_key[k]["id"] not in EXCLUDED_IDS]
     return {
         "updated": time.strftime("%Y-%m-%d"),
         "note": ("Reference list of protected areas (WDPA site_pid numbers) confirmed to "

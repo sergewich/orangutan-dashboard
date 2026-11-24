@@ -218,23 +218,6 @@
    }
   },
   {
-   "id": "pongo_abelii-tropical-rainforest-heritage-of-sumatra",
-   "name": "Tropical Rainforest Heritage of Sumatra",
-   "species": "pongo_abelii",
-   "designations": [
-    "World Heritage Site (natural or mixed)"
-   ],
-   "iucn_cat": "Not Applicable",
-   "fire_count": 2,
-   "deforestation_count": 85122,
-   "deforestation_area_ha": 1046.2678,
-   "deforestation_by_confidence": {
-    "high": 17097,
-    "highest": 1128,
-    "nominal": 66897
-   }
-  },
-  {
    "id": "pongo_pygmaeus-babanga",
    "name": "Babanga",
    "species": "pongo_pygmaeus",

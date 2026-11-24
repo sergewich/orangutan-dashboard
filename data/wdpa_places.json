@@ -201,20 +201,6 @@
    "status": "Designated"
   },
   {
-   "id": "pongo_abelii-tropical-rainforest-heritage-of-sumatra",
-   "name": "Tropical Rainforest Heritage of Sumatra",
-   "species": "pongo_abelii",
-   "representative_site_pid": "902335",
-   "site_pids": [
-    "902335"
-   ],
-   "designations": [
-    "World Heritage Site (natural or mixed)"
-   ],
-   "iucn_cat": "Not Applicable",
-   "status": "Inscribed"
-  },
-  {
    "id": "pongo_pygmaeus-babanga",
    "name": "Babanga",
    "species": "pongo_pygmaeus",
