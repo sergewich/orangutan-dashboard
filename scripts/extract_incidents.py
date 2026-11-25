@@ -105,7 +105,13 @@ def extract_one(article: dict) -> dict | None:
     try:
         resp = requests.post(
             OLLAMA_URL,
-            json={"model": MODEL, "prompt": prompt, "stream": False, "format": SCHEMA},
+            # think: false matters here, not just for speed — a thinking model
+            # (current base: qwen3.6) puts the schema-constrained JSON in the
+            # "thinking" field instead of "response" when thinking is left on,
+            # so `response` comes back empty and json.loads() below fails on
+            # every single article. Found 2026-11-25 right after a model
+            # switch broke this silently (see CLAUDE.md's local model policy).
+            json={"model": MODEL, "prompt": prompt, "stream": False, "format": SCHEMA, "think": False},
             timeout=180,
         )
         resp.raise_for_status()

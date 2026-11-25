@@ -443,3 +443,14 @@ Ollama's `format` parameter (JSON schema, not just `format: "json"`)
 reliably forces structured output — used in `extract_incidents.py`. Prefer
 this over free-text-then-parse for anything needing reliable JSON from the
 local model.
+
+**If the base model is ever a thinking model (current: qwen3.6), always
+pass `"think": false` alongside `format`.** Found 2026-11-25, right after
+switching the base model: with thinking left on, a schema-constrained
+response comes back entirely inside the `"thinking"` field, leaving
+`"response"` an empty string — every `json.loads()` in
+`extract_incidents.py` failed silently on every article until this was
+caught (confirmed directly via a raw curl to `/api/generate`). Not
+specific to that one script — any future local-model structured-output
+call needs the same `"think": false`, or it'll quietly produce nothing
+while still looking like it ran (no error, just zero useful output).
