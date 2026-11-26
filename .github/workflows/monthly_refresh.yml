@@ -71,6 +71,18 @@ jobs:
           GFW_API_KEY: ${{ secrets.GFW_API_KEY }}
         run: python3 scripts/compute_pa_alerts.py
 
+      # Cloudflare Web Analytics only retains 30 days of data (confirmed
+      # 2026-11-26) — this snapshots it before that window closes, same
+      # reason the fire/deforestation archive steps above exist.
+      - name: Archive Cloudflare Web Analytics
+        id: archive-cf-analytics
+        continue-on-error: true
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_SITE_TAG: ${{ secrets.CF_SITE_TAG }}
+        run: python3 scripts/archive_cf_analytics.py
+
       - name: Commit and push if data changed
         if: always()
         run: |
@@ -88,7 +100,7 @@ jobs:
         if: always()
         run: |
           failed=0
-          for outcome in "${{ steps.fetch-deforestation.outcome }}" "${{ steps.fetch-literature.outcome }}" "${{ steps.fetch-threats.outcome }}" "${{ steps.archive-alerts.outcome }}" "${{ steps.compute-pa-alerts.outcome }}"; do
+          for outcome in "${{ steps.fetch-deforestation.outcome }}" "${{ steps.fetch-literature.outcome }}" "${{ steps.fetch-threats.outcome }}" "${{ steps.archive-alerts.outcome }}" "${{ steps.compute-pa-alerts.outcome }}" "${{ steps.archive-cf-analytics.outcome }}"; do
             [ "$outcome" = "failure" ] && failed=1
           done
           if [ "$failed" = "1" ]; then

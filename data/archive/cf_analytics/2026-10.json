@@ -1,0 +1,85 @@
+{
+ "month": "2026-10",
+ "generated_at": "2026-11-26T12:45:05+00:00",
+ "total_visits": 200,
+ "total_page_views": 470,
+ "top_paths": [
+  {
+   "key": "/orangutan-dashboard/site/index.html",
+   "visits": 170,
+   "page_views": 180
+  },
+  {
+   "key": "/orangutan-dashboard/site/tabs/map.html",
+   "visits": 10,
+   "page_views": 210
+  },
+  {
+   "key": "/orangutan-dashboard/site/tabs/ngos.html",
+   "visits": 10,
+   "page_views": 20
+  },
+  {
+   "key": "/orangutan-dashboard/site/tabs/literature.html",
+   "visits": 10,
+   "page_views": 40
+  },
+  {
+   "key": "/orangutan-dashboard/site/tabs/threats.html",
+   "visits": 0,
+   "page_views": 20
+  }
+ ],
+ "top_countries": [
+  {
+   "key": "GB",
+   "visits": 70,
+   "page_views": 160
+  },
+  {
+   "key": "US",
+   "visits": 40,
+   "page_views": 50
+  },
+  {
+   "key": "ID",
+   "visits": 40,
+   "page_views": 140
+  },
+  {
+   "key": "NL",
+   "visits": 20,
+   "page_views": 40
+  },
+  {
+   "key": "BE",
+   "visits": 10,
+   "page_views": 10
+  },
+  {
+   "key": "SG",
+   "visits": 10,
+   "page_views": 20
+  },
+  {
+   "key": "DE",
+   "visits": 10,
+   "page_views": 10
+  },
+  {
+   "key": "ES",
+   "visits": 0,
+   "page_views": 10
+  },
+  {
+   "key": "FR",
+   "visits": 0,
+   "page_views": 20
+  },
+  {
+   "key": "BR",
+   "visits": 0,
+   "page_views": 10
+  }
+ ]
+}

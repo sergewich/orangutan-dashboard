@@ -96,6 +96,15 @@ Orangutan_dashboard/
     backfill_archive_from_git.py  # one-time: mines old git commits of data/fire|deforestation
                                   # to recover months from before archive_alerts.py existed.
                                   # Already run once (2026-11-24) — no need to re-run.
+    fetch_cloudflare_analytics.py # LOCAL ONLY, not in any workflow: ad-hoc CLI to print site
+                                  # traffic (visits/page views, by country/path/referer/device/
+                                  # browser/OS) via Cloudflare's GraphQL Analytics API. Needs
+                                  # CF_API_TOKEN/CF_ACCOUNT_ID/CF_SITE_TAG.
+    archive_cf_analytics.py       # monthly snapshot of Cloudflare Web Analytics (visits/page
+                                  # views) into data/archive/cf_analytics/ before Cloudflare's
+                                  # 30-day retention drops it — see "Web Analytics archive"
+                                  # below. Run monthly via monthly_refresh.yml, reuses
+                                  # fetch_cloudflare_analytics.py's query helpers.
   site/
     index.html                  # landing page, links to tabs/
     css/style.css
@@ -237,6 +246,38 @@ per-species "Species overview" table (fire/deforestation totals with a
 month-over-month trend, from `scripts/build_digest.py`'s
 `compute_species_trends()`) and links out to both this tab and the Map
 tab's month picker for anyone who wants to dig further.
+
+### Web Analytics archive — same 30-day-retention problem, same fix
+
+Cloudflare's free Web Analytics (the JS beacon in every `site/*.html` page)
+only **retains** 30 days of RUM data — confirmed 2026-11-24/25: the
+dashboard's "Absolute time range" picker refuses a `From` date older than
+~30 days, and that's the underlying data actually aging out, not just a UI
+restriction (no API, including the GraphQL Analytics API used here, can
+reach further back). Same shape of problem as the fire/deforestation
+rolling windows above, same fix: `scripts/archive_cf_analytics.py`, run
+monthly via `monthly_refresh.yml`, writes:
+- `data/archive/cf_analytics/visits_daily.json` — one cumulative
+  `{date: {visits, page_views}}` dict, upserted (never truncated) from the
+  last 35 days every run. The 35-day lookback vs. ~30-day retention and the
+  ~30-day run cadence is deliberate slack, not arbitrary — it's what stops
+  a run landing a few days late, or one missed run, from losing a day to
+  the retention window closing first. It does *not* protect against two
+  consecutive missed runs; this isn't built to survive extended outages.
+- `data/archive/cf_analytics/<YYYY-MM>.json` — a best-effort top-15
+  paths/countries snapshot of the last completed calendar month, same
+  idempotent-unless-`--force` pattern as `archive_alerts.py`. This one
+  *is* a "what did a typical month look like" snapshot, not a gap-
+  sensitive trend line, so occasional imprecision here doesn't matter the
+  way a missing day in `visits_daily.json` would.
+Reuses `fetch_cloudflare_analytics.py`'s GraphQL query helpers (that
+script is the original source of the dataset/field names — see its
+docstring — found via schema introspection since Cloudflare's own docs
+don't document the RUM Web Analytics GraphQL shape clearly). Needs
+`CF_API_TOKEN`, `CF_ACCOUNT_ID`, `CF_SITE_TAG` (see `.env.example`).
+Nothing from before 2026-10-22 or so was recoverable when this was built
+(2026-11-26) — the 30-day window had already closed on everything earlier
+than that by the time the gap was noticed.
 
 ## Mandatory human review for Social/Threats content
 
