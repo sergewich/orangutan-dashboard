@@ -121,18 +121,21 @@ def archive_month_breakdown(token: str, account_id: str, site_tag: str, month: s
     country_rows = fetch_rows(token, account_id, site_tag, start.isoformat(), end.isoformat(),
                                include_bots=False, dimension_field="countryName")
 
-    def rank(rows: list[dict], field: str) -> list[dict]:
+    def rank(rows: list[dict], field: str, limit: int | None) -> list[dict]:
         grouped: dict[str, dict[str, int]] = {}
         for r in rows:
             key = r["dimensions"].get(field) or "(none)"
             bucket = grouped.setdefault(key, {"visits": 0, "page_views": 0})
             bucket["visits"] += r["sum"]["visits"]
             bucket["page_views"] += r["count"]
-        ranked = sorted(grouped.items(), key=lambda kv: -kv[1]["visits"])[:TOP_N]
+        ranked = sorted(grouped.items(), key=lambda kv: -kv[1]["visits"])[:limit]
         return [{"key": k, **v} for k, v in ranked]
 
-    top_paths = rank(path_rows, "requestPath")
-    top_countries = rank(country_rows, "countryName")
+    top_paths = rank(path_rows, "requestPath", TOP_N)
+    # Every country, uncapped — at this site's traffic volume there's no
+    # reason to drop any (unlike top_paths, which could keep growing as more
+    # tabs/pages get added).
+    top_countries = rank(country_rows, "countryName", None)
     total_views = sum(r["count"] for r in path_rows)
     total_visits = sum(r["sum"]["visits"] for r in path_rows)
 
