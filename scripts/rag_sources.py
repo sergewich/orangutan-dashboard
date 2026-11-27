@@ -156,8 +156,14 @@ def fill_missing_abstracts(works: list[dict], session, cache_dir: Path) -> None:
     for i in range(0, len(todo), 40):
         batch = todo[i:i + 40]
         q = " OR ".join(f'DOI:"{d}"' for d in batch)
-        resp = _get(session, f"{EPMC}/search", params={"query": q, "format": "json",
-                                                        "resultType": "core", "pageSize": 100})
+        try:
+            resp = _get(session, f"{EPMC}/search", params={"query": q, "format": "json",
+                                                            "resultType": "core", "pageSize": 100})
+        except requests.RequestException:
+            # Same EBI-outage-outlasts-our-retries case as europepmc_fulltext's
+            # fetch() — skip this batch of DOIs (cache stays empty for them,
+            # picked up again next run) instead of crashing the whole harvest.
+            continue
         if not resp.ok:
             continue
         found = {norm_doi(r.get("doi")): r.get("abstractText") or ""
@@ -252,7 +258,18 @@ def europepmc_fulltext(session, cache_dir: Path) -> list[dict]:
     todo = [r["pmcid"] for r in wanted if r["pmcid"] not in cache]
 
     def fetch(pmcid):
-        resp = _get(session, f"{EPMC}/{pmcid}/fullTextXML")
+        try:
+            resp = _get(session, f"{EPMC}/{pmcid}/fullTextXML")
+        except requests.RequestException:
+            # _get already retried 4x with backoff — a still-failing request
+            # here means EBI is genuinely down, not a one-off blip. One
+            # paper failing shouldn't crash the whole harvest (found
+            # 2026-11-27: an uncaught ReadTimeout on a single pmcid aborted
+            # the entire nightly index build via ThreadPoolExecutor
+            # propagation, losing progress on ~1500 other papers that had
+            # nothing to do with it). Same "not cached: retried next run"
+            # handling as an HTTP error response below.
+            return pmcid, None
         if not resp.ok:
             return pmcid, None  # not cached: retried next run
         try:
